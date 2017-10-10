@@ -1,0 +1,137 @@
+html,
+body {
+    min-height: 100%
+}
+
+html {
+    font: 300 18px/1.5 'Poppins', sans-serif;
+    text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    background: #F5F5F5;
+    color: #333;
+}
+body {
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+input::-moz-focus-inner,
+button::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+
+.wrapper {
+    max-width: 800px;
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 0 40px;
+    background-color: #F1F1F1;
+    display: flex;
+    /*
+      ROW
+    */
+    /*flex-flow: row wrap;*/
+    /*align-items: center;*/
+    /*
+      COLUMN
+    */
+    flex-flow: column nowrap;
+    align-items: stretch;
+    justify-content: space-between;
+    align-content: space-between;
+}
+
+.Header {
+  /*
+    ROW
+  */
+  /*align-self: flex-start;
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: 100%;*/
+  /*
+    COLUMN
+  */
+  flex: 0 1 100%;
+}
+
+.Content {
+  /*
+    ROW
+  */
+  /*align-self: stretch;
+  flex-grow: 1;
+  flex-shrink: 0;
+  flex-basis: 100%;*/
+  /*
+    COLUMN
+  */
+  flex: 1 0 100%;
+}
+
+.Footer {
+  /*
+    ROW
+  */
+  /*align-self: flex-end;
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: 100%;*/
+  /*
+    COLUMN
+  */
+  flex: 0 1 100%;
+}
+
+/* Headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h5 {
+    line-height: 1.1;
+    margin: 0.5em 0;
+}
+
+h1 {
+    font-size: 72px;
+    font-weight: 600;
+}
+
+h2 {
+    font-size: 48px;
+}
+
+h3 {
+    font-size: 36px;
+}
+
+h4 {
+    font-size: 24px;
+}
+
+h5 {
+    font-size: 18px;
+}
+
+h6 {
+    font-size: 14px;
+}
+
+/* Links */
+a {
+  color: #088;
+  transition: color 0.3s ease-out;
+  text-decoration: none;
+}
+
+/*a:visited {
+  color: #099;
+}*/
+
+a:hover {
+  color: #026;
+}
