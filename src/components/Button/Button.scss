@@ -1,0 +1,41 @@
+$color-button-bg: #333;
+$button-letter-spacing: 0.5em;
+
+
+button {
+  font: inherit;
+  touch-action: manipulation;
+  width: auto;
+}
+
+.Button {
+  border: 1px solid #222;
+  background-color: $color-button-bg; // var(--button-bg);
+  color: #FFF;
+  padding: 10px 14px;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.0;
+  text-align: center;
+  min-height: calc((14px * 1.0) + (8px * 2));
+  text-transform: uppercase;
+  letter-spacing: $button-letter-spacing;
+  text-indent: $button-letter-spacing;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-out, transform 0.1s ease-out;
+}
+
+.Button:hover {
+  color: #FFF;
+  background-color: lighten($color-button-bg, 10%);
+}
+
+.Button:active {
+  transform: scale(1.05, 1.05);
+}
+
+.Button:focus {
+  outline: 0;
+  box-shadow: 0 0 7px rgba(0, 0, 0, 0.4);
+}
