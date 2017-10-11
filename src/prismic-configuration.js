@@ -3,7 +3,7 @@ export default {
   apiEndpoint: 'https://hootsuite.prismic.io/api/v2',
 
   // -- Access token if the Master is not open
-  // accessToken: 'xxxxxx',
+  accessToken: 'MC5XZDE3MXlZQUFQWWVtSmIz.Ru-_vVHvv70hQ--_ve-_ve-_ve-_ve-_vUdx77-9B0EeM--_vTPvv73vv73vv71F77-9MXnvv73vv73vv71_77-9',
 
   // OAuth
   // clientId: 'xxxxxx',

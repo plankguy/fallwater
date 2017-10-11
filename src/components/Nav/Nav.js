@@ -59,7 +59,7 @@ const Nav = ({ title, body, id }) => (
       <li className="Nav__item">
         <NavLink
           to="/preview"
-          className="Nav__Link"
+          className="Nav__link"
           activeClassName="is-active"
         >
           Preview

@@ -1,17 +1,17 @@
-$color-button-bg: #333;
+@import 'scss/globals/all';
+
 $button-letter-spacing: 0.5em;
 
-
 button {
-  font: inherit;
-  touch-action: manipulation;
-  width: auto;
+  @include reset-button;
+  // font: inherit;
+  // touch-action: manipulation;
+  // width: auto;
 }
 
 .Button {
-  border: 1px solid #222;
   background-color: $color-button-bg; // var(--button-bg);
-  color: #FFF;
+  color: $color-button;
   padding: 10px 14px;
   font-size: 15px;
   font-weight: 600;
@@ -24,18 +24,22 @@ button {
   border-radius: 3px;
   cursor: pointer;
   transition: background-color 0.3s ease-out, transform 0.1s ease-out;
-}
 
-.Button:hover {
-  color: #FFF;
-  background-color: lighten($color-button-bg, 10%);
-}
+  &:hover {
+    color: $color-button;
+    background-color: lighten($color-button-bg, 10%);
+  }
 
-.Button:active {
-  transform: scale(1.05, 1.05);
-}
+  &:active {
+    transform: scale(1.05, 1.05);
+  }
 
-.Button:focus {
-  outline: 0;
-  box-shadow: 0 0 7px rgba(0, 0, 0, 0.4);
+  &:focus {
+    outline: 0;
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.4);
+  }
+
+  &--alt {
+    background-color: $color-button-bg--alt;
+  }
 }

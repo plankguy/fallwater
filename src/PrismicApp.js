@@ -13,14 +13,6 @@ class PrismicApp extends React.Component {
     prismicCtx: null,
   }
 
-  componentWillMount() {
-    this.buildContext().then((prismicCtx) => {
-      this.setState({ prismicCtx });
-    }).catch((e) => {
-      console.error(`Cannot contact the API, check your prismic configuration:\n${e}`);
-    });
-  }
-
   refreshToolbar() {
     const maybeCurrentExperiment = this.api.currentExperiment();
     if (maybeCurrentExperiment) {
@@ -40,9 +32,20 @@ class PrismicApp extends React.Component {
     }));
   }
 
+  componentWillMount() {
+    this.buildContext().then((prismicCtx) => {
+      this.setState({ prismicCtx });
+    }).catch((e) => {
+      console.error(`Cannot contact the API, check your prismic configuration:\n${e}`);
+    });
+  }
+
   render() {
+    
     return (
-      <App prismicCtx={this.state.prismicCtx} />
+      <App
+        prismicCtx={this.state.prismicCtx}
+      />
     );
   }
 }

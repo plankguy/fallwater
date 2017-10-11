@@ -1,0 +1,16 @@
+
+// Colours
+$color-black:           #000 !default;
+$color-white:           #FFF !default;
+$color-text:            #333 !default;
+$color-text--light:     #666 !default;
+$color-text--invert:    #FFF !default;
+$color-bg:              #FFF !default;
+$color-bg--invert:      #333 !default;
+$color-link:            #088 !default;
+$color-link--hover:     lighten($color-link, 15%) !default;
+$color-button:          $color-white !default;
+$color-button-bg:       $color-text !default;
+$color-button--alt:     $color-white !default;
+$color-button-bg--alt:  $color-link !default;
+$color-border:          #999 !default;

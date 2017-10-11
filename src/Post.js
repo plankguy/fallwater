@@ -1,5 +1,6 @@
 import React from 'react';
 import PrismicReact from 'prismic-reactjs'; // eslint-disable-line
+import { Link } from 'react-router-dom';
 
 import Loading from './components/Loading/Loading';
 import NotFound from './NotFound';
@@ -8,7 +9,7 @@ import NotFound from './NotFound';
 export default class Page extends React.Component {
 
   state = {
-    doc: null,
+    Post: null,
     notFound: false,
   }
 
@@ -27,15 +28,15 @@ export default class Page extends React.Component {
   fetchPage(props) {
     if (props.prismicCtx) {
       console.log(props.prismicCtx);
-      // We are using the function to get a document by its uid
-      return props.prismicCtx.api.getByUID('blog', props.match.params.uid, {}, (err, doc) => {
-        if (doc) {
-          // We put the retrieved content in the state as a doc variable
-          this.setState({ doc });
+      // We are using the function to get a Postument by its uid
+      return props.prismicCtx.api.getByUID('blog', props.match.params.uid, {}, (err, Post) => {
+        if (Post) {
+          // We put the retrieved content in the state as a Post variable
+          this.setState({ Post });
           // console.log('prismic props:', props);
         } else {
-          // We changed the state to display error not found if no matched doc
-          this.setState({ notFound: !doc });
+          // We changed the state to display error not found if no matched Post
+          this.setState({ notFound: !Post });
           // console.warn('prismic error:', err);
         }
       });
@@ -45,18 +46,23 @@ export default class Page extends React.Component {
   }
 
   render() {
-    if (this.state.doc) {
+    if (this.state.Post) {
+      console.log(this.state.Post);
       return (
-        <div data-wio-id={this.state.doc.id}>
+        <div data-wio-id={this.state.Post.id}>
+
+          <Link to="/posts">
+            &larr; Posts
+          </Link>
 
           {/* This is how to get text into your template*/}
-          <h1>{PrismicReact.RichText.asText(this.state.doc.data.title)}</h1>
+          <h1>{PrismicReact.RichText.asText(this.state.Post.data.title)}</h1>
 
           {/* This is how to get an image into your template
-          <img alt="cover" src={this.state.doc.data.<your-image-field-id>.url} />*/}
+          <img alt="cover" src={this.state.Post.data.<your-image-field-id>.url} />*/}
 
           {/* This is how to get structured text into your template */}
-          {PrismicReact.RichText.render(this.state.doc.data.body, this.props.prismicCtx.linkResolver)}
+          {PrismicReact.RichText.render(this.state.Post.data.body, this.props.prismicCtx.linkResolver)}
         </div>
       );
     } else if (this.state.notFound) {

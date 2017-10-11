@@ -3,8 +3,11 @@ import Prismic from 'prismic-javascript';
 import PrismicReact from 'prismic-reactjs'; // eslint-disable-line
 import { Link } from 'react-router-dom';
 
-import Loading from './components/Loading/Loading';
-import NotFound from './NotFound';
+import Loading from '../../components/Loading/Loading';
+import Post from '../../components/Post/Post';
+import NotFound from '../../NotFound';
+
+import './Posts.css';
 
 // Declare your component
 export default class Page extends React.Component {
@@ -31,11 +34,6 @@ export default class Page extends React.Component {
 
   async fetchPage(props) {
     if (props.prismicCtx) {
-      // console.log('prismicCtx', props.prismicCtx);
-
-      // const single = await props.prismicCtx.api.getSingle('blog');
-      // console.log(single);
-
       return await props.prismicCtx.api.query(
         Prismic.Predicates.at('document.type', 'blog'),
         {
@@ -43,25 +41,14 @@ export default class Page extends React.Component {
           pageSize: 10,
         }, (err, posts) => {
           if (posts) {
-            console.log(posts);
+            console.log('Posts.js posts:', posts);
             this.setState({ posts });
+            // this.setState(posts);
           } else {
             console.warn('prismic error:', err);
           }
         },
       );
-
-    //   return props.prismicCtx.api.getByUID('blog', props.match.params.uid, {}, (err, doc) => {
-    //     if (doc) {
-    //       // We put the retrieved content in the state as a doc variable
-    //       this.setState({ doc });
-    //       // console.log('prismic props:', props);
-    //     } else {
-    //       // We changed the state to display error not found if no matched doc
-    //       this.setState({ notFound: !doc });
-    //       // console.warn('prismic error:', err);
-    //     }
-    //   });
     }
 
     return null;
@@ -70,19 +57,33 @@ export default class Page extends React.Component {
   render() {
 
     if (this.state.posts.results) {
-      console.log(this.state.posts.results);
+      const { results, results_size } = this.state.posts; // eslint-disable-line no-unused-vars
+
       return (
-        <div>
+        <ul className="Posts">
 
-          {this.state.posts.results.map((post, i) => (
-            <h3 key={i}>
-              <Link to={`/posts/${post.uid}`}>
-                {PrismicReact.RichText.asText(post.data.title)}
-              </Link>
-            </h3>
-          ))}
+          {results.map((post, i) => {
+            const date = new Date(post.last_publication_date);
+            const formattedDate = `${date.getFullYear()}/${date.getMonth()}/${date.getDate()} - ${date.getHours()}:${date.getMinutes()}`;
+            const { title, teaser } = post.data;
 
-        </div>
+            return (
+              <li
+                key={i}
+                className="Posts__item"
+              >
+                <Post
+                  title={PrismicReact.RichText.asText(title)}
+                  url={`/posts/${post.uid}`}
+                  teaser={PrismicReact.RichText.asText(teaser)}
+                  date={formattedDate}
+                  dateTime={post.last_publication_date}
+                />
+              </li>
+            )
+          })}
+
+        </ul>
       );
 
     } else if (this.state.notFound) {

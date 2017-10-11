@@ -4,15 +4,14 @@ import {
   Route,
   Switch,
   // Redirect, // eslint-disable-line
-  // withRouter,
+  withRouter,
 } from 'react-router-dom';
 import { TransitionGroup, CSSTransitionGroup } from 'react-transition-group';
-
 
 import Preview from './Preview';
 import Help from './Help';
 import Post from './Post';
-import Posts from './Posts';
+import Posts from './containers/Posts/Posts';
 import NotFound from './NotFound';
 import It from './containers/It';
 import Nav from './components/Nav/Nav';
@@ -20,50 +19,56 @@ import Footer from './components/Footer/Footer';
 
 import './App.css';
 
-const App = (props) => (
-// const App = withRouter(({ location, props }) => (
-  <main className="wrapper">
-    <header className="Header">
-      <Nav />
-    </header>
+// const App = withRouter(({ location }) => {
+const App = (props) => {
+  const { prismicCtx, match, location, history } = props;
+  console.log('App.js props:', props);
 
-    <section className="Content">
+  return (
+    <main className="wrapper">
+      <header className="Header">
+        <Nav />
+      </header>
 
-      {/* <TransitionGroup>
-        <CSSTransitionGroup
-          key={location.key}
-          transitionName="fade"
-          transitionEnterTimeout={300}
-          transitionLeaveTimeout={300}
-        > */}
-        {/* <Router> */}
-          {/* <Switch location={location}> */}
-          <Switch>
-              {/*<Redirect exact from="/" to="/help" />*/}
-              {/* <IndexRoute exact path="/" component={It} /> */}
-              <Route exact path="/help" component={Help} />
-              <Route exact path="/posts" render={routeProps => (
-                <Posts {...routeProps} prismicCtx={props.prismicCtx} />
-              )} />
-              <Route exact path="/posts/:uid" render={routeProps => (
-                <Post {...routeProps} prismicCtx={props.prismicCtx} />
-              )} />
-              <Route exact path='/it' render={(routeProps) => (
-                <It {...routeProps} title="This is a static test page passed from the router route prop" prismicCtx={props.prismicCtx} />
-              )} />
-              <Route exact path="/preview" render={routeProps => (
-                <Preview {...routeProps} prismicCtx={props.prismicCtx} />
-              )} />
-              <Route component={NotFound} />
-          </Switch>
-        {/* </Router> */}
-        {/* </CSSTransitionGroup> */}
-      {/* </TransitionGroup> */}
-    </section>
+      <section className="Content">
 
-    <Footer />
-  </main>
-// ));
-);
+        {/* <TransitionGroup>
+          <CSSTransitionGroup
+            key={location.key}
+            transitionName="fade"
+            transitionEnterTimeout={300}
+            transitionLeaveTimeout={300}
+          > */}
 
-export default App;
+            <Switch location={location}>
+                {/*<Redirect exact from="/" to="/help" />*/}
+                <Route exact path="/" component={It} />
+                <Route exact path="/help" component={Help} />
+                <Route exact path="/posts" render={routeProps => (
+                  <Posts {...routeProps} prismicCtx={prismicCtx} />
+                )} />
+                <Route exact path="/posts/:uid" render={routeProps => (
+                  <Post {...routeProps} prismicCtx={prismicCtx} />
+                )} />
+                <Route exact path='/it' render={(routeProps) => (
+                  <It {...routeProps} title="This is a static test page passed from the router route prop" prismicCtx={props.prismicCtx} />
+                )} />
+                <Route exact path="/preview" render={routeProps => (
+                  <Preview {...routeProps} prismicCtx={prismicCtx} />
+                )} />
+                <Route component={NotFound} />
+            </Switch>
+
+          {/* </CSSTransitionGroup>
+        </TransitionGroup> */}
+
+      </section>
+
+      <Footer />
+    </main>
+  )
+};
+// });
+
+// export default App;
+export default withRouter(App);
