@@ -1,7 +1,6 @@
 import React from 'react';
 import Prismic from 'prismic-javascript';
 import PrismicReact from 'prismic-reactjs'; // eslint-disable-line
-import { Link } from 'react-router-dom';
 
 import Loading from '../../components/Loading/Loading';
 import Post from '../../components/Post/Post';
@@ -63,7 +62,7 @@ export default class Page extends React.Component {
         <ul className="Posts">
 
           {results.map((post, i) => {
-            const date = new Date(post.last_publication_date);
+            const date = new Date(post.first_publication_date);
             const formattedDate = `${date.getFullYear()}/${date.getMonth()}/${date.getDate()} - ${date.getHours()}:${date.getMinutes()}`;
             const { title, teaser } = post.data;
 

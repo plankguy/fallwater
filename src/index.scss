@@ -12,7 +12,7 @@ html {
     min-height: 100vh;
     margin: 0 auto;
     padding: 0 40px;
-    background-color: #F1F1F1;
+    background-color: $color-white;
     display: flex;
     /*
       ROW
@@ -44,6 +44,7 @@ html {
 
 .Content {
   padding: 40px 0;
+  position: relative;
   /*
     ROW
   */
@@ -55,6 +56,39 @@ html {
     COLUMN
   */
   flex: 1 0 100%;
+
+  &__transition {
+
+    transition: opacity 500ms ease-in;
+
+    // &.is-exit {
+    //   position: absolute;
+    //   top: 0;
+    //   bottom: 0;
+    //   left: 0;
+    //   right: 0;
+    // }
+    &.is-enter {
+      opacity: 0;
+    }
+
+    &.is-enter.is-enter-active {
+      opacity: 1;
+    }
+
+    &.is-exit {
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+
+    &.is-exit.is-exit-active {
+      opacity: 0;
+    }
+  }
 }
 
 .Footer {

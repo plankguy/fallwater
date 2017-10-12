@@ -4,9 +4,6 @@ $button-letter-spacing: 0.5em;
 
 button {
   @include reset-button;
-  // font: inherit;
-  // touch-action: manipulation;
-  // width: auto;
 }
 
 .Button {

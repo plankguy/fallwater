@@ -1,0 +1,86 @@
+@import 'scss/globals/all';
+
+$hamburger-width: 22px;
+$hamburger-height: 17px;
+$hamburger-size: 1px;
+$hamburger-space: 10px;
+$hamburger-speed: 100ms;
+
+.Hamburger {
+  $this: &;
+
+  @include reset-button();
+  box-sizing: content-box;
+  position: relative;
+  width: $hamburger-width;
+  height: $hamburger-height;
+  padding: $hamburger-space;
+  transform: rotate(0deg);
+  transition: transform $hamburger-speed ease;
+
+  &:hover {
+    transform: rotate(-90deg);
+  }
+
+  &__patties {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: $hamburger-space;
+
+    @at-root {
+      // All burger "patties"
+      #{$this}::before,
+      &::before,
+      &::after {
+        content: '';
+        position: absolute;
+        left: $hamburger-space;
+        right: $hamburger-space;
+        height: $hamburger-size;
+        background-color: $color-text;
+        opacity: 1.0;
+        transition: transform $hamburger-speed ease-out, opacity $hamburger-speed ease-out, top $hamburger-speed ease-out, bottom $hamburger-speed ease-out, left $hamburger-speed ease-out, right $hamburger-speed ease-out;
+      }
+
+      // Middle burger "patty"
+      #{$this}::before {
+        top: 50%;
+        margin-top: -($hamburger-size / 2);
+      }
+      // active
+      #{$this}:active::before,
+      #{$this}.is-active::before {
+        opacity: 1;
+        left: $hamburger-space + ($hamburger-width / 2);
+        right: $hamburger-space + ($hamburger-width / 2);
+      }
+
+      // Top burger "patty"
+      &::before {
+        top: $hamburger-space;
+        bottom: auto;
+
+        #{$this}:active &,
+        #{$this}.is-active & {
+          transform: rotate(-135deg);
+          top: floor($hamburger-space + ($hamburger-height) / 2);
+        }
+      }
+
+      // Bottom burger "patty"
+      &::after {
+        top: auto;
+        bottom: $hamburger-space;
+
+        #{$this}:active &,
+        #{$this}.is-active & {
+          transform: rotate(135deg);
+          bottom: ($hamburger-space + ($hamburger-height) / 2);
+        }
+      }
+    }
+  }
+}

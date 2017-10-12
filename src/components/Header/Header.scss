@@ -1,0 +1,21 @@
+@import 'scss/globals/all';
+
+.Header {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between; // y distribution
+  align-items: center; // y alignment
+  padding: 15px 0;
+
+  &__hamburger {
+    // flex
+  }
+
+  &__nav {
+    // flex
+  }
+
+  &__logo {
+    // flex
+  }
+}
