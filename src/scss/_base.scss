@@ -26,3 +26,9 @@ button::-moz-focus-inner {
     border: 0;
     padding: 0;
 }
+
+pre {
+  padding: 4px;
+  border: 1px solid $color-border;
+  border-radius: 2px;
+}
