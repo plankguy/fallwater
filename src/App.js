@@ -1,14 +1,12 @@
 import React from 'react';
 import {
-  // BrowserRouter as Router, // eslint-disable-line no-unused-vars
   Route,
   Switch,
-  // Redirect, // eslint-disable-line no-unused-vars
   withRouter,
 } from 'react-router-dom';
 import {
-  TransitionGroup,    // eslint-disable-line no-unused-vars
-  CSSTransition, // eslint-disable-line no-unused-vars
+  TransitionGroup, // eslint-disable-line no-unused-vars
+  CSSTransition,   // eslint-disable-line no-unused-vars
 } from 'react-transition-group';
 
 // "Pages"
@@ -21,6 +19,8 @@ import It from './containers/It';
 import Header from './components/Header/Header';
 import Nav from './components/Nav/Nav';
 import Hamburger from './components/Hamburger/Hamburger';
+import Menu from './components/OffCanvasMenu/OffCanvasMenu';
+import MenuTransition from './containers/MenuTransition/MenuTransition';
 import Footer from './components/Footer/Footer';
 
 import './App.css';
@@ -35,8 +35,9 @@ class App extends React.Component {
       menuOpen: false,
     };
 
-    // ES6 you need to bind this
+    // ES6 - you need to bind handers to `this`
     this.handleCounter = this.handleCounter.bind(this);
+    this.handleMenuToggle = this.handleMenuToggle.bind(this);
   }
 
   /*
@@ -91,9 +92,7 @@ class App extends React.Component {
 
   //
   handleMenuToggle(e) {
-    console.log('DO IT!');
     this.setState((prevState, props) => {
-      console.log(!prevState.menuOpen);
       return {
         menuOpen: !prevState.menuOpen,
       };
@@ -107,140 +106,100 @@ class App extends React.Component {
 
     return (
       <main className="wrapper">
-        <Header>
-          <Nav />
-          <Hamburger
-            onClick={this.handleMenuToggle}
+
+        {/* "Drawer" Menu: */}
+        <CSSTransition
+          in={!this.state.menuOpen}
+          classNames={'is-menuopen-'}
+          timeout={{
+            enter: 200,
+          }}
+        >
+          <Menu
+            isOpen={this.state.menuOpen}
+            parentClass="App"
           />
-        </Header>
+        </CSSTransition>
 
-        <div>
-          <button className="Button" onClick={(e) => this.handleCounter(e, 'increase')}>
-            +
-          </button>
-          &nbsp;
-          <button className="Button" onClick={(e) => this.handleCounter(e, 'decrease')}>
-            &ndash;
-          </button>
-          <pre>{this.state.counter}</pre>
-        </div>
+        <MenuTransition menuOpen={!this.state.menuOpen}>
 
-        <section className="Content">
+          <div className="wrapper__transition">
 
-          <TransitionGroup>
-            <CSSTransition
-              key={location.key}
-              classNames={/*'is-fade'*/
-              {
-                appear: 'is-fade-appear',
-                appearActive: 'is-fade-active-appear',
-                enter: 'is-fade-enter',
-                enterActive: 'is-fade-active-enter',
-                exit: 'is-fade-exit',
-                exitActive: 'is-fade-active-exit',
-              }}
-              timeout={{
-                enter: 200,
-                exit: 200,
-              }}
-            >
+            {/* Header & Nav */}
+            <Header>
+              <Nav />
+              <Hamburger
+                clickHandler={this.handleMenuToggle}
+                isOpen={this.state.menuOpen}
+              />
+            </Header>
 
-              <div className="Content__transition">
+            {/* Page Content */}
+            <section className="Content">
 
-                <Switch location={location}>
-                    {/*<Redirect exact from="/" to="/help" />*/}
-                    <Route exact path="/" component={It} />
-                    <Route exact path="/posts" render={routeProps => (
-                      <Posts {...routeProps} prismicCtx={prismicCtx} />
-                    )} />
-                    <Route exact path="/posts/:uid" render={routeProps => (
-                      <Post {...routeProps} prismicCtx={prismicCtx} />
-                    )} />
-                    <Route exact path='/it' render={(routeProps) => (
-                      <It {...routeProps} title="This is a static test page passed from the router route prop" prismicCtx={prismicCtx} />
-                    )} />
-                    <Route exact path="/preview" render={routeProps => (
-                      <Preview {...routeProps} prismicCtx={prismicCtx} />
-                    )} />
-                    <Route component={NotFound} />
-                </Switch>
-
+              <div className="test">
+                <button className="Button" onClick={(e) => this.handleCounter(e, 'increase')}>
+                  +
+                </button>
+                &nbsp;
+                <button className="Button" onClick={(e) => this.handleCounter(e, 'decrease')}>
+                  &ndash;
+                </button>
+                <pre>{this.state.counter}</pre>
               </div>
 
-            </CSSTransition>
-          </TransitionGroup>
+              <TransitionGroup>
+                <CSSTransition
+                  key={location.key}
+                  classNames={/*'is-fade'*/
+                  {
+                    appear: 'is-fade-appear',
+                    appearActive: 'is-fade-active-appear',
+                    enter: 'is-fade-enter',
+                    enterActive: 'is-fade-active-enter',
+                    exit: 'is-fade-exit',
+                    exitActive: 'is-fade-active-exit',
+                  }}
+                  timeout={{
+                    enter: 200,
+                    exit: 200,
+                  }}
+                >
 
-        </section>
+                  <div className="Content__transition">
 
-        <Footer />
+                    <Switch location={location}>
+                        {/*<Redirect exact from="/" to="/help" />*/}
+                        <Route exact path="/" component={It} />
+                        <Route exact path="/posts" render={routeProps => (
+                          <Posts {...routeProps} prismicCtx={prismicCtx} />
+                        )} />
+                        <Route exact path="/posts/:uid" render={routeProps => (
+                          <Post {...routeProps} prismicCtx={prismicCtx} />
+                        )} />
+                        <Route exact path='/it' render={(routeProps) => (
+                          <It {...routeProps} title="This is a static test page passed from the router route prop" prismicCtx={prismicCtx} />
+                        )} />
+                        <Route exact path="/preview" render={routeProps => (
+                          <Preview {...routeProps} prismicCtx={prismicCtx} />
+                        )} />
+                        <Route component={NotFound} />
+                    </Switch>
+
+                  </div>
+
+                </CSSTransition>
+              </TransitionGroup>
+            </section>
+
+            {/* Footer */}
+            <Footer />
+
+          </div>
+        </MenuTransition>
       </main>
     )
   }
 };
-
-/*
-const App = (props) => {
-  const { prismicCtx, match, location, history } = props; // eslint-disable-line no-unused-vars
-  // console.log('App.js props:', props, 'location:', location);
-
-  return (
-    <main className="wrapper">
-      <Header
-        Nav={Nav}
-        Hamburger={Hamburger}
-      />
-
-      <section className="Content">
-
-        <TransitionGroup>
-          <CSSTransition
-            key={location.key}
-            classNames={/*'is-fade'* /
-            {
-              appear: 'is-fade-appear',
-              appearActive: 'is-fade-active-appear',
-              enter: 'is-fade-enter',
-              enterActive: 'is-fade-active-enter',
-              exit: 'is-fade-exit',
-              exitActive: 'is-fade-active-exit',
-            }}
-            timeout={{
-              enter: 200,
-              exit: 200,
-            }}
-          >
-
-            <div className="Content__transition">
-
-              <Switch location={location}>
-                  {/*<Redirect exact from="/" to="/help" />* /}
-                  <Route exact path="/" component={It} />
-                  <Route exact path="/posts" render={routeProps => (
-                    <Posts {...routeProps} prismicCtx={prismicCtx} />
-                  )} />
-                  <Route exact path="/posts/:uid" render={routeProps => (
-                    <Post {...routeProps} prismicCtx={prismicCtx} />
-                  )} />
-                  <Route exact path='/it' render={(routeProps) => (
-                    <It {...routeProps} title="This is a static test page passed from the router route prop" prismicCtx={props.prismicCtx} />
-                  )} />
-                  <Route exact path="/preview" render={routeProps => (
-                    <Preview {...routeProps} prismicCtx={prismicCtx} />
-                  )} />
-                  <Route component={NotFound} />
-              </Switch>
-
-            </div>
-
-          </CSSTransition>
-        </TransitionGroup>
-
-      </section>
-
-      <Footer />
-    </main>
-  )
-};
-*/
 
 export default withRouter(App);

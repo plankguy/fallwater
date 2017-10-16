@@ -14,3 +14,10 @@ $color-button:          $color-white !default;
 $color-button-bg:       $color-text !default;
 $color-button--alt:     $color-white !default;
 $color-button-bg--alt:  $color-link !default;
+
+// Dimensions
+$menu-width: 500px !default;
+
+$anim-speed--default: 300ms;
+$anim-speed--bounce: 500ms;
+$anim-easing--bounce: cubic-bezier(1.000, 0.000, 0.280, 1.245) !default;

@@ -8,10 +8,7 @@ html {
 }
 
 .wrapper {
-    max-width: 800px;
     min-height: 100vh;
-    margin: 0 auto;
-    padding: 0 40px;
     background-color: $color-white;
     display: flex;
     /*
@@ -26,6 +23,25 @@ html {
     align-items: stretch;
     justify-content: space-between;
     align-content: space-between;
+
+    &__transition {
+      transition: transform $anim-speed--bounce $anim-easing--bounce;
+
+      &.is-menuopen {
+        &--enter {}
+
+        &--exit {
+          transform: translate3d(-$menu-width, 0, 0);
+        }
+
+        &--exit#{&}--exit-active {}
+
+        // Open
+        &--exit#{&}--enter-active {
+          transform: translate3d(0, 0, 0);
+        }
+      }
+    }
 }
 
 .Header {
@@ -43,6 +59,8 @@ html {
 }
 
 .Content {
+  max-width: 800px;
+  margin: 0 auto;
   padding: 40px 0;
   position: relative;
   /*

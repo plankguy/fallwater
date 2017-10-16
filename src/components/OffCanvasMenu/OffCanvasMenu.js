@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './Hamburger.css';
+import './OffCanvasMenu.css';
 
 const PROP_TYPES = {
   parentClass: PropTypes.string,
   isOpen: PropTypes.bool.isRequired,
-  clickHandler: PropTypes.func.isRequired,
 };
 
 const DEFAULT_PROPS = {
@@ -14,21 +13,20 @@ const DEFAULT_PROPS = {
   isOpen: false,
 };
 
-const Hamburger = (props) => {
-  const baseClass = 'Hamburger';
-  console.log('Hamburger props:',  props);
+const OffCanvasMenu = (props) => {
+  const baseClass = 'OffCanvasMenu';
 
   return (
-    <button
+    <div
       className={`${baseClass} ${props.parentClass}__${baseClass}${props.isOpen ? ' is-open' : ''}`}
       onClick={props.clickHandler}
     >
-      <span className={`${baseClass}__patties`}></span>
-    </button>
+      Menu
+    </div>
   )
 };
 
-Hamburger.propTypes = PROP_TYPES;
-Hamburger.defaultProps = DEFAULT_PROPS;
+OffCanvasMenu.propTypes = PROP_TYPES;
+OffCanvasMenu.defaultProps = DEFAULT_PROPS;
 
-export default Hamburger;
+export default OffCanvasMenu;

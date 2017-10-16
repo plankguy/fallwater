@@ -1,27 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'; // eslint-disable-line no-unused-vars
 
 import './Header.css';
 
-const PROP_TYPES = {
-  // Nav: PropTypes.oneOfType([
-  //   PropTypes.node,
-  //   PropTypes.element,
-  //   PropTypes.func, // functional components
-  // ]).isRequired,
-  // Hamburger: PropTypes.oneOfType([
-  //   PropTypes.node,
-  //   PropTypes.element,
-  //   PropTypes.func, // functional components
-  // ]).isRequired,
-};
+const PROP_TYPES = {};
 
 const DEFAULT_PROPS = {};
 
 const Header = (props) => {
-  const { children, Nav, Hamburger } = props;
+  const { children } = props;
   const baseClass = 'Header';
-  console.log('props', props, 'React.cloneElement', React.cloneElement);
 
   return (
     <header className={baseClass}>
