@@ -64,13 +64,21 @@ export default class Page extends React.Component {
           {results.map((post, i) => {
             const date = new Date(post.first_publication_date);
             const formattedDate = `${date.getFullYear()}/${date.getMonth()}/${date.getDate()} - ${date.getHours()}:${date.getMinutes()}`;
-            const { title, teaser } = post.data;
+            const { title, teaser, image } = post.data;
 
             return (
               <li
                 key={i}
                 className="Posts__item"
               >
+                {image.sm.url &&
+                  <img
+                    src={image.sm.url}
+                    alt={image.sm.alt}
+                    width={image.sm.dimensions.width}
+                    height={image.sm.dimensions.height}
+                  />
+                }
                 <Post
                   title={PrismicReact.RichText.asText(title)}
                   url={`/posts/${post.uid}`}
