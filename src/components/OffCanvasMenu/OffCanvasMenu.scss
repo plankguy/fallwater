@@ -6,16 +6,17 @@
   position: fixed;
   padding: 20px;
   top: 0;
-  // left: 100%;
-  right: -500px;
+  right: -$menu-width;
   bottom: 0;
   width: $menu-width;
   max-width: 100%;
-  background-color: #999;
+  background-color: $menu-bg;
+  color: $menu-color;
   z-index: 1;
   transform: translate3d(0, 0, 0);
   transition: transform $anim-speed--bounce $anim-easing--bounce;
 
+  // Hack to for `bounce` animation overflow
   &::after {
     content: '';
     position: absolute;
@@ -23,9 +24,10 @@
     bottom: 0;
     right: -50px;
     width: 50px;
-    background-color: #999;
+    background-color: $menu-bg;
   }
 
+  // States
   &.is-menuopen {
     &--enter {
       // transform: translateX(-100%);

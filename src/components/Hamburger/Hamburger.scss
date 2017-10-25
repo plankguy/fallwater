@@ -1,10 +1,10 @@
 @import 'scss/globals/all';
 
-$hamburger-width: 22px;
-$hamburger-height: 17px;
-$hamburger-size: 1px;
-$hamburger-space: 10px;
-$hamburger-speed: 200ms;
+$hamburger-width:   22px !default;
+$hamburger-height:  17px !default;
+$hamburger-size:    1px !default;
+$hamburger-space:   10px !default;
+$hamburger-speed:   200ms !default;
 
 .Hamburger {
   $this: &;
@@ -16,6 +16,7 @@ $hamburger-speed: 200ms;
   width: $hamburger-width;
   height: $hamburger-height;
   padding: $hamburger-space;
+  margin: -$hamburger-space;
   transform: rotate(0deg);
   transition: transform $hamburger-speed ease;
 

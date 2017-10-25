@@ -8,6 +8,7 @@ import {
   TransitionGroup, // eslint-disable-line no-unused-vars
   CSSTransition,   // eslint-disable-line no-unused-vars
 } from 'react-transition-group';
+import { Link } from 'react-router-dom';
 
 // "Pages"
 import Preview from './Preview';
@@ -19,6 +20,7 @@ import It from './containers/It';
 import Header from './components/Header/Header';
 import Nav from './components/Nav/Nav';
 import Hamburger from './components/Hamburger/Hamburger';
+import Logo from './components/Logo/Logo';
 import Menu from './components/OffCanvasMenu/OffCanvasMenu';
 import MenuTransition from './containers/MenuTransition/MenuTransition';
 import Footer from './components/Footer/Footer';
@@ -34,6 +36,9 @@ class App extends React.Component {
       counter: 0,
       menuOpen: false,
     };
+
+    // Some rando properties :)
+    this.siteName = 'Jeff Waterfall';
 
     // ES6 - you need to bind handers to `this`
     this.handleCounter = this.handleCounter.bind(this);
@@ -117,7 +122,7 @@ class App extends React.Component {
         >
           <Menu
             isOpen={this.state.menuOpen}
-            parentClass="App"
+            parentClassName="App"
           />
         </CSSTransition>
 
@@ -127,6 +132,11 @@ class App extends React.Component {
 
             {/* Header & Nav */}
             <Header>
+              <Logo>
+                <Link to="/">
+                  {this.siteName}
+                </Link>
+              </Logo>
               <Nav />
               <Hamburger
                 clickHandler={this.handleMenuToggle}

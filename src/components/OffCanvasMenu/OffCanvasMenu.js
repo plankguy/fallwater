@@ -1,15 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { bemClasses } from '../../libs/UiHelpers'
+
 import './OffCanvasMenu.css';
 
 const PROP_TYPES = {
-  parentClass: PropTypes.string,
+  parentClassName: PropTypes.string.isRequired,
   isOpen: PropTypes.bool.isRequired,
 };
 
 const DEFAULT_PROPS = {
-  parentClass: '',
+  parentClassName: '',
   isOpen: false,
 };
 
@@ -18,10 +20,13 @@ const OffCanvasMenu = (props) => {
 
   return (
     <div
-      className={`${baseClass} ${props.parentClass}__${baseClass}${props.isOpen ? ' is-open' : ''}`}
+      className={bemClasses(baseClass, props.parentClassName, [props.isOpen ? 'is-open' : ''])}
       onClick={props.clickHandler}
     >
-      Menu
+      Menu item<br />
+      Menu item<br />
+      Menu item<br />
+      Menu item
     </div>
   )
 };

@@ -16,8 +16,16 @@ $color-button--alt:     $color-white !default;
 $color-button-bg--alt:  $color-link !default;
 
 // Dimensions
-$menu-width: 500px !default;
+$spacing--base: 20px !default;
+$spacing--x:    20px !default;
+$spacing--y:    20px !default;
 
-$anim-speed--default: 300ms;
-$anim-speed--bounce: 500ms;
+// Menu
+$menu-width: 500px !default;
+$menu-color: #FFF !default;
+$menu-bg:    #999 !default;
+
+// Animations
+$anim-speed--default: 300ms !default;
+$anim-speed--bounce: 500ms !default;
 $anim-easing--bounce: cubic-bezier(1.000, 0.000, 0.280, 1.245) !default;

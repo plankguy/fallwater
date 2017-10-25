@@ -5,10 +5,12 @@
   flex-flow: row wrap;
   justify-content: space-between; // y distribution
   align-items: center; // y alignment
-  padding: 20px 40px;
+  padding: $spacing--base;
 
   &__hamburger {
-    // flex
+    position: fixed;
+    top: $spacing--base;
+    right: $spacing--base;
   }
 
   &__nav {
@@ -16,6 +18,8 @@
   }
 
   &__logo {
-    // flex
+    position: fixed;
+    top: $spacing--base;
+    left: $spacing--base;
   }
 }

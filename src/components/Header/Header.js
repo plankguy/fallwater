@@ -15,8 +15,8 @@ const Header = (props) => {
     <header className={baseClass}>
       {React.Children.map(children, (child, i) =>
         React.cloneElement(child, {
-          parentClass: baseClass,
           ...child.props,
+          parentClassName: baseClass,
         })
       )}
     </header>

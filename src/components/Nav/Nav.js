@@ -2,21 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
+import { bemClasses } from '../../libs/UiHelpers'
+
 import './Nav.css';
 
 const PROP_TYPES = {
-  parentClass: PropTypes.string,
+  parentClassName: PropTypes.string,
 };
 
 const DEFAULT_PROPS = {
-  parentClass: '',
+  parentClassName: '',
 };
 
 const Nav = (props) => {
   const baseClass = 'Nav';
 
   return (
-    <nav className={`${baseClass} ${props.parentClass}__${baseClass}`}>
+    <nav className={bemClasses(baseClass, props.parentClassName)}>
       <ul className={`${baseClass}__list`}>
         <li className={`${baseClass}__item`}>
           <NavLink

@@ -1,26 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { bemClasses } from '../../libs/UiHelpers'
+
 import './Hamburger.css';
 
 const PROP_TYPES = {
-  parentClass: PropTypes.string,
+  parentClassName: PropTypes.string,
   isOpen: PropTypes.bool.isRequired,
   clickHandler: PropTypes.func.isRequired,
 };
 
 const DEFAULT_PROPS = {
-  parentClass: '',
+  parentClassName: '',
   isOpen: false,
 };
 
 const Hamburger = (props) => {
   const baseClass = 'Hamburger';
-  console.log('Hamburger props:',  props);
 
   return (
     <button
-      className={`${baseClass} ${props.parentClass}__${baseClass}${props.isOpen ? ' is-open' : ''}`}
+      className={bemClasses(baseClass, props.parentClassName, [props.isOpen ? 'is-open' : ''])}
       onClick={props.clickHandler}
     >
       <span className={`${baseClass}__patties`}></span>
