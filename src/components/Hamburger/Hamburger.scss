@@ -50,7 +50,7 @@ $hamburger-speed:   200ms !default;
       // Middle burger "patty"
       #{$this}::before {
         top: 50%;
-        margin-top: -($hamburger-size / 2);
+        margin-top: -#{ceil($hamburger-size / 2)};
       }
       // active
       #{$this}:active::before,

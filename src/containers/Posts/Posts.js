@@ -1,6 +1,8 @@
 import React from 'react';
-import Prismic from 'prismic-javascript';
-import PrismicReact from 'prismic-reactjs'; // eslint-disable-line
+// import Prismic from 'prismic-javascript';
+import PrismicReact from 'prismic-reactjs';
+
+import { fetchPosts } from '../../libs/Prismic';
 
 import Loading from '../../components/Loading/Loading';
 import Post from '../../components/Post/Post';
@@ -16,45 +18,49 @@ export default class Page extends React.Component {
       results: null,
       results_size: null,
     },
+    loading: true,
     notFound: false,
   }
 
   componentWillMount() {
-    this.fetchPage(this.props);
+    this.getPosts(this.props.prismicCtx);
   }
 
-  componentWillReceiveProps(props) {
-    this.fetchPage(props);
+  // componentDidMount() {}
+
+  componentWillReceiveProps(nextProps) {
+    this.getPosts(nextProps.prismicCtx);
   }
 
-  componentDidUpdate() {
-    this.props.prismicCtx.toolbar();
-  }
+  // componentDidUpdate() {
+  //   this.props.prismicCtx.toolbar();
+  // }
 
-  async fetchPage(props) {
-    if (props.prismicCtx) {
-      return await props.prismicCtx.api.query(
-        Prismic.Predicates.at('document.type', 'blog'),
-        {
-          orderings: '[my.blog.date desc]',
-          pageSize: 10,
-        }, (err, posts) => {
-          if (posts) {
-            console.log('Posts.js posts:', posts);
-            this.setState({ posts });
-            // this.setState(posts);
-          } else {
-            console.warn('prismic error:', err);
-          }
-        },
-      );
-    }
-
-    return null;
+  /**
+  * Get posts via async fetch
+  *
+  * @param {object} Prismic context
+  * @return {void}
+  */
+  getPosts(prismicCtx) {
+    fetchPosts(prismicCtx).then((posts) => { // prismicCtx
+      if (posts) {
+        this.setState({
+          ...this.state,
+          loading: false,
+          posts,
+        });
+      } else {
+        this.setState({
+          loading: true,
+        });
+      }
+    });
   }
 
   render() {
-
+    console.log('Posts.js state:', this.state);
+    // Check for results
     if (this.state.posts.results) {
       const { results, results_size } = this.state.posts; // eslint-disable-line no-unused-vars
 

@@ -4,8 +4,8 @@ import Prismic from 'prismic-javascript';
 import PrismicToolbar from 'prismic-toolbar';
 // import { BrowserRouter as Router } from 'react-router-dom';
 
-import PrismicConfig from './prismic-configuration';
-import App from './App';
+import PrismicConfig from '../config/prismic';
+import App from './App/App';
 
 class PrismicApp extends React.Component {
 
@@ -23,7 +23,8 @@ class PrismicApp extends React.Component {
     PrismicToolbar.setup(PrismicConfig.apiEndpoint);
   }
 
-  buildContext() {
+  // Fetch data context from prismic.io
+  fetchContext() {
     const accessToken = PrismicConfig.accessToken;
 
     return Prismic.api(PrismicConfig.apiEndpoint, { accessToken }).then(api => ({
@@ -36,7 +37,7 @@ class PrismicApp extends React.Component {
   }
 
   componentWillMount() {
-    this.buildContext().then((prismicCtx) => {
+    this.fetchContext().then((prismicCtx) => {
       this.setState({ prismicCtx });
     }).catch((e) => {
       console.error(`Cannot contact the Prismic API, check your Prismic configuration:\n${e}`);
@@ -44,7 +45,6 @@ class PrismicApp extends React.Component {
   }
 
   render() {
-
     return (
       <App
         prismicCtx={this.state.prismicCtx}

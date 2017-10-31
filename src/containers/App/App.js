@@ -11,19 +11,19 @@ import {
 import { Link } from 'react-router-dom';
 
 // "Pages"
-import Preview from './Preview';
-import Post from './Post';
-import Posts from './containers/Posts/Posts';
-import NotFound from './NotFound';
-import It from './containers/It';
+import Preview from '../../Preview';
+import Post from '../../Post';
+import Posts from '../../containers/Posts/Posts';
+import NotFound from '../../NotFound';
+import It from '../../containers/It';
 // "Components"
-import Header from './components/Header/Header';
-import Nav from './components/Nav/Nav';
-import Hamburger from './components/Hamburger/Hamburger';
-import Logo from './components/Logo/Logo';
-import Menu from './components/OffCanvasMenu/OffCanvasMenu';
-import MenuTransition from './containers/MenuTransition/MenuTransition';
-import Footer from './components/Footer/Footer';
+import Header from '../../components/Header/Header';
+import Nav from '../../components/Nav/Nav';
+import Hamburger from '../../components/Hamburger/Hamburger';
+import Logo from '../../components/Logo/Logo';
+import Menu from '../../components/OffCanvasMenu/OffCanvasMenu';
+import MenuTransition from '../../containers/MenuTransition/MenuTransition';
+import Footer from '../../components/Footer/Footer';
 
 import './App.css';
 
@@ -147,17 +147,6 @@ class App extends React.Component {
             {/* Page Content */}
             <section className="Content">
 
-              <div className="test">
-                <button className="Button" onClick={(e) => this.handleCounter(e, 'increase')}>
-                  +
-                </button>
-                &nbsp;
-                <button className="Button" onClick={(e) => this.handleCounter(e, 'decrease')}>
-                  &ndash;
-                </button>
-                <pre>{this.state.counter}</pre>
-              </div>
-
               <TransitionGroup>
                 <CSSTransition
                   key={location.key}
@@ -187,8 +176,8 @@ class App extends React.Component {
                         <Route exact path="/posts/:uid" render={routeProps => (
                           <Post {...routeProps} prismicCtx={prismicCtx} />
                         )} />
-                        <Route exact path='/it' render={(routeProps) => (
-                          <It {...routeProps} title="This is a static test page passed from the router route prop" prismicCtx={prismicCtx} />
+                        <Route exact path='/about' render={(routeProps) => (
+                          <It {...routeProps} title="About: This is a static test page passed from the router route prop" prismicCtx={prismicCtx} />
                         )} />
                         <Route exact path="/preview" render={routeProps => (
                           <Preview {...routeProps} prismicCtx={prismicCtx} />
@@ -204,6 +193,18 @@ class App extends React.Component {
 
             {/* Footer */}
             <Footer />
+
+            <div className="test" style={{width: 300, padding: 20, border: '1px solid #CCC', margin: '0 auto'}}>
+              <h4>State Counter</h4>
+              <button className="Button" onClick={(e) => this.handleCounter(e, 'increase')}>
+                +
+              </button>
+              &nbsp;
+              <button className="Button" onClick={(e) => this.handleCounter(e, 'decrease')}>
+                &ndash;
+              </button>
+              <pre>{this.state.counter}</pre>
+            </div>
 
           </div>
         </MenuTransition>

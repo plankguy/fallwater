@@ -70,21 +70,23 @@ class It extends React.Component {
     return (
       <div
         id={this.props.id}
-        className={`${baseClass}`}>
+        className={`${baseClass}`}
+      >
 
-          <h1 className={`${baseClass}__title`}>
-            {this.props.title}
-          </h1>
-          <p className={`${baseClass}__copy`}>
-            {this.props.copy}
-          </p>
-          <p>
-            <Button
-              type="button"
-              onClick={this.handleClick}
-              label="Say hello"
-            />
-          </p>
+        <h1 className={`${baseClass}__title`}>
+          {this.props.title}
+        </h1>
+        <p className={`${baseClass}__copy`}>
+          {this.props.copy}
+        </p>
+        <p>
+          <Button
+            type="button"
+            onClick={this.handleClick}
+            label="Say hello"
+          />
+        </p>
+        
       </div>
     )
   }

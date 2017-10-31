@@ -4,7 +4,7 @@ import {
   BrowserRouter as Router,
 } from 'react-router-dom';
 
-import PrismicApp from './PrismicApp';
+import PrismicApp from './containers/PrismicApp';
 // import App from './App';
 
 import 'normalize.css';

@@ -41,22 +41,14 @@ const Nav = (props) => {
         </li>
         <li className={`${baseClass}__item`}>
           <NavLink
-            to="/it"
+            to="/about"
             className={`${baseClass}__link`}
             activeClassName="is-active"
           >
-            It
+            About
           </NavLink>
         </li>
-        <li className={`${baseClass}__item`}>
-          <NavLink
-            to="/Help"
-            className={`${baseClass}__link`}
-            activeClassName="is-active"
-          >
-            Help
-          </NavLink>
-        </li>
+        {/*
         <li className={`${baseClass}__item`}>
           <NavLink
             to="/preview"
@@ -66,6 +58,7 @@ const Nav = (props) => {
             Preview
           </NavLink>
         </li>
+        */}
       </ul>
     </nav>
   )
