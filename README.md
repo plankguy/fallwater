@@ -1,26 +1,72 @@
 
 
-# A Prismic React Starter Blog Site
-This project has been created with [`create-react-app`](https://github.com/facebookincubator/create-react-app). We added a zest of [prismic](https://github.com/prismicio/javascript-kit) inside it.
+# Jeff Waterfall Personal Website (WIP)
+
+## Structure
+
+### Folder
+The folder structure follows the [Create React App](https://github.com/facebook/create-react-app) folder structure.
+
+```
+/build                    build destination
+/public                   static assets (compiled into /build)
+/src                      app source code
+  ├── /components
+  ├── /config
+  ├── /containers
+  ├── /libs
+  ├── /scss
+  ├── index.js
+  ├── index.scss
+
+```
+
+### Application
+```
+┌-----------------┐
+| index.html      |
+|┌---------------┐|   ┌-----------------┐
+|| index.js      |--->|                 |
+|└---------------┘|   └-----------------┘
+|┌---------------┐|
+|| main.css      ||
+|└---------------┘|
+└-----------------┘
+
+index.js
+  ├── PrismicApp.js
+        ├── App/App.js
+          ├── Post
+          ├── Posts
+          ├── Header
+          ├── Footer
+```
 
 ### Install dependencies
 ```
-> $ npm install
+> $ yarn install
 ```
+
 ### Runs the app in the development mode
 Build and open your browser to http://localhost:3000.
 ```
-> $ npm start
+> $ yarn start
 ```
 
 ### Launches the test runner in the interactive watch mode
 ```
-> $ npm run test
+> $ yarn test
 ```
 
 ### Builds the app for production to the build folder
 ```
-> $ npm run build
+> $ yarn build
 ```
 
-[![Dependency Status](https://david-dm.org/prismicio/reactjs-starter.svg)](https://david-dm.org/prismicio/reactjs-starter)
+### Dependencies
+
+- [`react`](https://github.com/facebook/react)
+- [`create-react-app`](https://github.com/facebookincubator/create-react-app)
+- [`prismic`](https://github.com/prismicio/javascript-kit)
+
+[![Prismic Dependency Status](https://david-dm.org/prismicio/reactjs-starter.svg)](https://david-dm.org/prismicio/reactjs-starter)

@@ -27,16 +27,18 @@ const DEFAULT_PROPS = {
 };
 
 const Post = ({ title, url, teaser, date, dateTime, readMoreLabel, image }) => {
-  
+
   return (
     <article className="Post">
       {image &&
-        <img
-          src={image.url}
-          alt={image.alt}
-          width={image.dimensions && image.dimensions.width}
-          height={image.dimensions && image.dimensions.height}
-        />
+        <Link className="Post__title__link" to={url}>
+          <img
+            src={image.url}
+            alt={image.alt}
+            width={image.dimensions && image.dimensions.width}
+            height={image.dimensions && image.dimensions.height}
+          />
+        </Link>
       }
       <h3 className="Post__title">
        <Link className="Post__title__link" to={url}>

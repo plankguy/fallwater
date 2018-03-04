@@ -1,54 +1,42 @@
-import React from 'react';
 import 'whatwg-fetch';
-import Prismic from 'prismic-javascript';
-import PrismicToolbar from 'prismic-toolbar';
-// import { BrowserRouter as Router } from 'react-router-dom';
+import React from 'react';
 
-import PrismicConfig from '../config/prismic';
+import { fetchPrismicContext } from '../libs/Prismic';
 import App from './App/App';
 
+/**
+ * Wrap base App component to provide prismic context
+ * @TODO: move to Redux
+ */
 class PrismicApp extends React.Component {
 
   state = {
     prismicCtx: null,
   }
 
-  refreshToolbar() {
-    const maybeCurrentExperiment = this.api.currentExperiment();
+  async componentWillMount() {
+  // async componentDidMount() {
 
-    if (maybeCurrentExperiment) {
-      PrismicToolbar.startExperiment(maybeCurrentExperiment.googleId());
+    try {
+console.log('fetch prismic context...', this.state); // eslint-disable-line no-console
+      const prismicCtx = await fetchPrismicContext();
+      await this.setState({ prismicCtx });
+    } catch(err) {
+       console.error(`Cannot contact the Prismic API, check your Prismic configuration:\n${err}`);
     }
-
-    PrismicToolbar.setup(PrismicConfig.apiEndpoint);
   }
-
-  // Fetch data context from prismic.io
-  fetchContext() {
-    const accessToken = PrismicConfig.accessToken;
-
-    return Prismic.api(PrismicConfig.apiEndpoint, { accessToken }).then(api => ({
-      api,
-      accessToken,
-      endpoint: PrismicConfig.apiEndpoint,
-      linkResolver: PrismicConfig.linkResolver,
-      toolbar: this.refreshToolbar,
-    }));
-  }
-
-  componentWillMount() {
-    this.fetchContext().then((prismicCtx) => {
-      this.setState({ prismicCtx });
-    }).catch((e) => {
-      console.error(`Cannot contact the Prismic API, check your Prismic configuration:\n${e}`);
-    });
-  }
+  // componentWillMount() {
+  //   fetchPrismicContext()
+  //     .then((prismicCtx) => {
+  //       this.setState({ prismicCtx });
+  //     }).catch((e) => {
+  //       console.error(`Cannot contact the Prismic API, check your Prismic configuration:\n${e}`);
+  //     });
+  // }
 
   render() {
     return (
-      <App
-        prismicCtx={this.state.prismicCtx}
-      />
+      <App prismicCtx={this.state.prismicCtx} />
     );
   }
 }

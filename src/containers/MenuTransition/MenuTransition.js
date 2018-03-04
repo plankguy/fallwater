@@ -3,19 +3,19 @@ import PropTypes from 'prop-types';
 import { CSSTransition } from 'react-transition-group';
 
 const PROP_TYPES = {
-  menuOpen: PropTypes.bool.isRequired,
+  isMenuOpen: PropTypes.bool.isRequired,
   children: PropTypes.element.isRequired,
 };
 
 const DEFAULT_PROPS = {
-  menuOpen: false,
+  isMenuOpen: false,
 };
 
-const MenuTransition = ({ menuOpen, children }) => {
+const MenuTransition = ({ isMenuOpen, children }) => {
 
   return (
     <CSSTransition
-      in={menuOpen}
+      in={isMenuOpen}
       classNames={'is-menuopen-'}
       timeout={{
         enter: 200,

@@ -2,7 +2,9 @@ import React from 'react';
 // import Prismic from 'prismic-javascript';
 import PrismicReact from 'prismic-reactjs';
 
-import { fetchPosts } from '../../libs/Prismic';
+import { fetchAllPosts } from '../../models/PostsModel';
+import { fetchPrismicPosts } from '../../libs/Prismic';
+import { fetchInstagramPosts } from '../../libs/Instagram';
 
 import Loading from '../../components/Loading/Loading';
 import Post from '../../components/Post/Post';
@@ -11,7 +13,7 @@ import NotFound from '../../NotFound';
 import './Posts.css';
 
 // Declare your component
-export default class Page extends React.Component {
+export default class Posts extends React.Component {
 
   state = {
     posts: {
@@ -22,14 +24,21 @@ export default class Page extends React.Component {
     notFound: false,
   }
 
-  componentWillMount() {
-    this.getPosts(this.props.prismicCtx);
+  // componentWillMount() {
+  componentDidMount() {
+    this.getPosts();
+
+    fetchAllPosts();
+
+    fetchInstagramPosts().then((data) => {
+      console.log('instagram data:', data); // eslint-disable-line no-console
+    });
   }
 
   // componentDidMount() {}
 
   componentWillReceiveProps(nextProps) {
-    this.getPosts(nextProps.prismicCtx);
+    this.getPosts();
   }
 
   // componentDidUpdate() {
@@ -43,7 +52,7 @@ export default class Page extends React.Component {
   * @return {void}
   */
   getPosts(prismicCtx) {
-    fetchPosts(prismicCtx).then((posts) => { // prismicCtx
+    fetchPrismicPosts(prismicCtx).then((posts) => { // prismicCtx
       if (posts) {
         this.setState({
           ...this.state,
@@ -59,7 +68,6 @@ export default class Page extends React.Component {
   }
 
   render() {
-    console.log('Posts.js state:', this.state);
     // Check for results
     if (this.state.posts.results) {
       const { results, results_size } = this.state.posts; // eslint-disable-line no-unused-vars

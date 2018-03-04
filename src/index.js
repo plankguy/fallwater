@@ -5,15 +5,10 @@ import {
 } from 'react-router-dom';
 
 import PrismicApp from './containers/PrismicApp';
-// import App from './App';
+// import App from './containers/App/App';
 
 import 'normalize.css';
 import './index.css';
-
-// ReactDOM.render(
-//   <PrismicApp />,
-//   document.getElementById('root'),
-// );
 
 ReactDOM.render(
   <Router>
@@ -21,3 +16,10 @@ ReactDOM.render(
   </Router>,
   document.getElementById('root'),
 );
+
+// ReactDOM.render(
+//   <Router>
+//     <App />
+//   </Router>,
+//   document.getElementById('root'),
+// );

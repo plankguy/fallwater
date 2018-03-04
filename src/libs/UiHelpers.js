@@ -1,5 +1,5 @@
 /**
- * Formulate components class selectors
+ * Formulate BEM components class selectors
  *
  * @param {string} base class selector of element
  * @param {string} parent class selector of element

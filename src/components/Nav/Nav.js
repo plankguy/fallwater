@@ -8,6 +8,7 @@ import './Nav.css';
 
 const PROP_TYPES = {
   parentClassName: PropTypes.string,
+  items: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 const DEFAULT_PROPS = {
@@ -20,45 +21,19 @@ const Nav = (props) => {
   return (
     <nav className={bemClasses(baseClass, props.parentClassName)}>
       <ul className={`${baseClass}__list`}>
-        <li className={`${baseClass}__item`}>
-          <NavLink
-            to="/"
-            className={`${baseClass}__link`}
-            activeClassName="is-active"
-            exact
-          >
-            Index
-          </NavLink>
-        </li>
-        <li className={`${baseClass}__item`}>
-          <NavLink
-            to="/posts"
-            className={`${baseClass}__link`}
-            activeClassName="is-active"
-          >
-            Posts
-          </NavLink>
-        </li>
-        <li className={`${baseClass}__item`}>
-          <NavLink
-            to="/about"
-            className={`${baseClass}__link`}
-            activeClassName="is-active"
-          >
-            About
-          </NavLink>
-        </li>
-        {/*
-        <li className={`${baseClass}__item`}>
-          <NavLink
-            to="/preview"
-            className={`${baseClass}__link`}
-            activeClassName="is-active"
-          >
-            Preview
-          </NavLink>
-        </li>
-        */}
+        {props.items.map((item, i) => (
+            <li className={`${baseClass}__item`} key={i}>
+              <NavLink
+                to={item.url}
+                className={`${baseClass}__link`}
+                activeClassName="is-active"
+                exact
+              >
+                {item.label}
+              </NavLink>
+            </li>
+          )
+        )}
       </ul>
     </nav>
   )
