@@ -13,6 +13,7 @@ export async function fetchInstagramPosts() {
     });
     const postsJson = await response.json();
 
+    // Handle API errors
     if (postsJson.hasOwnProperty('error_message')) {
       console.error(postsJson.error_message); // eslint-disable-line no-console
       return null;

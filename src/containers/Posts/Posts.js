@@ -15,6 +15,12 @@ import './Posts.css';
 // Declare your component
 export default class Posts extends React.Component {
 
+  constructor(props) {
+    super(props);
+
+    this.mounted = false;
+  }
+
   state = {
     posts: {
       results: null,
@@ -24,26 +30,27 @@ export default class Posts extends React.Component {
     notFound: false,
   }
 
-  // componentWillMount() {
+  componentWillMount() {
+    this.mounted = false;
+  }
+
   componentDidMount() {
-    this.getPosts();
+    this.mounted = true;
 
-    fetchAllPosts();
-
-    fetchInstagramPosts().then((data) => {
-      console.log('instagram data:', data); // eslint-disable-line no-console
-    });
+    // if (this.mounted) {
+      this.getPosts();
+    // }
   }
 
   // componentDidMount() {}
 
-  componentWillReceiveProps(nextProps) {
-    this.getPosts();
+  componentWillReceiveProps(nextProps) {}
+
+  componentWillUnmount() {
+    this.mounted = false;
   }
 
-  // componentDidUpdate() {
-  //   this.props.prismicCtx.toolbar();
-  // }
+  // componentDidUpdate() {}
 
   /**
   * Get posts via async fetch
@@ -68,6 +75,8 @@ export default class Posts extends React.Component {
   }
 
   render() {
+    this.mounted = true;
+
     // Check for results
     if (this.state.posts.results) {
       const { results, results_size } = this.state.posts; // eslint-disable-line no-unused-vars

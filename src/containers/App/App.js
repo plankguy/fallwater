@@ -12,6 +12,7 @@ import {
 import { Link } from 'react-router-dom';
 // Config
 import GlobalConfig from '../../config/global';
+import { fetchAllPosts } from '../../models/PostsModel';
 // "Pages"
 import Preview from '../../Preview';
 import Post from '../../containers/Post/Post';
@@ -46,11 +47,64 @@ class App extends React.Component {
     this.state = {
       counter: 0,
       isMenuOpen: false,
+      stream: null,
     };
 
     // ES6 - you need to bind handers to `this`
     this.handleCounter = this.handleCounter.bind(this);
     this.handleMenuToggle = this.handleMenuToggle.bind(this);
+  }
+
+  /**
+   * Set posts state for the streamData
+   *
+   * @param {object}
+   * @return {void}
+   */
+  async setStream(prismicCtx) {
+    try {
+      const streamData = await fetchAllPosts(prismicCtx);
+
+      if (streamData.posts) {
+        this.setState({
+          ...this.state,
+          loading: false,
+          stream: streamData,
+        });
+      } else {
+        this.setState({
+          loading: true,
+        });
+      }
+    } catch(err) {
+      console.error(`Could not get posts stream:\n${err}`); // eslint-disable-line no-console
+    }
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
+  }
+
+  // async componentDidMount() {
+
+  /*
+   * Triggered before initial render()
+   * Invoked once, both on the client and server. If you call setState within this method, render() will see the updated state and will be executed only once despite the state change.
+   */
+  async componentWillMount() {
+    this.mounted = true;
+
+    if (this.props.prismicCtx !== null && this.mounted) {
+      this.setStream(this.props.prismicCtx);
+    }
+  }
+
+  // componentDidMount() {}
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.prismicCtx !== null) {
+      this.setStream(nextProps.prismicCtx);
+    }
   }
 
   /*
@@ -147,6 +201,7 @@ class App extends React.Component {
                 {
                   label: 'Home',
                   url: '/',
+                  exact: true,
                 }, {
                   label: 'Posts',
                   url: '/posts',
@@ -191,7 +246,7 @@ class App extends React.Component {
                           <Posts {...routeProps} prismicCtx={prismicCtx} />
                         )} />
                         <Route exact path="/stream" render={routeProps => (
-                          <Stream {...routeProps} prismicCtx={prismicCtx} />
+                          <Stream {...routeProps} prismicCtx={prismicCtx} stream={this.state.stream} />
                         )} />
                         <Route exact path="/posts/:uid" render={routeProps => (
                           <Post {...routeProps} prismicCtx={prismicCtx} />

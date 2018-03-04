@@ -1,4 +1,4 @@
 export default {
-  maxPosts: 12,
+  maxPosts: 36,
   siteName: 'Jeff Waterfall',
 };

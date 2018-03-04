@@ -1,7 +1,7 @@
 import React from 'react';
 import PrismicReact from 'prismic-reactjs';
 
-import { fetchAllPosts } from '../../models/PostsModel';
+// import { fetchAllPosts } from '../../models/PostsModel';
 
 import Loading from '../../components/Loading/Loading';
 import Post from '../../components/Post/Post';
@@ -27,57 +27,60 @@ export default class Stream extends React.Component {
    * @param {object}
    * @return {void}
    */
-  async setPosts(prismicCtx) {
-    try {
-      const streamData = await fetchAllPosts(prismicCtx);
+  // async setPosts(prismicCtx) {
+  //   try {
+  //     const streamData = await fetchAllPosts(prismicCtx);
+  //
+  //     if (streamData.posts) {
+  //       this.setState({
+  //         ...this.state,
+  //         loading: false,
+  //         stream: streamData,
+  //       });
+  //     } else {
+  //       this.setState({
+  //         loading: true,
+  //       });
+  //     }
+  //   } catch(err) {
+  //     console.error(`Could not get posts stream:\n${err}`); // eslint-disable-line no-console
+  //   }
+  // }
 
-      if (streamData.posts) {
-        this.setState({
-          ...this.state,
-          loading: false,
-          stream: streamData,
-        });
-      } else {
-        this.setState({
-          loading: true,
-        });
-      }
-    } catch(err) {
-      console.error(`Could not get posts stream:\n${err}`); // eslint-disable-line no-console
-    }
-  }
-
-  componentWillUnmount() {
-    this.mounted = false;
-  }
-
-  async componentDidMount() {
-  // async componentWillMount() {
-    this.mounted = true;
-
-    if (this.props.prismicCtx !== null && this.mounted) {
-      this.setPosts(this.props.prismicCtx);
-    }
-  }
-
-  // componentDidMount() {}
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.prismicCtx !== null) {
-      this.setPosts(nextProps.prismicCtx);
-    }
-  }
+  // componentWillUnmount() {
+  //   this.mounted = false;
+  // }
+  //
+  // async componentDidMount() {
+  // // async componentWillMount() {
+  //   this.mounted = true;
+  //
+  //   if (this.props.prismicCtx !== null && this.mounted) {
+  //     this.setPosts(this.props.prismicCtx);
+  //   }
+  // }
+  //
+  // // componentDidMount() {}
+  //
+  // componentWillReceiveProps(nextProps) {
+  //   if (nextProps.prismicCtx !== null) {
+  //     this.setPosts(nextProps.prismicCtx);
+  //   }
+  // }
 
   // componentDidUpdate() {}
 
   render() {
-    // Check for results
-    if (this.state.stream.posts) {
+    // Check for stream
+    if (this.props.stream) {
+
+      // const { posts } = this.state.stream;
+      const { posts } = this.props.stream;
 
       return (
         <ul className="Posts">
 
-          {this.state.stream.posts.map((post, i) => {
+          {posts.map((post, i) => {
 
             let componentMarkup;
             const date = new Date(post.created_date);
@@ -88,7 +91,7 @@ export default class Stream extends React.Component {
                 componentMarkup = (
                   <div>
                     <img src={post.images.standard_resolution.url} alt="" />
-                    <h3>{post.caption.text}</h3>
+                    <h4>{post.caption.text}</h4>
                   </div>
                 );
                 break;
@@ -120,7 +123,8 @@ export default class Stream extends React.Component {
         </ul>
       );
 
-    } else if (this.state.notFound) {
+    // } else if (this.state.notFound) {
+    } else if (this.props.notFound) {
       return <NotFound />;
     } else {
       return <Loading />;

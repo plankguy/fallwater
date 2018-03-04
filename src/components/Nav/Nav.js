@@ -27,7 +27,7 @@ const Nav = (props) => {
                 to={item.url}
                 className={`${baseClass}__link`}
                 activeClassName="is-active"
-                exact
+                exact={item.exact ? true : false}
               >
                 {item.label}
               </NavLink>
