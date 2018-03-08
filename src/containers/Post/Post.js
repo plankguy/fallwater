@@ -19,9 +19,9 @@ export default class Post extends React.Component {
     this.fetchPage(this.props);
   }
 
-  componentWillReceiveProps(props) {
-    this.fetchPage(props);
-  }
+  // componentWillReceiveProps(props) {
+  //   this.fetchPage(props);
+  // }
 
   componentDidUpdate() {
     // this.props.prismicCtx.toolbar();
