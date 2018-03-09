@@ -10,9 +10,12 @@ import {
   CSSTransition,   // eslint-disable-line no-unused-vars
 } from 'react-transition-group';
 import { Link } from 'react-router-dom';
+import { Helmet } from "react-helmet";
+
 // Config
 import GlobalConfig from '../../config/global';
 import { fetchAllPosts } from '../../models/PostsModel';
+
 // "Pages"
 import Preview from '../../Preview';
 import Post from '../../containers/Post/Post';
@@ -20,6 +23,7 @@ import Posts from '../../containers/Posts/Posts';
 import Stream from '../../containers/Stream/Stream';
 import NotFound from '../../NotFound';
 import It from '../../containers/It';
+
 // "Components"
 import Header from '../../components/Header/Header';
 import Nav from '../../components/Nav/Nav';
@@ -28,6 +32,7 @@ import Logo from '../../components/Logo/Logo';
 import Menu from '../../components/OffCanvasMenu/OffCanvasMenu';
 import MenuTransition from '../../containers/MenuTransition/MenuTransition';
 import Footer from '../../components/Footer/Footer';
+
 // CSS
 import './App.css';
 
@@ -172,6 +177,39 @@ class App extends React.Component {
 
     return (
       <main className="wrapper">
+
+        <Helmet>
+          {/* Standard Metadata */}
+          <title>{GlobalConfig.siteTitle}</title>
+          <meta name="description" content={GlobalConfig.siteDesc} />
+          <meta name="author" content={GlobalConfig.siteAuthor} />
+          <meta name="robots" content={GlobalConfig.seoRobots} />
+
+          {/* Twitter Meta */}
+          <meta name="twitter:site" content={GlobalConfig.twitterHandle} />
+          <meta name="twitter:title" content={GlobalConfig.siteTitle} />
+          <meta name="twitter:description" content={GlobalConfig.siteDesc} />
+          <meta name="twitter:url" content={GlobalConfig.siteUrl} />
+            {/* <meta name="twitter:card" content="summary_large_image" /> */}
+            {/* <meta property="twitter:image" content={seoImage} /> */}
+
+          {/* Opengraph (Facebook) Meta */}
+          <meta property="og:site_name" content={GlobalConfig.siteName} />
+          <meta property="og:title" content={GlobalConfig.siteTitle} />
+          <meta property="og:url" content={GlobalConfig.siteUrl} />
+          <meta property="og:description" content={GlobalConfig.siteDesc} />
+            {/* <meta property="og:image" content={seoImage} /> */}
+          <meta property="og:locale" content="en" />
+
+          {/* Schema.org Meta */}
+          <meta itemprop="name" content={GlobalConfig.siteTitle} />
+          <meta itemprop="description" content={GlobalConfig.siteDesc} />
+          <meta itemprop="url" content={GlobalConfig.siteUrl} />
+          <meta itemprop="author" content={GlobalConfig.siteAuthor} />
+            {/* <meta itemprop="logo" content="https://hootsuite.com/dist/images/logos/hootsuite/logo@2x.png"/> */}
+          <meta itemprop="sameAs" content={GlobalConfig.twitterUrl} />
+          <meta itemprop="sameAs" content={GlobalConfig.instagramUrl} />
+        </Helmet>
 
         {/* "Drawer" Menu: */}
         <CSSTransition

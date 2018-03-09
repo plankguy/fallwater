@@ -1,6 +1,7 @@
 import React from 'react';
 import PrismicReact from 'prismic-reactjs'; // eslint-disable-line
 import { Link } from 'react-router-dom';
+import { Helmet } from "react-helmet";
 
 import { fetchPrismicContext } from '../../libs/Prismic';
 import Loading from '../../components/Loading/Loading';
@@ -68,17 +69,37 @@ export default class Post extends React.Component {
   render() {
 
     if (this.state.Post) {
-      console.log('containers/Post/Post.js state', this.state.Post);
+      // Meta
+      const title = PrismicReact.RichText.asText(this.state.Post.data.title);
+      const description = 'Description will eventually go here...';
+      const seoImage = this.state.Post.data.image.sm.url;
 
       return (
         <div data-wio-id={this.state.Post.id}>
+
+          <Helmet>
+            <title>{title}</title>
+            <meta name="description" content={`Post description will eventually go here...`} />
+            {/* Twitter */}
+            <meta name="twitter:title" content={title} />
+            <meta name="twitter:description" content={description} />
+            <meta name="twitter:url" content="https://fallwater.ca" />
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta property="twitter:image" content={seoImage} />
+            {/* Open Graph: http://ogp.me/ - NOTE: relative and protocol-relative URLs NOT supported */}
+            <meta property="og:title" content={title} />
+            <meta property="og:url" content="https://fallwater.ca" />
+            <meta property="og:description" content={description} />
+            <meta property="og:image" content={seoImage} />
+            <meta property="og:locale" content="en" />
+          </Helmet>
 
           <Link to="/posts">
             &larr; Posts
           </Link>
 
           {/* This is how to get text into your template*/}
-          <h1>{PrismicReact.RichText.asText(this.state.Post.data.title)}</h1>
+          <h1>{title}</h1>
 
           {/* This is how to get an image into your template */}
           <img alt="cover" src={this.state.Post.data.image.lg.url} />
