@@ -3,7 +3,10 @@ import { fetchInstagramPosts } from '../libs/Instagram';
 import GlobalConfig from '../config/global';
 
 /**
- *
+ * Get all posts, return source meta and posts
+ * @param {object}
+ * @param {int}
+ * @return {object}
  */
 export async function fetchAllPosts(prismicCtx, maxPosts = GlobalConfig.maxPosts) {
   const prismicData = await fetchPrismicPosts(prismicCtx);
@@ -37,17 +40,22 @@ export async function fetchAllPosts(prismicCtx, maxPosts = GlobalConfig.maxPosts
 
 /**
  * Sort posts by date, new to old
+ * @param {array}
+ * @return {array}
  */
 function sortByDateDesc(posts) {
-  return posts.sort(function(a, b) {
+  return posts.sort((a, b) => {
     return new Date(b.created_date) - new Date(a.created_date);
   });
 }
 
 /**
- *
+ * Formats Prismic posts into array of objects that play nice in this app
+ * @param {object}
+ * @return {object}
  */
 function formatPrismicPosts(postsData) {
+
   // Add and/or mutate properties for each post
   const posts = postsData.results.map((post) => {
     post.created_date = post.last_publication_date; // ISO date
