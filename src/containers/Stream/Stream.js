@@ -1,7 +1,7 @@
 import React from 'react';
 import PrismicReact from 'prismic-reactjs';
 
-// import { fetchAllPosts } from '../../models/PostsModel';
+import { formatIsoDate } from '../../libs/UiHelpers';
 
 import Loading from '../../components/Loading/Loading';
 import Post from '../../components/Post/Post';
@@ -70,6 +70,42 @@ export default class Stream extends React.Component {
 
   // componentDidUpdate() {}
 
+  /**
+   * Change post component based on type (Prismic blog, Instagram)
+   */
+  switchPostMarkup(post) {
+    let componentMarkup;
+
+    switch (post.medium) {
+      case 'instagram':
+        componentMarkup = (
+          <div>
+            <img src={post.images.standard_resolution.url} alt="" />
+            <h4>{post.caption.text}</h4>
+          </div>
+        );
+        break;
+
+      default:
+        const { title, teaser, image } = post.data;
+        componentMarkup = (
+          <Post
+            title={PrismicReact.RichText.asText(title)}
+            url={`/posts/${post.uid}`}
+            teaser={PrismicReact.RichText.asText(teaser)}
+            date={formatIsoDate(post.created_date)}
+            dateTime={post.created_date}
+            image={image.sm}
+          />
+        );
+    }
+
+    return componentMarkup;
+  }
+
+  /**
+   *
+   */
   render() {
     // Check for stream
     if (this.props.stream) {
@@ -81,41 +117,12 @@ export default class Stream extends React.Component {
         <ul className="Posts">
 
           {posts.map((post, i) => {
-
-            let componentMarkup;
-            const date = new Date(post.created_date);
-            const formattedDate = `${date.getFullYear()}/${date.getMonth()}/${date.getDate()} - ${date.getHours()}:${date.getMinutes()}`;
-
-            switch (post.medium) {
-              case 'instagram':
-                componentMarkup = (
-                  <div>
-                    <img src={post.images.standard_resolution.url} alt="" />
-                    <h4>{post.caption.text}</h4>
-                  </div>
-                );
-                break;
-
-              default:
-                const { title, teaser, image } = post.data;
-                componentMarkup = (
-                  <Post
-                    title={PrismicReact.RichText.asText(title)}
-                    url={`/posts/${post.uid}`}
-                    teaser={PrismicReact.RichText.asText(teaser)}
-                    date={formattedDate}
-                    dateTime={post.last_publication_date}
-                    image={image.sm}
-                  />
-                );
-            }
-
             return (
               <li
                 key={i}
                 className="Posts__item"
               >
-                {componentMarkup}
+                {this.switchPostMarkup(post)}
               </li>
             )
           })}
