@@ -15,7 +15,7 @@ The folder structure follows the [Create React App](https://github.com/facebook/
   ├── /config
   ├── /containers
   ├── /libs
-  ├── /scss
+  ├── /styles
   ├── index.js
   ├── index.scss
 
@@ -41,6 +41,12 @@ index.js
           ├── Header
           ├── Footer
 ```
+
+### Styles
+- The global styles are using [SCSS](https://sass-lang.com/)
+- React components use [Styled Components](https://www.styled-components.com)
+- Sass is compiled via [Node Sass Chokidar](https://www.npmjs.com/package/node-sass-chokidar) CLI
+- SCSS and Styled Components variables are shared via a json file (`/src/styles/variables.json`), using [Node Sass json importer](https://www.npmjs.com/package/node-sass-json-importer) (CLI option).
 
 ### Install dependencies
 ```

@@ -9,6 +9,7 @@ import {
   TransitionGroup, // eslint-disable-line no-unused-vars
   CSSTransition,   // eslint-disable-line no-unused-vars
 } from 'react-transition-group';
+import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Helmet } from "react-helmet";
 
@@ -25,6 +26,7 @@ import NotFound from '../../NotFound';
 import It from '../../containers/It';
 
 // "Components"
+import Wrapper from '../../components/Wrapper/Wrapper';
 import Header from '../../components/Header/Header';
 import Nav from '../../components/Nav/Nav';
 import Hamburger from '../../components/Hamburger/Hamburger';
@@ -35,6 +37,34 @@ import Footer from '../../components/Footer/Footer';
 
 // CSS
 import './App.css';
+// import styleVars from '../../styles/variables.json';
+
+// const Wrapper = styled.main`
+//   position: fixed;
+//   top: ${styleVars.spacing.base};
+//   right: ${styleVars.spacing.base};
+//   bottom: ${styleVars.spacing.base};
+//   left: ${styleVars.spacing.base};
+//   overflow: auto;
+//   border: 10px solid pink;
+//   font-family: ${styleVars.fonts.family};
+//
+//   &::after {
+//     content: '';
+//     background: transparent url(https://st2.depositphotos.com/5834268/9859/v/950/depositphotos_98597414-stock-illustration-topographic-map-on-black-background.jpg) 50% 50% repeat;
+//     opacity: 0.3;
+//     position: fixed;
+//     top: ${styleVars.spacing.base + '10px'}; // $spacing--base + $wrapper-border-width;
+//     right: ${styleVars.spacing.base + '10px'}; // $spacing--base + $wrapper-border-width;
+//     bottom: ${styleVars.spacing.base + '10px'}; // $spacing--base + $wrapper-border-width;
+//     left: ${styleVars.spacing.base + '10px'}; // $spacing--base + $wrapper-border-width;
+//     z-index: -1;
+//   }
+//
+//   &__transition {
+//     background-color: red;
+//   }
+// `;
 
 const PROP_TYPES = {
   prismicCtx: PropTypes.object,
@@ -176,7 +206,8 @@ class App extends React.Component {
     const { prismicCtx, match, location, history } = this.props; // eslint-disable-line no-unused-vars
 
     return (
-      <main className="wrapper">
+      <Wrapper>
+        {/*<main className="wrapper">*/}
 
         <Helmet>
           {/* Standard Metadata */}
@@ -320,7 +351,8 @@ class App extends React.Component {
 
           </div>
         </MenuTransition>
-      </main>
+      {/*</main>*/}
+      </Wrapper>
     )
   }
 };

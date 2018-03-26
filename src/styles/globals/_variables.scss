@@ -1,0 +1,37 @@
+@import 'styles/variables.json';
+
+// Colours
+$colors:                $colors;
+$color-black:           map-get($colors, black) !default;
+$color-white:           #FFF !default;
+$color-text:            #FFF !default;
+$color-text--light:     #EEE !default;
+$color-text--invert:    #333 !default;
+$color-bg:              #222 !default;
+$color-bg--invert:      #EEE !default;
+$color-border:          #FFF !default;
+$color-link:            #F4F4F4 !default;
+$color-link--hover:     lighten($color-link, 15%) !default;
+$color-button:          $color-white !default;
+$color-button-bg:       $color-text !default;
+$color-button--alt:     $color-white !default;
+$color-button-bg--alt:  $color-link !default;
+
+// Fonts
+$font-family--base: map-get($fonts, family);
+
+// Dimensions
+$spacing--base: map-get($spacing, base) !default;
+$spacing--x:    map-get($spacing, x) !default;
+$spacing--y:    map-get($spacing, y) !default;
+
+// Menu
+$menu-width: 500px !default;
+$menu-color: #FFF !default;
+$menu-bg:    #999 !default;
+
+// Animations
+$anim-speed--default: 300ms !default;
+$anim-speed--bounce: 500ms !default;
+$anim-easing-map: map-get($animations, easing);
+$anim-easing--bounce: map-get($anim-easing-map, bounce);// cubic-bezier(1.000, 0.000, 0.280, 1.245) !default;

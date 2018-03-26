@@ -1,47 +1,10 @@
-@import 'scss/globals/all';
-@import 'scss/base';
+@import 'styles/globals/all';
+@import 'styles/base';
 
 html {
-    font: 300 18px/1.5 'Poppins', sans-serif;
-    background: $color-bg;
-    color: $color-text;
-}
-
-.wrapper {
-    min-height: 100vh;
-    background-color: $color-white;
-    display: flex;
-    /*
-      ROW
-    */
-    /*flex-flow: row wrap;*/
-    /*align-items: center;*/
-    /*
-      COLUMN
-    */
-    flex-flow: column nowrap;
-    align-items: stretch;
-    justify-content: space-between;
-    align-content: space-between;
-
-    &__transition {
-      transition: transform $anim-speed--bounce $anim-easing--bounce;
-
-      &.is-menuopen {
-        &--enter {}
-
-        &--exit {
-          transform: translate3d(-$menu-width, 0, 0);
-        }
-
-        &--exit#{&}--exit-active {}
-
-        // Open
-        &--exit#{&}--enter-active {
-          transform: translate3d(0, 0, 0);
-        }
-      }
-    }
+    font: #{map-get($fonts, weight)} #{map-get($fonts, size)}/#{map-get($fonts, lineHeight)} map-get($fonts, family);
+    background: map-get($colors, bg);
+    color: map-get($colors, text);
 }
 
 .Header {
@@ -59,7 +22,6 @@ html {
 }
 
 .Content {
-  max-width: 800px;
   margin: 0 auto;
   padding: 40px 0;
   position: relative;

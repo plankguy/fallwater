@@ -1,4 +1,67 @@
-@import 'scss/globals/all';
+@import 'styles/globals/all';
+
+.wrapper {
+  $selector: &;
+  $wrapper-border-width: 10px;
+
+  // json variables test...
+  color: map-get($colors, white) !important;
+  font-family: map-get($fonts, family) !important;
+
+  position: fixed;
+  top: $spacing--base;
+  right: $spacing--base;
+  bottom: $spacing--base;
+  left: $spacing--base;
+  overflow: auto;
+  border: $wrapper-border-width solid $color-white;
+
+  &::after {
+    content: '';
+    background: transparent url(https://st2.depositphotos.com/5834268/9859/v/950/depositphotos_98597414-stock-illustration-topographic-map-on-black-background.jpg) 50% 50% repeat;
+    opacity: 0.3;
+    position: fixed;
+    top: $spacing--base + $wrapper-border-width;
+    right: $spacing--base + $wrapper-border-width;
+    bottom: $spacing--base + $wrapper-border-width;
+    left: $spacing--base + $wrapper-border-width;
+    z-index: -1;
+  }
+
+  // min-height: 100vh;
+  // display: flex;
+  /*
+    ROW
+  */
+  /*flex-flow: row wrap;*/
+  /*align-items: center;*/
+  /*
+    COLUMN
+  */
+  // flex-flow: column nowrap;
+  // align-items: stretch;
+  // justify-content: space-between;
+  // align-content: space-between;
+
+  // &__transition {
+  //   transition: transform $anim-speed--bounce $anim-easing--bounce;
+  //
+  //   &.is-menuopen {
+  //     &--enter {}
+  //
+  //     &--exit {
+  //       transform: translate3d(-$menu-width, 0, 0);
+  //     }
+  //
+  //     &--exit#{&}--exit-active {}
+  //
+  //     // Open
+  //     &--exit#{&}--enter-active {
+  //       transform: translate3d(0, 0, 0);
+  //     }
+  //   }
+  // }
+}
 
 .wio-link {
   position: fixed;
