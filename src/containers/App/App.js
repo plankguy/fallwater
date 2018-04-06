@@ -83,6 +83,7 @@ class App extends React.Component {
       counter: 0,
       isMenuOpen: false,
       stream: null,
+      loading: true,
     };
 
     // ES6 - you need to bind handers to `this`
@@ -123,18 +124,10 @@ class App extends React.Component {
   // async componentDidMount() {
 
   /*
-   * Triggered before initial render()
+   * UNSAFE (16.3): Triggered before initial render()
    * Invoked once, both on the client and server. If you call setState within this method, render() will see the updated state and will be executed only once despite the state change.
    */
-  async componentWillMount() {
-    this.mounted = true;
-
-    if (this.props.prismicCtx !== null && this.mounted) {
-      this.setStream(this.props.prismicCtx);
-    }
-  }
-
-  // componentDidMount() {}
+  // UNSAFE_componentWillMount() {}
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.prismicCtx !== null) {
@@ -151,7 +144,24 @@ class App extends React.Component {
   /*
    * Called after render only on client. Can access refs. The componentDidMount() method of child components is invoked before that of parent components. This is the place to call external libraries, use setTimeout, make ajax requests
    */
-  // componentDidMount() {}
+  componentDidMount() {
+    this.mounted = true;
+
+    this.setState({ loading: false });
+
+    if (this.props.prismicCtx !== null && this.mounted) {
+      this.setStream(this.props.prismicCtx);
+    }
+
+    // Polyfill IntersectionObserver
+    if (!('IntersectionObserver' in window)) {
+      const body = document.getElementsByTagName('body')[0];
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = 'https://cdn.polyfill.io/v2/polyfill.min.js?features=IntersectionObserver';
+      body.appendChild(script);
+    }
+  }
 
   /*
    * Called when there are new props or state changes. Return false to prevent a render. Good for performance. NOT called for the initial render or when forceUpdate is used.
@@ -160,17 +170,20 @@ class App extends React.Component {
   // shouldComponentUpdate(nextProps, nextState) {}
 
   /*
-   * Invoked immediately before rendering or when new props or state are being received. Not called for the initial render.
+   * UNSAFE (16.3): Invoked immediately before rendering or when new props or state are being received. Not called for the initial render.
    * Cannot use setState in this method. Use componentWillReceiveProps instead. Use this as an opportunity to perform preparation before an update occurs.
    * (Update only)
    */
   // componentWillUpdate(nextProps, nextState) {}
 
   /*
-   * Called before render when props change. Access to old props. It is NOT triggered on initial mount/render.
-   *(Update only)
+   * DEPRECATED (16.3): Called before render when props change. Access to old props. It is NOT triggered on initial mount/render.
+   * (Update only)
    */
   // componentWillReceiveProps(nextProps) {}
+
+  /* Replaced with NEW (16.3): */
+  // getDerivedStateFromProps() {}
 
   /*
    * Access to prevState, prevProps. Use this as an opportunity to operate on the DOM (refs) when the component has been updated. It is NOT triggered on initial mount/render.
@@ -206,152 +219,156 @@ class App extends React.Component {
     const { prismicCtx, match, location, history } = this.props; // eslint-disable-line no-unused-vars
 
     return (
-      <Wrapper>
-        {/*<main className="wrapper">*/}
+      <Wrapper id="wrapper" overlayWidth={'0.5'}>
 
-        <Helmet>
-          {/* Standard Metadata */}
-          <title>{GlobalConfig.siteTitle}</title>
-          <meta name="description" content={GlobalConfig.siteDesc} />
-          <meta name="author" content={GlobalConfig.siteAuthor} />
-          <meta name="robots" content={GlobalConfig.seoRobots} />
+          {this.state.isLoading ? 'loading...' : 'Loaded!' }
 
-          {/* Twitter Meta */}
-          <meta name="twitter:site" content={GlobalConfig.twitterHandle} />
-          <meta name="twitter:title" content={GlobalConfig.siteTitle} />
-          <meta name="twitter:description" content={GlobalConfig.siteDesc} />
-          <meta name="twitter:url" content={GlobalConfig.siteUrl} />
-            {/* <meta name="twitter:card" content="summary_large_image" /> */}
-            {/* <meta property="twitter:image" content={seoImage} /> */}
+          <Helmet>
+            {/* Standard Metadata */}
+            <title>{GlobalConfig.siteTitle}</title>
+            <meta name="description" content={GlobalConfig.siteDesc} />
+            <meta name="author" content={GlobalConfig.siteAuthor} />
+            <meta name="robots" content={GlobalConfig.seoRobots} />
 
-          {/* Opengraph (Facebook) Meta */}
-          <meta property="og:site_name" content={GlobalConfig.siteName} />
-          <meta property="og:title" content={GlobalConfig.siteTitle} />
-          <meta property="og:url" content={GlobalConfig.siteUrl} />
-          <meta property="og:description" content={GlobalConfig.siteDesc} />
-            {/* <meta property="og:image" content={seoImage} /> */}
-          <meta property="og:locale" content="en" />
+            {/* Twitter Meta */}
+            <meta name="twitter:site" content={GlobalConfig.twitterHandle} />
+            <meta name="twitter:title" content={GlobalConfig.siteTitle} />
+            <meta name="twitter:description" content={GlobalConfig.siteDesc} />
+            <meta name="twitter:url" content={GlobalConfig.siteUrl} />
+              {/* <meta name="twitter:card" content="summary_large_image" /> */}
+              {/* <meta property="twitter:image" content={seoImage} /> */}
 
-          {/* Schema.org Meta */}
-          <meta itemprop="name" content={GlobalConfig.siteTitle} />
-          <meta itemprop="description" content={GlobalConfig.siteDesc} />
-          <meta itemprop="url" content={GlobalConfig.siteUrl} />
-          <meta itemprop="author" content={GlobalConfig.siteAuthor} />
-            {/* <meta itemprop="logo" content="https://hootsuite.com/dist/images/logos/hootsuite/logo@2x.png"/> */}
-          <meta itemprop="sameAs" content={GlobalConfig.twitterUrl} />
-          <meta itemprop="sameAs" content={GlobalConfig.instagramUrl} />
-        </Helmet>
+            {/* Opengraph (Facebook) Meta */}
+            <meta property="og:site_name" content={GlobalConfig.siteName} />
+            <meta property="og:title" content={GlobalConfig.siteTitle} />
+            <meta property="og:url" content={GlobalConfig.siteUrl} />
+            <meta property="og:description" content={GlobalConfig.siteDesc} />
+              {/* <meta property="og:image" content={seoImage} /> */}
+            <meta property="og:locale" content="en" />
 
-        {/* "Drawer" Menu: */}
-        <CSSTransition
-          in={!this.state.isMenuOpen}
-          classNames={'is-menuopen-'}
-          timeout={{
-            enter: 200,
-          }}
-        >
-          <Menu
-            isOpen={this.state.isMenuOpen}
-            parentClassName="App"
-          />
-        </CSSTransition>
+            {/* Schema.org Meta */}
+            <meta itemprop="name" content={GlobalConfig.siteTitle} />
+            <meta itemprop="description" content={GlobalConfig.siteDesc} />
+            <meta itemprop="url" content={GlobalConfig.siteUrl} />
+            <meta itemprop="author" content={GlobalConfig.siteAuthor} />
+              {/* <meta itemprop="logo" content="https://hootsuite.com/dist/images/logos/hootsuite/logo@2x.png"/> */}
+            <meta itemprop="sameAs" content={GlobalConfig.twitterUrl} />
+            <meta itemprop="sameAs" content={GlobalConfig.instagramUrl} />
+          </Helmet>
 
-        <MenuTransition isMenuOpen={!this.state.isMenuOpen}>
-          <div className="wrapper__transition">
+          {/* "Drawer" Menu: */}
+          <CSSTransition
+            in={!this.state.isMenuOpen}
+            classNames={'is-menuopen-'}
+            timeout={{
+              enter: 200,
+            }}
+          >
+            <Menu
+              isOpen={this.state.isMenuOpen}
+              parentClassName="App"
+            />
+          </CSSTransition>
 
-            {/* Header & Nav */}
-            <Header>
-              <Logo>
-                <Link to="/">
-                  {GlobalConfig.siteName}
-                </Link>
-              </Logo>
-              <Nav items={[
-                {
-                  label: 'Home',
-                  url: '/',
-                  exact: true,
-                }, {
-                  label: 'Posts',
-                  url: '/posts',
-                }, {
-                  label: 'Stream',
-                  url: '/stream',
-                }, {
-                  label: 'About',
-                  url: '/about',
-                },
-              ]} />
-              <Hamburger
-                clickHandler={this.handleMenuToggle}
-                isOpen={this.state.isMenuOpen}
-              />
-            </Header>
+          <MenuTransition isMenuOpen={!this.state.isMenuOpen}>
+            <div className="wrapper__transition">
 
-            {/* Page Content */}
-            <section className="Content">
-              <TransitionGroup>
-                <CSSTransition
-                  key={location.key}
-                  classNames={/*'is-fade'*/
+              {/* Header & Nav */}
+              <Header>
+                <Logo>
+                  <Link to="/">
+                    {GlobalConfig.siteName}
+                  </Link>
+                </Logo>
+                <Nav items={[
                   {
-                    appear: 'is-fade-appear',
-                    appearActive: 'is-fade-active-appear',
-                    enter: 'is-fade-enter',
-                    enterActive: 'is-fade-active-enter',
-                    exit: 'is-fade-exit',
-                    exitActive: 'is-fade-active-exit',
-                  }}
-                  timeout={{
-                    enter: 200,
-                    exit: 200,
-                  }}
-                >
-                  <div className="Content__transition">
-                    <Switch location={location}>
-                        {/*<Redirect exact from="/" to="/help" />*/}
-                        <Route exact path="/" component={It} />
-                        <Route exact path="/posts" render={routeProps => (
-                          <Posts {...routeProps} prismicCtx={prismicCtx} />
-                        )} />
-                        <Route exact path="/stream" render={routeProps => (
-                          <Stream {...routeProps} prismicCtx={prismicCtx} stream={this.state.stream} />
-                        )} />
-                        <Route exact path="/posts/:uid" render={routeProps => (
-                          <Post {...routeProps} prismicCtx={prismicCtx} />
-                        )} />
-                        <Route exact path='/about' render={(routeProps) => (
-                          <It {...routeProps} title="About: This is a static test page passed from the router route prop" />
-                        )} />
-                        <Route exact path="/preview" render={routeProps => (
-                          <Preview {...routeProps} />
-                        )} />
-                        <Route component={NotFound} />
-                    </Switch>
-                  </div>
-                </CSSTransition>
-              </TransitionGroup>
-            </section>
+                    label: 'Home',
+                    url: '/',
+                    exact: true,
+                  },
+                  // {
+                  //   label: 'Posts',
+                  //   url: '/posts',
+                  // },
+                  {
+                    label: 'Stream',
+                    url: '/stream',
+                  },
+                  {
+                    label: 'About',
+                    url: '/about',
+                  },
+                ]} />
+                <Hamburger
+                  clickHandler={this.handleMenuToggle}
+                  isOpen={this.state.isMenuOpen}
+                />
+              </Header>
 
-            {/* Footer */}
-            <Footer />
+              {/* Page Content */}
+              <section className="Content">
+                <TransitionGroup>
+                  <CSSTransition
+                    key={location.key}
+                    classNames={/*'is-fade'*/
+                    {
+                      appear: 'is-fade-appear',
+                      appearActive: 'is-fade-active-appear',
+                      enter: 'is-fade-enter',
+                      enterActive: 'is-fade-active-enter',
+                      exit: 'is-fade-exit',
+                      exitActive: 'is-fade-active-exit',
+                    }}
+                    timeout={{
+                      enter: 200,
+                      exit: 200,
+                    }}
+                  >
+                    <div className="Content__transition">
+                      <Switch location={location}>
+                          {/*<Redirect exact from="/" to="/help" />*/}
+                          <Route exact path="/" component={It} />
+                          <Route exact path="/posts" render={routeProps => (
+                            <Posts {...routeProps} prismicCtx={prismicCtx} />
+                          )} />
+                          <Route exact path="/stream" render={routeProps => (
+                            <Stream {...routeProps} prismicCtx={prismicCtx} stream={this.state.stream} />
+                          )} />
+                          <Route exact path="/posts/:uid" render={routeProps => (
+                            <Post {...routeProps} prismicCtx={prismicCtx} />
+                          )} />
+                          <Route exact path='/about' render={(routeProps) => (
+                            <It {...routeProps} title="About: This is a static test page passed from the router route prop" />
+                          )} />
+                          <Route exact path="/preview" render={routeProps => (
+                            <Preview {...routeProps} />
+                          )} />
+                          <Route component={NotFound} />
+                      </Switch>
+                    </div>
+                  </CSSTransition>
+                </TransitionGroup>
+              </section>
 
-            {/* Testing */}
-            <div className="test" style={{width: 300, padding: 20, border: '1px solid #CCC', margin: '0 auto'}}>
-              <h4>State Counter</h4>
-              <button className="Button" onClick={(e) => this.handleCounter(e, 'increase')}>
-                +
-              </button>
-              &nbsp;
-              <button className="Button" onClick={(e) => this.handleCounter(e, 'decrease')}>
-                &ndash;
-              </button>
-              <pre>{this.state.counter}</pre>
+              {/* Footer */}
+              <Footer />
+
+              {/* Testing */}
+              <div className="test" style={{width: 300, padding: 20, border: '1px solid #CCC', margin: '0 auto'}}>
+                <h4>State Counter</h4>
+                <button className="Button" onClick={(e) => this.handleCounter(e, 'increase')}>
+                  +
+                </button>
+                &nbsp;
+                <button className="Button" onClick={(e) => this.handleCounter(e, 'decrease')}>
+                  &ndash;
+                </button>
+                <pre>{this.state.counter}</pre>
+              </div>
+
             </div>
+          </MenuTransition>
 
-          </div>
-        </MenuTransition>
-      {/*</main>*/}
       </Wrapper>
     )
   }

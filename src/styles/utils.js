@@ -34,7 +34,6 @@ export const unitOperation = (a, b, operation = '+', unit = 'px') => {
     console.warn('Attempting an operation on incompatible values');
     return NaN;
   }
-  return operators[operation](a, b);
 }
 
 /**

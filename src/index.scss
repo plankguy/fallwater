@@ -2,9 +2,9 @@
 @import 'styles/base';
 
 html {
-    font: #{map-get($fonts, weight)} #{map-get($fonts, size)}/#{map-get($fonts, lineHeight)} map-get($fonts, family);
-    background: map-get($colors, bg);
-    color: map-get($colors, text);
+    font: $font--weight #{$font--size}/#{font--lineHeight} $font--family;
+    background-color: $color--bg;
+    color: $color--text;
 }
 
 .Header {

@@ -5,8 +5,8 @@
   $wrapper-border-width: 10px;
 
   // json variables test...
-  color: map-get($colors, white) !important;
-  font-family: map-get($fonts, family) !important;
+  // color: map-get($colors, white) !important;
+  // font-family: map-get($fonts, family) !important;
 
   position: fixed;
   top: $spacing--base;
@@ -14,7 +14,7 @@
   bottom: $spacing--base;
   left: $spacing--base;
   overflow: auto;
-  border: $wrapper-border-width solid $color-white;
+  border: $wrapper-border-width solid $color--white;
 
   &::after {
     content: '';
