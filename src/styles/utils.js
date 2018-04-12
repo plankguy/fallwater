@@ -6,11 +6,19 @@
 export const formatFontFamilyMap = (mapVal) => mapVal.replace(/^\(|\)$/g, '');
 
 /**
- * Checks if a string value is a valid w/ unit (int, px, em, vw, etc...) @NOTE: doesn't validate actual unit
+ * Checks if a string value is a valid w/ unit (int, px, em, vw, etc...)
+ * @NOTE: doesn't validate if it's an actual CSS unit
  * @param {string/int}
  * @return {boolean}
  */
 export const isValidUnit = (val, unit = '') => (typeof val === 'string' ? val.substr(-unit.length, unit.length) : '') === unit || !isNaN(val);
+
+/**
+ * Converts value to percent string
+ * @param {int}
+ * @return {string}
+ */
+export const intToPercent = (val) => `${val * 100}%`;
 
 /**
  * Returns value w/ unit after performing passed operation

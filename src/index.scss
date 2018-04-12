@@ -21,20 +21,17 @@ html {
   flex: 0 1 100%;
 }
 
+/*
 .Content {
   margin: 0 auto;
   padding: 40px 0;
   position: relative;
-  /*
-    ROW
-  */
-  /*align-self: stretch;
+  // ROW
+  align-self: stretch;
   flex-grow: 1;
   flex-shrink: 0;
-  flex-basis: 100%;*/
-  /*
-    COLUMN
-  */
+  flex-basis: 100%;
+  // COLUMN
   flex: 1 0 100%;
 
   &__transition {
@@ -71,6 +68,7 @@ html {
     }
   }
 }
+*/
 
 .Footer {
   /*

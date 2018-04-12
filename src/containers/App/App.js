@@ -37,34 +37,6 @@ import Footer from '../../components/Footer/Footer';
 
 // CSS
 import './App.css';
-// import styleVars from '../../styles/variables.json';
-
-// const Wrapper = styled.main`
-//   position: fixed;
-//   top: ${styleVars.spacing.base};
-//   right: ${styleVars.spacing.base};
-//   bottom: ${styleVars.spacing.base};
-//   left: ${styleVars.spacing.base};
-//   overflow: auto;
-//   border: 10px solid pink;
-//   font-family: ${styleVars.fonts.family};
-//
-//   &::after {
-//     content: '';
-//     background: transparent url(https://st2.depositphotos.com/5834268/9859/v/950/depositphotos_98597414-stock-illustration-topographic-map-on-black-background.jpg) 50% 50% repeat;
-//     opacity: 0.3;
-//     position: fixed;
-//     top: ${styleVars.spacing.base + '10px'}; // $spacing--base + $wrapper-border-width;
-//     right: ${styleVars.spacing.base + '10px'}; // $spacing--base + $wrapper-border-width;
-//     bottom: ${styleVars.spacing.base + '10px'}; // $spacing--base + $wrapper-border-width;
-//     left: ${styleVars.spacing.base + '10px'}; // $spacing--base + $wrapper-border-width;
-//     z-index: -1;
-//   }
-//
-//   &__transition {
-//     background-color: red;
-//   }
-// `;
 
 const PROP_TYPES = {
   prismicCtx: PropTypes.object,
@@ -214,12 +186,16 @@ class App extends React.Component {
     });
   }
 
+  overlayWidth(location) {
+    return 0.5;
+  }
+
   // Render jsx. Triggered when the state changes.
   render() {
     const { prismicCtx, match, location, history } = this.props; // eslint-disable-line no-unused-vars
 
     return (
-      <Wrapper id="wrapper" overlayWidth={'0.5'}>
+      <Wrapper id="wrapper" overlayWidth={this.overlayWidth()}>
 
           {this.state.isLoading ? 'loading...' : 'Loaded!' }
 
@@ -275,30 +251,34 @@ class App extends React.Component {
 
               {/* Header & Nav */}
               <Header>
-                <Logo>
-                  <Link to="/">
-                    {GlobalConfig.siteName}
-                  </Link>
-                </Logo>
-                <Nav items={[
-                  {
-                    label: 'Home',
-                    url: '/',
-                    exact: true,
-                  },
-                  // {
-                  //   label: 'Posts',
-                  //   url: '/posts',
-                  // },
-                  {
-                    label: 'Stream',
-                    url: '/stream',
-                  },
-                  {
-                    label: 'About',
-                    url: '/about',
-                  },
-                ]} />
+                <Nav
+                  overlayWidth={this.overlayWidth()}
+                  items={[
+                    {
+                      label: 'Home',
+                      url: '/',
+                      exact: true,
+                    },
+                    // {
+                    //   label: 'Posts',
+                    //   url: '/posts',
+                    // },
+                    {
+                      label: 'Stream',
+                      url: '/stream',
+                    },
+                    {
+                      label: 'About',
+                      url: '/about',
+                    },
+                  ]}
+                >
+                  <Logo>
+                    <Link to="/">
+                      {GlobalConfig.siteName}
+                    </Link>
+                  </Logo>
+                </Nav>
                 <Hamburger
                   clickHandler={this.handleMenuToggle}
                   isOpen={this.state.isMenuOpen}
@@ -307,10 +287,11 @@ class App extends React.Component {
 
               {/* Page Content */}
               <section className="Content">
+{/*
                 <TransitionGroup>
                   <CSSTransition
                     key={location.key}
-                    classNames={/*'is-fade'*/
+                    classNames={//'is-fade'
                     {
                       appear: 'is-fade-appear',
                       appearActive: 'is-fade-active-appear',
@@ -324,6 +305,7 @@ class App extends React.Component {
                       exit: 200,
                     }}
                   >
+*/}
                     <div className="Content__transition">
                       <Switch location={location}>
                           {/*<Redirect exact from="/" to="/help" />*/}
@@ -332,7 +314,12 @@ class App extends React.Component {
                             <Posts {...routeProps} prismicCtx={prismicCtx} />
                           )} />
                           <Route exact path="/stream" render={routeProps => (
-                            <Stream {...routeProps} prismicCtx={prismicCtx} stream={this.state.stream} />
+                            <Stream
+                              {...routeProps}
+                              prismicCtx={prismicCtx}
+                              stream={this.state.stream}
+                              overlayWidth={this.overlayWidth()}
+                            />
                           )} />
                           <Route exact path="/posts/:uid" render={routeProps => (
                             <Post {...routeProps} prismicCtx={prismicCtx} />
@@ -343,11 +330,12 @@ class App extends React.Component {
                           <Route exact path="/preview" render={routeProps => (
                             <Preview {...routeProps} />
                           )} />
+
                           <Route component={NotFound} />
                       </Switch>
                     </div>
-                  </CSSTransition>
-                </TransitionGroup>
+                  {/* </CSSTransition>
+                </TransitionGroup> */}
               </section>
 
               {/* Footer */}

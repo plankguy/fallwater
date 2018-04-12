@@ -31,117 +31,120 @@ const DEFAULT_PROPS = {
   readMoreLabel: 'Read More',
 };
 
-const Post = ({ title, url, teaser, date, dateTime, readMoreLabel, image, iterator }) => {
+/**
+ * Styled-Components CSS
+ */
+const Article = styled.article`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 8vmax;
 
-  const Article = styled.article`
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    margin-bottom: 8vmax;
+  @media (min-width: ${cssVars.breakpoint.sm}) {
+    flex-wrap: nowrap;
 
-    @media (min-width: ${cssVars.breakpoint.sm}) {
-      flex-wrap: nowrap;
-
-      &.is-even {
-        flex-direction: row-reverse;
-      }
+    &.is-even {
+      flex-direction: row-reverse;
     }
-  `;
+  }
+`;
 
-  const Figure = styled.figure`
-    position: relative;
-    background-color: ${cssVars.color.bgInvert};
-    color: black;
-    margin: 0;
-    max-width: ${image.dimensions.width}px;
-    z-index: 1;
+const Figure = styled.figure`
+  position: relative;
+  background-color: ${cssVars.color.bgInvert};
+  color: black;
+  margin: 0;
+  max-width: ${props => props.image ? props.image.dimensions.width : 0}px;
+  z-index: 1;
 
-    @media (min-width: ${cssVars.breakpoint.sm}) {
-      left: 5%;
+  @media (min-width: ${cssVars.breakpoint.sm}) {
+    left: 5%;
 
-      ${Article}.is-even & {
-        left: -5%;
-      }
-    }
-
-    &::before {
-      content: "";
-      background-color: #999;
-      object-fit: fill;
-      padding-bottom: calc(${image.dimensions.height} / ${image.dimensions.width} * 100%);
-      display: block;
-      z-index: 2;
-      opacity: 0;
-      transition: opacity 600ms ease;
-      position: absolute;
-    }
-
-    &.is-loading {
-        background-color: #FFF;
-        width: 100%;
-
-        &::before {
-          opacity: 1;
-          position: relative;
-        }
-
-        &::after {
-          content: "Loading...";
-          font-size: 0.6em;
-          text-transform: uppercase;
-          letter-spacing: 0.1em;
-          position: absolute;
-          left: 50%;
-          top: 50%;
-          transform: translate(-50%, -50%);
-          color: #000;
-          padding: 4px 8px;
-          background-color: rgba(255, 255, 255, 0.5);
-          border: 4px solid rgba(255, 255, 255, 0.5);
-          border-radius: 4px;
-        }
-      }
-
-      img {}
-    }
-
-    img {
-      display: block;
-      max-width: 100%;
-      position: relative;
-      z-index: 2;
-    }
-  `;
-
-  const Content = styled.div`
-    flex: 1 0 100%;
-    z-index: 1;
-    text-shadow: 0 3px 15px rgba(0, 0, 0, 0.3);
-
-    @media (min-width: ${cssVars.breakpoint.sm}) {
+    ${Article}.is-even & {
       left: -5%;
-      flex: 1 0 50%;
+    }
+  }
 
-      ${Article}.is-even & {
-        text-align: right;
-        left: 5%;
+  &::before {
+    content: "";
+    background-color: #999;
+    object-fit: fill;
+    padding-bottom: calc(${props => props.image ? props.image.dimensions.height : 0} / ${props => props.image ? props.image.dimensions.width : 0} * 100%);
+    display: block;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 600ms ease;
+    position: absolute;
+  }
+
+  &.is-loading {
+      background-color: #FFF;
+      width: 100%;
+
+      &::before {
+        opacity: 1;
+        position: relative;
+      }
+
+      &::after {
+        content: "Loading...";
+        font-size: 0.6em;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        color: #000;
+        padding: 4px 8px;
+        background-color: rgba(255, 255, 255, 0.5);
+        border: 4px solid rgba(255, 255, 255, 0.5);
+        border-radius: 4px;
       }
     }
-  `;
 
-  const Meta = styled.p`
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    font-size: 0.7em;
-    font-weight: 400;
-    margin: 0 0 0.5em;
-  `;
+    img {}
+  }
 
-  const Title = styled.h3`
-    font-weight: 700;
-    font-size: 6vmax;
-    margin: 0;
-  `;
+  img {
+    display: block;
+    max-width: 100%;
+    position: relative;
+    z-index: 2;
+  }
+`;
+
+const Content = styled.div`
+  flex: 1 0 100%;
+  z-index: 1;
+  text-shadow: 0 3px 15px rgba(0, 0, 0, 0.3);
+
+  @media (min-width: ${cssVars.breakpoint.sm}) {
+    left: -5%;
+    flex: 1 0 50%;
+
+    ${Article}.is-even & {
+      text-align: right;
+      left: 5%;
+    }
+  }
+`;
+
+const Meta = styled.p`
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.7em;
+  font-weight: 400;
+  margin: 0 0 0.5em;
+`;
+
+const Title = styled.h3`
+  font-weight: 700;
+  font-size: 6vmax;
+  margin: 0;
+`;
+
+const Post = ({ title, url, teaser, date, dateTime, readMoreLabel, image, iterator }) => {
 
   const Date = styled.time``;
 
@@ -150,22 +153,19 @@ const Post = ({ title, url, teaser, date, dateTime, readMoreLabel, image, iterat
       {image &&
         <Lazyloader
           root="#wrapper"
-          rootMargin="0% 0% 200%"
           height={image.dimensions.height}
           width={image.dimensions.width}
           title={title}
           container={(<Figure className="post__image" />)}
-          applyRatio={true}
+          applyRatio={false}
           visibleClassName="is-visible"
           loadingClassName="is-loading"
-          onVisible={() => console.log(`onVisible() => "Prismic ${title}" is VISIBLE!`)}
+          onVisible={() => console.log(`onVisible() => "${title}" is VISIBLE!`)}
         >
           <img
             src={image.url}
             alt={image.alt}
-            width={image.dimensions && image.dimensions.width}
-            height={image.dimensions && image.dimensions.height}
-             className="post__image__img"
+            className="post__image__img"
           />
         </Lazyloader>
       }

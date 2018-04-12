@@ -40,7 +40,7 @@ const PROP_TYPES = {
 
 const DEFAULT_PROPS = {
   root: window,
-  rootMargin: '0% 0% 25%',
+  rootMargin: '0% 0% 1000px',
   threshold: 0,
   onlyOnce: false,
   applyRatio: true,
@@ -87,6 +87,14 @@ class Lazyloader extends React.Component {
   }
 
   /**
+   * Returns image ratio CSS value
+   * @param {int}
+   * @param {int}
+   * @return {string}
+   */
+  getImageRatioPercentCssVal = (height, width) => `calc(${height} / ${width} * 100%)`;
+
+  /**
    * Alters elements for lazyloading
    * @return {element}
    */
@@ -101,9 +109,11 @@ class Lazyloader extends React.Component {
       loadingClassName
     } = this.props;
     const { isVisible } = this.state;
-    const placeholderStyles = !isVisible && applyRatio ? { paddingTop: `calc(${height} / ${width} * 100%)`, display: 'block' } : {};
     const lazyContainer = typeof container !== 'undefined' ? container : (<div className="lazy-container"></div>);
-    const lazyElement =  React.createElement(
+    const placeholderStyles = !isVisible && applyRatio ? { paddingTop: this.getImageRatioPercentCssVal(), display: 'block' } : {};
+    const placeholderElement = (<span className="lazy-container__holder" style={placeholderStyles} />);
+
+    return React.createElement(
       lazyContainer.type,
       {
         ...lazyContainer.props,
@@ -113,10 +123,8 @@ class Lazyloader extends React.Component {
         },
         className: `${lazyContainer.props.className} ${isVisible ? visibleClassName : loadingClassName}`,
       },
-      isVisible ? React.Children.only(children) : (<span className="lazy-container__holder" style={placeholderStyles} />),
+      isVisible ? React.Children.only(children) : placeholderElement,
     );
-
-    return lazyElement;
   }
 
   /**
@@ -137,7 +145,7 @@ class Lazyloader extends React.Component {
         isVisible: true,
         isLeaving: true,
       }, () => {
-        if (typeof onVisible !== 'undefined') {
+        if (typeof onVisible === 'function') {
           onVisible();
         }
       });

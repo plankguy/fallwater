@@ -12,57 +12,6 @@ import Stream from '../../components/Stream/Stream';
 import Post from '../../components/Post/Post';
 import NotFound from '../../NotFound';
 
-// import './Stream.css';
-
-const Figure = styled.figure`
-  position: relative;
-  background-color: ${cssVars.color.bgInvert};
-  color: black;
-  margin: 0;
-  // max-width: #{$imageWidth}px;
-
-  &.is-loading {
-      background-color: #FFF;
-      width: 100%;
-
-      &::before {
-        content: "";
-        background-color: #999;
-        object-fit: fill;
-        // padding-bottom: calc(#{$imageHeight} / #{$imageWidth} * 100%);
-        display: block;
-      }
-
-      &::after {
-        content: "Loading...";
-        font-size: 0.6em;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        color: #000;
-        padding: 4px 8px;
-        background-color: rgba(255, 255, 255, 0.5);
-        border: 4px solid rgba(255, 255, 255, 0.5);
-        border-radius: 4px;
-      }
-    }
-
-    img {
-      opacity: 0;
-    }
-  }
-
-  img {
-    display: block;
-    max-width: 100%;
-    opacity: 1;
-    transition: opacity 600ms ease;
-  }
-`;
-
 // Declare your component
 export default class StreamLayout extends React.Component {
 
@@ -148,28 +97,6 @@ export default class StreamLayout extends React.Component {
             key={key}
             iterator={key}
           />
-//          <div key={key}>
-//            <Lazyloader
-//              root="#wrapper"
-//              rootMargin="0% 0% 25%"
-//              height={post.images.standard_resolution.height}
-//              width={post.images.standard_resolution.width}
-//              title={post.caption.text}
-//              container={(<Figure className="post__img" />)}
-//              applyRatio={true}
-//              visibleClassName="is-visible"
-//              loadingClassName="is-loading"
-//              onVisible={() => console.log(`onVisible() => "${post.caption.text}" is VISIBLE!`)}
-//            >
-//              <img
-//                src={post.images.standard_resolution.url}
-//                height={post.images.standard_resolution.height}
-//                width={post.images.standard_resolution.width}
-//                alt=""
-//              />
-//            </Lazyloader>
-//            <h4>{post.caption.text}</h4>
-//          </div>
         );
         break;
 
@@ -203,7 +130,7 @@ export default class StreamLayout extends React.Component {
       const { posts } = this.props.stream;
 
       return (
-        <Stream>
+        <Stream {...this.props}>
           {posts.map((post, i) => this.switchPostMarkup(post, i))}
         </Stream>
       );
