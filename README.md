@@ -92,6 +92,7 @@ Uses [Jest](https://facebook.github.io/jest/)
 ### Ideas!
 - Animations technique:  [FLIPing](https://css-tricks.com/animating-layouts-with-the-flip-technique/)
 - More animation: [Pose](https://popmotion.io/pose/)
+- Lazyload [Lazysizes](https://www.npmjs.com/package/react-lazysizes)
 
 ##### Prismic reactjs-starter Dependencies Status
 [![Prismic Dependency Status](https://david-dm.org/prismicio/reactjs-starter.svg)](https://david-dm.org/prismicio/reactjs-starter)

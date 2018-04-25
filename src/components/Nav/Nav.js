@@ -36,7 +36,7 @@ const NavEl = styled.nav`
 
   @media (min-width: ${cssVars.breakpoint.sm}) {
     // transform: translateX(${props => props.overlayWidth * 100}vw);
-    transform: translate(calc(${props => props.overlayWidth * 100}vw - ${addPx(styleVars.spacing.base, styleVars.wrapper.borderWidth)} - ${styleVars.header.padding}), -50%);
+    transform: translate(calc(${props => props.overlayWidth * 100}vw - ${addPx(styleVars.spacing.base, styleVars.wrapper.lg.borderWidth)} - ${styleVars.header.lg.padding}), -50%);
     padding-left: ${multiplyPx(cssVars.spacing.base, 2)};
   }
 
@@ -82,7 +82,7 @@ const NavAnchor = styled(NavLink).attrs({
   color: inherit;
   text-decoration: none;
   display: inline-block;
-  padding: ${styleVars.header.padding} 0;
+  padding: ${styleVars.header.lg.padding} 0;
   margin: 0;
   position: relative;
   transition: color 5000ms;

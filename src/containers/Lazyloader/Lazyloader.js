@@ -59,9 +59,6 @@ class Lazyloader extends React.Component {
       if (!React.isValidElement(child)) {
         throw 'Lazyloader child must be a valid React element';
       }
-      else if (child.type !== 'img') {
-        throw 'Lazyloader child must be a single <img> tag';
-      }
       else if (!child.props.hasOwnProperty('src')) {
         throw 'Lazyloader <img> child have a `src` attribute (prop)';
       }

@@ -28,6 +28,7 @@ import It from '../../containers/It';
 // "Components"
 import Wrapper from '../../components/Wrapper/Wrapper';
 import Header from '../../components/Header/Header';
+import Content from '../../components/Content/Content';
 import Nav from '../../components/Nav/Nav';
 import Hamburger from '../../components/Hamburger/Hamburger';
 import Logo from '../../components/Logo/Logo';
@@ -197,165 +198,128 @@ class App extends React.Component {
     return (
       <Wrapper id="wrapper" overlayWidth={this.overlayWidth()}>
 
-          {this.state.isLoading ? 'loading...' : 'Loaded!' }
+        {/* {this.state.isLoading ? 'loading...' : 'Loaded!' } */}
 
-          <Helmet>
-            {/* Standard Metadata */}
-            <title>{GlobalConfig.siteTitle}</title>
-            <meta name="description" content={GlobalConfig.siteDesc} />
-            <meta name="author" content={GlobalConfig.siteAuthor} />
-            <meta name="robots" content={GlobalConfig.seoRobots} />
+        <Helmet>
+          {/* Standard Metadata */}
+          <title>{GlobalConfig.siteTitle}</title>
+          <meta name="description" content={GlobalConfig.siteDesc} />
+          <meta name="author" content={GlobalConfig.siteAuthor} />
+          <meta name="robots" content={GlobalConfig.seoRobots} />
 
-            {/* Twitter Meta */}
-            <meta name="twitter:site" content={GlobalConfig.twitterHandle} />
-            <meta name="twitter:title" content={GlobalConfig.siteTitle} />
-            <meta name="twitter:description" content={GlobalConfig.siteDesc} />
-            <meta name="twitter:url" content={GlobalConfig.siteUrl} />
-              {/* <meta name="twitter:card" content="summary_large_image" /> */}
-              {/* <meta property="twitter:image" content={seoImage} /> */}
+          {/* Twitter Meta */}
+          <meta name="twitter:site" content={GlobalConfig.twitterHandle} />
+          <meta name="twitter:title" content={GlobalConfig.siteTitle} />
+          <meta name="twitter:description" content={GlobalConfig.siteDesc} />
+          <meta name="twitter:url" content={GlobalConfig.siteUrl} />
+            {/* <meta name="twitter:card" content="summary_large_image" /> */}
+            {/* <meta property="twitter:image" content={seoImage} /> */}
 
-            {/* Opengraph (Facebook) Meta */}
-            <meta property="og:site_name" content={GlobalConfig.siteName} />
-            <meta property="og:title" content={GlobalConfig.siteTitle} />
-            <meta property="og:url" content={GlobalConfig.siteUrl} />
-            <meta property="og:description" content={GlobalConfig.siteDesc} />
-              {/* <meta property="og:image" content={seoImage} /> */}
-            <meta property="og:locale" content="en" />
+          {/* Opengraph (Facebook) Meta */}
+          <meta property="og:site_name" content={GlobalConfig.siteName} />
+          <meta property="og:title" content={GlobalConfig.siteTitle} />
+          <meta property="og:url" content={GlobalConfig.siteUrl} />
+          <meta property="og:description" content={GlobalConfig.siteDesc} />
+            {/* <meta property="og:image" content={seoImage} /> */}
+          <meta property="og:locale" content="en" />
 
-            {/* Schema.org Meta */}
-            <meta itemprop="name" content={GlobalConfig.siteTitle} />
-            <meta itemprop="description" content={GlobalConfig.siteDesc} />
-            <meta itemprop="url" content={GlobalConfig.siteUrl} />
-            <meta itemprop="author" content={GlobalConfig.siteAuthor} />
-              {/* <meta itemprop="logo" content="https://hootsuite.com/dist/images/logos/hootsuite/logo@2x.png"/> */}
-            <meta itemprop="sameAs" content={GlobalConfig.twitterUrl} />
-            <meta itemprop="sameAs" content={GlobalConfig.instagramUrl} />
-          </Helmet>
+          {/* Schema.org Meta */}
+          <meta itemprop="name" content={GlobalConfig.siteTitle} />
+          <meta itemprop="description" content={GlobalConfig.siteDesc} />
+          <meta itemprop="url" content={GlobalConfig.siteUrl} />
+          <meta itemprop="author" content={GlobalConfig.siteAuthor} />
+            {/* <meta itemprop="logo" content="https://hootsuite.com/dist/images/logos/hootsuite/logo@2x.png"/> */}
+          <meta itemprop="sameAs" content={GlobalConfig.twitterUrl} />
+          <meta itemprop="sameAs" content={GlobalConfig.instagramUrl} />
+        </Helmet>
 
-          {/* "Drawer" Menu: */}
-          <CSSTransition
-            in={!this.state.isMenuOpen}
-            classNames={'is-menuopen-'}
-            timeout={{
-              enter: 200,
-            }}
+        {/* "Drawer" Menu: */}
+        <Menu
+          isOpen={this.state.isMenuOpen}
+          parentClassName="App"
+        />
+
+        {/* Header & Nav */}
+        <Header>
+          <Nav
+            overlayWidth={this.overlayWidth()}
+            items={[
+              {
+                label: 'Home',
+                url: '/',
+                exact: true,
+              },
+              // {
+              //   label: 'Posts',
+              //   url: '/posts',
+              // },
+              {
+                label: 'Stream',
+                url: '/stream',
+              },
+              {
+                label: 'About',
+                url: '/about',
+              },
+            ]}
           >
-            <Menu
-              isOpen={this.state.isMenuOpen}
-              parentClassName="App"
-            />
-          </CSSTransition>
+            <Logo>
+              <Link to="/">
+                {GlobalConfig.siteName}
+              </Link>
+            </Logo>
+          </Nav>
+          <Hamburger
+            clickHandler={this.handleMenuToggle}
+            isOpen={this.state.isMenuOpen}
+          />
+        </Header>
 
-          <MenuTransition isMenuOpen={!this.state.isMenuOpen}>
-            <div className="wrapper__transition">
-
-              {/* Header & Nav */}
-              <Header>
-                <Nav
+        {/* Page Content */}
+        <Content className="content">
+          <Switch location={location}>
+              {/*<Redirect exact from="/" to="/help" />*/}
+              <Route exact path="/" component={It} />
+              <Route exact path="/posts" render={routeProps => (
+                <Posts {...routeProps} prismicCtx={prismicCtx} />
+              )} />
+              <Route exact path="/stream" render={routeProps => (
+                <Stream
+                  {...routeProps}
+                  prismicCtx={prismicCtx}
+                  stream={this.state.stream}
                   overlayWidth={this.overlayWidth()}
-                  items={[
-                    {
-                      label: 'Home',
-                      url: '/',
-                      exact: true,
-                    },
-                    // {
-                    //   label: 'Posts',
-                    //   url: '/posts',
-                    // },
-                    {
-                      label: 'Stream',
-                      url: '/stream',
-                    },
-                    {
-                      label: 'About',
-                      url: '/about',
-                    },
-                  ]}
-                >
-                  <Logo>
-                    <Link to="/">
-                      {GlobalConfig.siteName}
-                    </Link>
-                  </Logo>
-                </Nav>
-                <Hamburger
-                  clickHandler={this.handleMenuToggle}
-                  isOpen={this.state.isMenuOpen}
                 />
-              </Header>
+              )} />
+              <Route exact path="/posts/:uid" render={routeProps => (
+                <Post {...routeProps} prismicCtx={prismicCtx} />
+              )} />
+              <Route exact path='/about' render={(routeProps) => (
+                <It {...routeProps} title="About: This is a static test page passed from the router route prop" />
+              )} />
+              <Route exact path="/preview" render={routeProps => (
+                <Preview {...routeProps} />
+              )} />
 
-              {/* Page Content */}
-              <section className="Content">
-{/*
-                <TransitionGroup>
-                  <CSSTransition
-                    key={location.key}
-                    classNames={//'is-fade'
-                    {
-                      appear: 'is-fade-appear',
-                      appearActive: 'is-fade-active-appear',
-                      enter: 'is-fade-enter',
-                      enterActive: 'is-fade-active-enter',
-                      exit: 'is-fade-exit',
-                      exitActive: 'is-fade-active-exit',
-                    }}
-                    timeout={{
-                      enter: 200,
-                      exit: 200,
-                    }}
-                  >
-*/}
-                    <div className="Content__transition">
-                      <Switch location={location}>
-                          {/*<Redirect exact from="/" to="/help" />*/}
-                          <Route exact path="/" component={It} />
-                          <Route exact path="/posts" render={routeProps => (
-                            <Posts {...routeProps} prismicCtx={prismicCtx} />
-                          )} />
-                          <Route exact path="/stream" render={routeProps => (
-                            <Stream
-                              {...routeProps}
-                              prismicCtx={prismicCtx}
-                              stream={this.state.stream}
-                              overlayWidth={this.overlayWidth()}
-                            />
-                          )} />
-                          <Route exact path="/posts/:uid" render={routeProps => (
-                            <Post {...routeProps} prismicCtx={prismicCtx} />
-                          )} />
-                          <Route exact path='/about' render={(routeProps) => (
-                            <It {...routeProps} title="About: This is a static test page passed from the router route prop" />
-                          )} />
-                          <Route exact path="/preview" render={routeProps => (
-                            <Preview {...routeProps} />
-                          )} />
+              <Route component={NotFound} />
+          </Switch>
+        </Content>
 
-                          <Route component={NotFound} />
-                      </Switch>
-                    </div>
-                  {/* </CSSTransition>
-                </TransitionGroup> */}
-              </section>
+        {/* Footer */}
+        <Footer />
 
-              {/* Footer */}
-              <Footer />
-
-              {/* Testing */}
-              <div className="test" style={{width: 300, padding: 20, border: '1px solid #CCC', margin: '0 auto'}}>
-                <h4>State Counter</h4>
-                <button className="Button" onClick={(e) => this.handleCounter(e, 'increase')}>
-                  +
-                </button>
-                &nbsp;
-                <button className="Button" onClick={(e) => this.handleCounter(e, 'decrease')}>
-                  &ndash;
-                </button>
-                <pre>{this.state.counter}</pre>
-              </div>
-
-            </div>
-          </MenuTransition>
+        {/* Testing */}
+        <div className="test" style={{width: 300, padding: 20, border: '1px solid #CCC', margin: '0 auto'}}>
+          <h4>State Counter</h4>
+          <button className="Button" onClick={(e) => this.handleCounter(e, 'increase')}>
+            +
+          </button>
+          &nbsp;
+          <button className="Button" onClick={(e) => this.handleCounter(e, 'decrease')}>
+            &ndash;
+          </button>
+          <pre>{this.state.counter}</pre>
+        </div>
 
       </Wrapper>
     )

@@ -19,14 +19,16 @@ const styleVars = {
 const TitleEl = styled.h1`
   font-weight: ${cssVars.font.h1.weight};
   font-style: italic;
-  font-size: ${cssVars.font.h1.size};
+  font-size: ${cssVars.font.h1.size.sm};
   line-height: ${cssVars.font.h1.lineHeight}
-  margin: calc(${cssVars.font.h1.marginY} - ${addPx(styleVars.wrapper.padding, styleVars.header.padding)}) 0 ${cssVars.font.h1.marginY} 0;
+  margin: calc(${cssVars.font.h1.marginY / 2} - ${addPx(styleVars.wrapper.sm.padding, styleVars.header.sm.padding)}) 0 ${cssVars.font.h1.marginY / 2};
 
   @media (min-width: ${cssVars.breakpoint.sm}) {
+    font-size: ${cssVars.font.h1.size.lg};
     text-align: right;
     max-width: ${props => props.overlayWidth * 100}%;
     padding-right: ${multiplyPx(cssVars.spacing.base, 2)};
+    margin: calc(${cssVars.font.h1.marginY} - ${addPx(styleVars.wrapper.lg.padding, styleVars.header.lg.padding)}) 0 ${cssVars.font.h1.marginY};
   }
 `;
 
@@ -48,7 +50,7 @@ const Stream = (props) => {
 
   return (
     <StreamEl className="stream">
-      <TitleEl {...props}>Behold &mdash; my ramblings and photos. Enjoy.</TitleEl>
+      <TitleEl {...props}>Behold &mdash; my ramblings <br />and photos. Enjoy.</TitleEl>
       <PostsEl className="posts">
         {props.children.map((child, i) => (
           <PostItem key={i} className="posts__post">

@@ -78,7 +78,6 @@ export default class StreamLayout extends React.Component {
    */
   switchPostMarkup(post, key) {
     let componentMarkup;
-
     switch (post.medium) {
       case 'instagram':
 
@@ -93,7 +92,9 @@ export default class StreamLayout extends React.Component {
               },
               alt: `Photo of ${post.caption.text}`,
             }}
-            url="/"
+            date={formatIsoDate(post.created_date)}
+            dateTime={post.created_date}
+            type={`Photo`}
             key={key}
             iterator={key}
           />
@@ -110,7 +111,8 @@ export default class StreamLayout extends React.Component {
             teaser={PrismicReact.RichText.asText(teaser)}
             date={formatIsoDate(post.created_date)}
             dateTime={post.created_date}
-            image={image.sm}
+            type={`Post`}
+            image={image.md}
             key={key}
             iterator={key}
           />

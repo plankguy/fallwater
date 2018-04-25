@@ -2,7 +2,7 @@
 @import 'styles/base';
 
 html {
-    font: $font--weight #{$font--size}/#{font--lineHeight} $font--family;
+    font: $font--weight #{$font--size}/#{$font--lineHeight} $font--family;
     background-color: $color--bg;
     color: $color--text;
 }

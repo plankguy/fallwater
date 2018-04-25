@@ -53,28 +53,32 @@ const Figure = styled.figure`
   position: relative;
   background-color: ${cssVars.color.bgInvert};
   color: black;
-  margin: 0;
-  max-width: ${props => props.image ? props.image.dimensions.width : 0}px;
+  margin: 0 0 1.0em;
+  width: 100%;
+  max-width: ${image => image.dimensions.width}px;
   z-index: 1;
 
   @media (min-width: ${cssVars.breakpoint.sm}) {
+    flex-basis: 50%;
     left: 5%;
+    margin: 0;
 
     ${Article}.is-even & {
       left: -5%;
     }
   }
 
+  /* Spacer - fills image content while loading */
   &::before {
     content: "";
     background-color: #999;
     object-fit: fill;
-    padding-bottom: calc(${props => props.image ? props.image.dimensions.height : 0} / ${props => props.image ? props.image.dimensions.width : 0} * 100%);
+    width: 100%;
+    padding-bottom: ${image => (image.dimensions.height / image.dimensions.width) * 100}%;/*calc(${image => image.dimensions.height} / ${image => image.dimensions.width} * 100%);*/
     display: block;
     z-index: 2;
     opacity: 0;
     transition: opacity 600ms ease;
-    position: absolute;
   }
 
   &.is-loading {
@@ -86,6 +90,7 @@ const Figure = styled.figure`
         position: relative;
       }
 
+      }
       &::after {
         content: "Loading...";
         font-size: 0.6em;
@@ -101,23 +106,26 @@ const Figure = styled.figure`
         border: 4px solid rgba(255, 255, 255, 0.5);
         border-radius: 4px;
       }
-    }
 
     img {}
   }
+`;
 
-  img {
-    display: block;
-    max-width: 100%;
-    position: relative;
-    z-index: 2;
-  }
+const Img = styled.img`
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  max-width: 100%;
+  z-index: 2;
 `;
 
 const Content = styled.div`
-  flex: 1 0 100%;
+  flex: 1 1 100%;
   z-index: 1;
   text-shadow: 0 3px 15px rgba(0, 0, 0, 0.3);
+  word-break: break-word;
 
   @media (min-width: ${cssVars.breakpoint.sm}) {
     left: -5%;
@@ -136,15 +144,55 @@ const Meta = styled.p`
   font-size: 0.7em;
   font-weight: 400;
   margin: 0 0 0.5em;
+
+  .post__meta__hyphen {
+    vertical-align: sub;
+    padding: 0 0.5em;
+  }
+  .post__meta__type {
+    font-weight: 700;
+  }
 `;
 
 const Title = styled.h3`
   font-weight: 700;
-  font-size: 6vmax;
+  font-size: 3.5vmax;
   margin: 0;
+  position: relative;
+
+  &::after {
+    content: '';
+    display: block;
+    position: relative;
+    border-bottom: 5px solid #FFF;
+    margin: 0.25em 0;
+    width: 100%;
+  }
+
+  @media (min-width: ${cssVars.breakpoint.sm}) {
+    font-size: 5.5vmax;
+
+    &::after {
+      width: 20%;
+
+      ${Article}.is-even & {
+        left: 80%;
+      }
+    }
+  }
 `;
 
-const Post = ({ title, url, teaser, date, dateTime, readMoreLabel, image, iterator }) => {
+const Post = ({
+  title,
+  url,
+  teaser,
+  date,
+  dateTime,
+  type,
+  readMoreLabel,
+  image,
+  iterator
+}) => {
 
   const Date = styled.time``;
 
@@ -156,13 +204,13 @@ const Post = ({ title, url, teaser, date, dateTime, readMoreLabel, image, iterat
           height={image.dimensions.height}
           width={image.dimensions.width}
           title={title}
-          container={(<Figure className="post__image" />)}
+          container={(() => (<Figure {...image} className="post__image" />))()}
           applyRatio={false}
           visibleClassName="is-visible"
           loadingClassName="is-loading"
           onVisible={() => console.log(`onVisible() => "${title}" is VISIBLE!`)}
         >
-          <img
+          <Img
             src={image.url}
             alt={image.alt}
             className="post__image__img"
@@ -175,17 +223,21 @@ const Post = ({ title, url, teaser, date, dateTime, readMoreLabel, image, iterat
       }
 
       <Content className="post__content">
-        <Meta>Meta</Meta>
+        <Meta className="post__meta">
+          <span className="post__meta__type">{type}</span>
+          <span className="post__meta__hyphen">&mdash;</span>
+          {date &&
+            <Date dateTime={dateTime}>{date}</Date>
+          }
+        </Meta>
         <Title className="post__title">
-          <Link className="post__title__link" to={url}>
-            {title}
-          </Link>
+          {url ?
+            <Link className="post__title__link" to={url}>
+              {title}
+            </Link>
+            :
+            title}
         </Title>
-        {date &&
-          <Date className="Post__date" dateTime={dateTime}>
-            {date}
-          </Date>
-        }
         {teaser &&
           <p className="Post__teaser">{teaser}</p>
         }

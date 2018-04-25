@@ -20,16 +20,24 @@ const styleVars = {
  * Styled-Components CSS
  */
 const wrapperPseudo = css`
+  // Border & Background image
   &::before,
   &::after {
     content: '';
     position: fixed;
-    top: ${addPx(styleVars.spacing.base, styleVars.wrapper.borderWidth)};
-    right: ${addPx(styleVars.spacing.base, styleVars.wrapper.borderWidth)};
-    bottom: ${addPx(styleVars.spacing.base, styleVars.wrapper.borderWidth)};
-    left: ${addPx(styleVars.spacing.base, styleVars.wrapper.borderWidth)};
     z-index: -1;
+    top: ${addPx(styleVars.wrapper.sm.space, styleVars.wrapper.sm.borderWidth)};
+    right: ${addPx(styleVars.wrapper.sm.space, styleVars.wrapper.sm.borderWidth)};
+    bottom: ${addPx(styleVars.wrapper.sm.space, styleVars.wrapper.sm.borderWidth)};
+    left: ${addPx(styleVars.wrapper.sm.space, styleVars.wrapper.sm.borderWidth)};
     transition: transform ${styleVars.animation.speed.default} ${styleVars.animation.easing.default};
+
+    @media (min-width: ${cssVars.breakpoint.sm}) {
+      top: ${addPx(styleVars.wrapper.lg.space, styleVars.wrapper.lg.borderWidth)};
+      right: ${addPx(styleVars.wrapper.lg.space, styleVars.wrapper.lg.borderWidth)};
+      bottom: ${addPx(styleVars.wrapper.lg.space, styleVars.wrapper.lg.borderWidth)};
+      left: ${addPx(styleVars.wrapper.lg.space, styleVars.wrapper.lg.borderWidth)};
+    }
   }
 
   &::before {
@@ -46,14 +54,22 @@ const wrapperPseudo = css`
 
 const WrapperEl = styled.main`
   position: fixed;
-  top: ${styleVars.spacing.base};
-  right: ${styleVars.spacing.base};
-  bottom: ${styleVars.spacing.base};
-  left: ${styleVars.spacing.base};
-  padding: ${addPx(styleVars.header.height, styleVars.wrapper.padding)} ${styleVars.spacing.base} ${styleVars.spacing.base};
   overflow: auto;
-  border: ${styleVars.wrapper.borderWidth} solid ${styleVars.wrapper.borderColor};
-  font-family: ${formatFontFamilyMap(styleVars.font.family)};
+  border: ${styleVars.wrapper.sm.borderWidth} solid ${styleVars.wrapper.borderColor};
+  top: ${styleVars.wrapper.sm.space};
+  right: ${styleVars.wrapper.sm.space};
+  bottom: ${styleVars.wrapper.sm.space};
+  left: ${styleVars.wrapper.sm.space};
+  padding: ${addPx(styleVars.header.sm.height, styleVars.wrapper.sm.padding)} ${styleVars.wrapper.sm.padding} ${styleVars.wrapper.sm.padding};
+
+  @media (min-width: ${cssVars.breakpoint.sm}) {
+    border-width: ${styleVars.wrapper.lg.borderWidth};
+    top: ${styleVars.wrapper.lg.space};
+    right: ${styleVars.wrapper.lg.space};
+    bottom: ${styleVars.wrapper.lg.space};
+    left: ${styleVars.wrapper.lg.space};
+    padding: ${addPx(styleVars.header.lg.height, styleVars.wrapper.lg.padding)} ${styleVars.wrapper.lg.padding} ${styleVars.wrapper.lg.padding};
+  }
 
   ${wrapperPseudo}
 `;

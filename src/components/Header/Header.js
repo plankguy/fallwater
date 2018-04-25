@@ -21,11 +21,17 @@ const styleVars = {
 const HeaderEl = styled.header`
   // background: rgba(255, 255, 100, 0.5);
   position: fixed;
-  top: ${addPx(styleVars.wrapper.borderWidth, styleVars.spacing.base)};
-  left: ${addPx(styleVars.wrapper.borderWidth, styleVars.spacing.base)};
-  right: ${addPx(styleVars.wrapper.borderWidth, styleVars.spacing.base)};
-  padding: ${styleVars.header.padding};
+  margin: ${styleVars.header.lg.padding};
   z-index: 90;
+    top: ${addPx(styleVars.wrapper.sm.borderWidth, styleVars.wrapper.sm.space)};
+    left: ${addPx(styleVars.wrapper.sm.borderWidth, styleVars.wrapper.sm.space)};
+    right: ${addPx(styleVars.wrapper.sm.borderWidth, styleVars.wrapper.sm.space)};
+
+  @media (min-width: ${cssVars.breakpoint.sm}) {
+    top: ${addPx(styleVars.wrapper.lg.borderWidth, styleVars.wrapper.lg.space)};
+    left: ${addPx(styleVars.wrapper.lg.borderWidth, styleVars.wrapper.lg.space)};
+    right: ${addPx(styleVars.wrapper.lg.borderWidth, styleVars.wrapper.lg.space)};
+  }
 `;
 
 const Header = (props) => {
