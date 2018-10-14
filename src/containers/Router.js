@@ -14,7 +14,7 @@ import Stream from '../views/Stream';
 // import PostView from '../views/Post';
 // // import Posts from '../views/Posts';
 // // import Preview from '../Preview';
-// import Page from '../views/Page';
+import Page from '../views/Page';
 
 const components = {
   Home,
@@ -32,16 +32,23 @@ const PROP_TYPES = {
   }).isRequired,
   prismicCtx: PropTypes.object,
   stream: PropTypes.object,
+  overlayWidth: PropTypes.number,
 };
 
 const DEFAULT_PROPS = {
   prismicCtx: {},
   location: {},
   stream: {},
+  overlayWidth: 0.5,
 };
 
 const Router = (props) => {
-  const { location, overlayWidth } = props;
+  const {
+    location,
+    overlayWidth,
+    prismicCtx,
+    stream,
+  } = props;
 
 // class Router extends React.Component { // C
 //   render() { // C
@@ -78,26 +85,26 @@ const Router = (props) => {
           <Posts {...routeProps} prismicCtx={prismicCtx} />
         )} />
         */}
-        {/*
+
         <Route exact path="/stream" render={routeProps => (
           <Stream
             {...routeProps}
             prismicCtx={prismicCtx}
-            stream={this.state.stream}
-            overlayWidth={this.overlayWidth()}
+            stream={stream}
+            overlayWidth={overlayWidth}
           />
         )} />
-        */}
+
         {/*
         <Route exact path="/posts/:uid" render={routeProps => (
           <PostView {...routeProps} prismicCtx={prismicCtx} />
         )} />
         */}
-        {/*
+
         <Route exact path='/about' render={(routeProps) => (
           <Page {...routeProps} title="About: This is a static test page passed from the router route prop" />
         )} />
-        */}
+
         {/*
         <Route exact path="/preview" render={routeProps => (
           <Preview {...routeProps} />

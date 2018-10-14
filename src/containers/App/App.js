@@ -67,7 +67,6 @@ class App extends React.Component {
   async setStream(prismicCtx) {
     try {
       const streamData = await fetchAllPosts(prismicCtx);
-console.log('streamData', streamData);
 
       if (streamData.posts) {
         this.setState({
@@ -204,7 +203,15 @@ console.log('streamData', streamData);
 
   // Render jsx. Triggered when the state changes.
   render() {
-    const { prismicCtx, match, location, history } = this.props; // eslint-disable-line no-unused-vars
+    const {
+      prismicCtx,
+      match,
+      location,
+      history,
+    } = this.props; // eslint-disable-line no-unused-vars
+    const {
+      stream,
+    } = this.state;
     const overlayWidth = this.overlayWidth();
 
     return (
@@ -288,7 +295,7 @@ console.log('streamData', streamData);
           <Router
             location={location}
             prismicCtx={prismicCtx}
-            stream={this.state.stream}
+            stream={stream}
             overlayWidth={overlayWidth}
           />
         </Content>
