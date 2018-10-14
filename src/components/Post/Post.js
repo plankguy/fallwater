@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazy-load';
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 
 import Lazyloader from '../../containers/Lazyloader/Lazyloader';
 import cssVars from '../../styles/variables/index.js';
@@ -24,21 +24,40 @@ const PROP_TYPES = {
     }),
   }).isRequired,
   iterator: PropTypes.number,
+  isVisible: PropTypes.bool,
+  isLeaving: PropTypes.bool,
 };
 
 const DEFAULT_PROPS = {
   teaser: '',
   readMoreLabel: 'Read More',
+  isVisible: true,
+  isLeaving: true,
 };
 
 /**
  * Styled-Components CSS
  */
+// Post container
 const Article = styled.article`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   margin-bottom: 8vmax;
+
+  /* transform: translate3d(0, 0, 0);
+  transition: opacity 300ms ease-in, transform 200ms ease-out;
+
+  &.is-outview {
+    opacity: 0;
+
+    &.is-even {
+      transform: translate3d(-10%, 0, 0);
+    }
+    &.is-odd {
+      transform: translate3d(10%, 0, 0);
+    }
+  } */
 
   @media (min-width: ${cssVars.breakpoint.sm}) {
     flex-wrap: nowrap;
@@ -48,7 +67,16 @@ const Article = styled.article`
     }
   }
 `;
+const rotate360 = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
 
+// Post image container
 const Figure = styled.figure`
   position: relative;
   background-color: ${cssVars.color.bgInvert};
@@ -57,7 +85,22 @@ const Figure = styled.figure`
   width: 100%;
   max-width: ${image => image.dimensions.width}px;
   z-index: 1;
+  /* Anination */
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  transition: opacity 300ms ease-in, transform 200ms ease-out;
 
+  ${Article}.is-outview & {
+      opacity: 0.5;
+  }
+  ${Article}.is-outview.is-even & {
+    transform: translate3d(-10%, 10%, 0);
+  }
+  ${Article}.is-outview.is-odd & {
+    transform: translate3d(10%, -10%, 0);
+  }
+
+  /* Desktop */
   @media (min-width: ${cssVars.breakpoint.sm}) {
     flex-basis: 50%;
     left: 5%;
@@ -68,49 +111,62 @@ const Figure = styled.figure`
     }
   }
 
-  /* Spacer - fills image content while loading */
+  /* Spacer - fills figure container while loading */
   &::before {
     content: "";
-    background-color: #999;
+    background-color: ${cssVars.color.bg}; // #000;
     object-fit: fill;
     width: 100%;
-    padding-bottom: ${image => (image.dimensions.height / image.dimensions.width) * 100}%;/*calc(${image => image.dimensions.height} / ${image => image.dimensions.width} * 100%);*/
+    padding-bottom: ${image => `${(image.dimensions.height / image.dimensions.width) * 100}%`};
     display: block;
-    z-index: 2;
-    opacity: 0;
+    z-index: 3;
+    opacity: 1;
     transition: opacity 600ms ease;
   }
 
+  /* Loaded! */
+  &.is-loaded {
+
+    &::before {
+      opacity: 0;
+    }
+  }
+
+  /* Loading icon */
+  &:not(.is-loaded).is-visible {
+    &::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      border-style: solid;
+      border-color: #DDD #DDD #DDD transparent;
+      border-width: 5px;
+      border-radius: 100%;
+      width: 30px;
+      height: 30px;
+      z-index: 4;
+      animation: ${rotate360} 600ms linear infinite;
+    }
+  }
+
+  /* Currently loading... */
   &.is-loading {
       background-color: #FFF;
       width: 100%;
 
+      /* Overlay */
       &::before {
         opacity: 1;
         position: relative;
-      }
-
-      }
-      &::after {
-        content: "Loading...";
-        font-size: 0.6em;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        color: #000;
-        padding: 4px 8px;
-        background-color: rgba(255, 255, 255, 0.5);
-        border: 4px solid rgba(255, 255, 255, 0.5);
-        border-radius: 4px;
       }
 
     img {}
   }
 `;
 
+// Image
 const Img = styled.img`
   position: absolute;
   top: 0;
@@ -121,10 +177,11 @@ const Img = styled.img`
   z-index: 2;
 `;
 
+// Post body
 const Content = styled.div`
   flex: 1 1 100%;
   z-index: 1;
-  text-shadow: 0 3px 15px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 3px 20px rgba(0, 0, 0, 0.6);
   word-break: break-word;
 
   @media (min-width: ${cssVars.breakpoint.sm}) {
@@ -138,6 +195,7 @@ const Content = styled.div`
   }
 `;
 
+// Date & tags
 const Meta = styled.p`
   text-transform: uppercase;
   letter-spacing: 0.2em;
@@ -154,23 +212,26 @@ const Meta = styled.p`
   }
 `;
 
+// Title
 const Title = styled.h3`
-  font-weight: 700;
+  font-weight: 600;
   font-size: 3.5vmax;
   margin: 0;
   position: relative;
 
+  /* Bottom border */
   &::after {
     content: '';
     display: block;
     position: relative;
     border-bottom: 5px solid #FFF;
-    margin: 0.25em 0;
+    box-shadow: 0 3px 20px rgba(0, 0, 0, 0.9);
+    margin: 0.75em 0 0;
     width: 100%;
   }
 
   @media (min-width: ${cssVars.breakpoint.sm}) {
-    font-size: 5.5vmax;
+    font-size: ${(props) => props.title.length < 75 ? 5.5 : 4.5}vmax;
 
     &::after {
       width: 20%;
@@ -182,6 +243,8 @@ const Title = styled.h3`
   }
 `;
 
+const Date = styled.time ``;
+
 const Post = ({
   title,
   url,
@@ -191,13 +254,22 @@ const Post = ({
   type,
   readMoreLabel,
   image,
-  iterator
+  iterator,
+  isVisible,
+  isLeaving,
+  isIntersecting
 }) => {
 
-  const Date = styled.time``;
+  // Dynamic post container classes
+  const postClassNames = [
+    'post',
+    iterator % 2 ? 'is-even' : 'is-odd',
+    isIntersecting ? 'is-intersecting' : '',
+    isVisible ? 'is-inview' : 'is-outview',
+  ].join(' ').trim();
 
   return (
-    <Article className={`post ${iterator % 2 ? 'is-even' : 'is-odd'}`}>
+    <Article className={postClassNames}>
       {image &&
         <Lazyloader
           root="#wrapper"
@@ -206,9 +278,11 @@ const Post = ({
           title={title}
           container={(() => (<Figure {...image} className="post__image" />))()}
           applyRatio={false}
+          onlyOnce={true}
           visibleClassName="is-visible"
           loadingClassName="is-loading"
-          onVisible={() => console.log(`onVisible() => "${title}" is VISIBLE!`)}
+          loadedClassName="is-loaded"
+          // onVisible={() => console.log(`onVisible() => "${title}" is VISIBLE!`)}
         >
           <Img
             src={image.url}
@@ -230,7 +304,7 @@ const Post = ({
             <Date dateTime={dateTime}>{date}</Date>
           }
         </Meta>
-        <Title className="post__title">
+        <Title className="post__title" title={title}>
           {url ?
             <Link className="post__title__link" to={url}>
               {title}

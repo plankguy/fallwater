@@ -10,7 +10,7 @@ import { CSSTransitionGroup } from 'react-transition-group';
 
 import Preview from './Preview';
 import Help from './Help';
-import Post from './Post';
+import PostView from './PostView';
 import Posts from './Posts';
 import It from './containers/It';
 import NotFound from './NotFound';
@@ -38,7 +38,7 @@ const App = (props) => (
             <Posts {...routeProps} prismicCtx={props.prismicCtx} />
           )} />
           <Route exact path="/posts/:uid" render={routeProps => (
-            <Post {...routeProps} prismicCtx={props.prismicCtx} />
+            <PostView {...routeProps} prismicCtx={props.prismicCtx} />
           )} />
           <Route exact path='/it' render={(routeProps) => (
             <It {...routeProps} title="This is a static test page passed from the router route prop" prismicCtx={props.prismicCtx} />

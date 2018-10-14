@@ -1,16 +1,16 @@
 import React from 'react';
 import PrismicReact from 'prismic-reactjs';
-import LazyLoad from 'react-lazy-load';
-import styled from 'styled-components';
+// import styled from 'styled-components';
 
 import { formatIsoDate } from '../../libs/UiHelpers';
-import cssVars from '../../styles/variables/index.js';
+// import cssVars from '../../styles/variables/index.js';
 
-import Lazyloader from '../Lazyloader/Lazyloader';
+// import Lazyloader from '../Lazyloader/Lazyloader';
+import Post from '../../containers/Post';
+// import Post from '../../components/Post';
 import Loading from '../../components/Loading/Loading';
 import Stream from '../../components/Stream/Stream';
-import Post from '../../components/Post/Post';
-import NotFound from '../../NotFound';
+import NotFound from '../404';
 
 // Declare your component
 export default class StreamLayout extends React.Component {
@@ -78,6 +78,7 @@ export default class StreamLayout extends React.Component {
    */
   switchPostMarkup(post, key) {
     let componentMarkup;
+
     switch (post.medium) {
       case 'instagram':
 
@@ -102,6 +103,7 @@ export default class StreamLayout extends React.Component {
         break;
 
       default:
+        // "prismic"
         const { title, teaser, image } = post.data;
 
         componentMarkup = (
@@ -133,7 +135,11 @@ export default class StreamLayout extends React.Component {
 
       return (
         <Stream {...this.props}>
-          {posts.map((post, i) => this.switchPostMarkup(post, i))}
+          {posts.map((post, i) => 
+            // <PostContainer key={i} root="#wrapper">
+              this.switchPostMarkup(post, i)
+            // </PostContainer>
+          )}
         </Stream>
       );
 

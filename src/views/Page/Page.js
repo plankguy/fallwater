@@ -2,9 +2,9 @@ import React from 'react';
 // import PropTypes from 'prop-types';
 import PrismicReact from 'prismic-reactjs'; // eslint-disable-line
 
-import Button from '../components/Button/Button';
+import Button from '../../components/Button/Button';
 
-class It extends React.Component {
+class Page extends React.Component {
   constructor(props) {
     super(props);
 
@@ -93,7 +93,7 @@ class It extends React.Component {
 }
 
 // Define prop type(s) - Can also be used in class as `static`
-It.propTypes = {
+Page.propTypes = {
   // id:        React.PropTypes.number,
   // title:     React.PropTypes.string,
   // body:      React.PropTypes.string,
@@ -105,10 +105,10 @@ It.propTypes = {
 };
 
 // Define initial prop values
-It.defaultProps = {
+Page.defaultProps = {
   id:    1,
   title: 'A default title prop for the `title` prop',
   copy:  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
 };
 
-export default It;
+export default Page;

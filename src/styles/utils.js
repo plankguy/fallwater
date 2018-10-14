@@ -22,8 +22,8 @@ export const intToPercent = (val) => `${val * 100}%`;
 
 /**
  * Returns value w/ unit after performing passed operation
- * @param {string/int}
- * @param {string/int}
+ * @param {int}
+ * @param {int}
  * @param {string}
  * @param {string}
  * @return {string}

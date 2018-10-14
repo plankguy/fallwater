@@ -28,7 +28,11 @@ const variables = () => {
   };
 
   this.font = {
-    family: "('Poppins', 'Helvetica Neue', Helvetica, Arial, sans-serif)",
+    family: {
+      sans: "('Poppins', 'Helvetica Neue', Helvetica, Arial, sans-serif)",
+      serif: "(serif)",
+      display: "('Playfair Display', serif)",
+    },
     size: "18px",
     lineHeight: "1.5",
     weight: "400",
@@ -54,26 +58,45 @@ const variables = () => {
     borderColor: this.color.border,
     lg: {
       borderWidth: '10px',
-      padding: '20px',
+      padding: this.spacing.base,
       inset: '30px',
       space: this.spacing.base,
     },
     sm: {
       borderWidth: '4px',
-      padding: '20px',
+      padding: this.spacing.base,
       inset: '15px',
       space: '5px',
     }
   };
 
   this.header = {
+    lineheight: '1.0',
     lg: {
-      padding: "40px", // this.wrapper.lg.padding, // 
-      height: "101px",
+      fontSize: this.font.size,
+      paddingY: this.spacing.base,
+      paddingX: this.wrapper.lg.padding,
+      height: `${(this.spacing.base * 2) + this.font.size * 1.0}`,
     },
     sm: {
-      padding: this.wrapper.sm.padding,
-      height: "101px",
+      fontSize: this.font.size,
+      paddingY: this.spacing.base,
+      paddingX: this.wrapper.sm.padding,
+      height: `${(this.spacing.base * 2) + this.font.size * 1.0}`,
+    }
+  };
+
+  this.footer = {
+    lineheight: '1.0',
+    lg: {
+      fontSize: '14px',
+      padding: `${this.spacing.base} ${this.wrapper.lg.padding}`,
+      height: `${(this.spacing.base * 2) + 14 * 1.0}`,
+    },
+    sm: {
+      fontSize: '14px',
+      padding: `${this.spacing.base} ${this.wrapper.sm.padding}`,
+      height: `${(this.spacing.base * 2) + 14 * 1.0}`,
     }
   };
 

@@ -1,42 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Route,
-  Switch,
-  withRouter,
-} from 'react-router-dom';
-import {
-  TransitionGroup, // eslint-disable-line no-unused-vars
-  CSSTransition,   // eslint-disable-line no-unused-vars
-} from 'react-transition-group';
 import styled from 'styled-components';
+import { withRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { Helmet } from "react-helmet";
+// import {
+//   TransitionGroup, // eslint-disable-line no-unused-vars
+//   CSSTransition,   // eslint-disable-line no-unused-vars
+// } from 'react-transition-group';
 
 // Config
 import GlobalConfig from '../../config/global';
+// import routesConfig from '../../config/routes'; // TEMP disable
+
+// Models
 import { fetchAllPosts } from '../../models/PostsModel';
 
-// "Pages"
-import Preview from '../../Preview';
-import Post from '../../containers/Post/Post';
-import Posts from '../../containers/Posts/Posts';
-import Stream from '../../containers/Stream/Stream';
-import NotFound from '../../NotFound';
-import It from '../../containers/It';
-
 // "Components"
+import Router from '../../containers/Router';
 import Wrapper from '../../components/Wrapper/Wrapper';
 import Header from '../../components/Header/Header';
 import Content from '../../components/Content/Content';
-import Nav from '../../components/Nav/Nav';
+import Nav from '../../components/Nav';
 import Hamburger from '../../components/Hamburger/Hamburger';
 import Logo from '../../components/Logo/Logo';
 import Menu from '../../components/OffCanvasMenu/OffCanvasMenu';
-import MenuTransition from '../../containers/MenuTransition/MenuTransition';
+// // import MenuTransition from '../../containers/MenuTransition/MenuTransition';
 import Footer from '../../components/Footer/Footer';
 
 // CSS
+import cssVars from '../../styles/variables/index.js';
 import './App.css';
 
 const PROP_TYPES = {
@@ -57,6 +50,7 @@ class App extends React.Component {
       isMenuOpen: false,
       stream: null,
       loading: true,
+      postsFetched: false,
     };
 
     // ES6 - you need to bind handers to `this`
@@ -73,11 +67,13 @@ class App extends React.Component {
   async setStream(prismicCtx) {
     try {
       const streamData = await fetchAllPosts(prismicCtx);
+console.log('streamData', streamData);
 
       if (streamData.posts) {
         this.setState({
           ...this.state,
           loading: false,
+          postsFetched: true,
           stream: streamData,
         });
       } else {
@@ -94,37 +90,31 @@ class App extends React.Component {
     this.mounted = false;
   }
 
-  // async componentDidMount() {
-
-  /*
+  /**
    * UNSAFE (16.3): Triggered before initial render()
    * Invoked once, both on the client and server. If you call setState within this method, render() will see the updated state and will be executed only once despite the state change.
    */
   // UNSAFE_componentWillMount() {}
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.prismicCtx !== null) {
+  // static getDerivedStateFromProps(props, state) {}
+  componentDidUpdate(nextProps) {
+    if (nextProps.prismicCtx !== null && !this.state.postsFetched) {
       this.setStream(nextProps.prismicCtx);
     }
   }
 
-  /*
-   * Triggered before initial render()
-   * Invoked once, both on the client and server. If you call setState within this method, render() will see the updated state and will be executed only once despite the state change.
-   */
-  // componentWillMount() {}
-
-  /*
+  /**
    * Called after render only on client. Can access refs. The componentDidMount() method of child components is invoked before that of parent components. This is the place to call external libraries, use setTimeout, make ajax requests
    */
-  componentDidMount() {
+  async componentDidMount() {
     this.mounted = true;
 
     this.setState({ loading: false });
 
-    if (this.props.prismicCtx !== null && this.mounted) {
-      this.setStream(this.props.prismicCtx);
-    }
+    // @NOTE: never gets called as prismic context gets passed as prop, not promise
+    // if (this.props.prismicCtx !== null && this.mounted) {
+    //   this.setStream(this.props.prismicCtx);
+    // }
 
     // Polyfill IntersectionObserver
     if (!('IntersectionObserver' in window)) {
@@ -136,20 +126,20 @@ class App extends React.Component {
     }
   }
 
-  /*
+  /**
    * Called when there are new props or state changes. Return false to prevent a render. Good for performance. NOT called for the initial render or when forceUpdate is used.
    * (Update only)
   */
   // shouldComponentUpdate(nextProps, nextState) {}
 
-  /*
+  /**
    * UNSAFE (16.3): Invoked immediately before rendering or when new props or state are being received. Not called for the initial render.
    * Cannot use setState in this method. Use componentWillReceiveProps instead. Use this as an opportunity to perform preparation before an update occurs.
    * (Update only)
    */
   // componentWillUpdate(nextProps, nextState) {}
 
-  /*
+  /**
    * DEPRECATED (16.3): Called before render when props change. Access to old props. It is NOT triggered on initial mount/render.
    * (Update only)
    */
@@ -158,13 +148,13 @@ class App extends React.Component {
   /* Replaced with NEW (16.3): */
   // getDerivedStateFromProps() {}
 
-  /*
+  /**
    * Access to prevState, prevProps. Use this as an opportunity to operate on the DOM (refs) when the component has been updated. It is NOT triggered on initial mount/render.
    * (Update only)
    */
   // componentDidUpdate(prevProps, prevState) {}
 
-  /*
+  /**
    * Invoked immediately before a component is unmounted from the DOM. Clean up event bindings, etc.
    */
   // componentWillUnmount() {}
@@ -187,16 +177,38 @@ class App extends React.Component {
     });
   }
 
-  overlayWidth(location) {
-    return 0.5;
+  /**
+   * Returns overlay width for each route
+   */
+  overlayWidth() {
+
+    const slug = this.props.location.pathname.split('/')[1] || '';
+    let width;
+
+    switch (slug) {
+      case '':
+        width = 0.395;
+        break;
+
+      case 'stream':
+        width = 0.5;
+        break;
+
+      default:
+        width = 0.5;
+        break;
+    }
+
+    return width;
   }
 
   // Render jsx. Triggered when the state changes.
   render() {
     const { prismicCtx, match, location, history } = this.props; // eslint-disable-line no-unused-vars
+    const overlayWidth = this.overlayWidth();
 
     return (
-      <Wrapper id="wrapper" overlayWidth={this.overlayWidth()}>
+      <Wrapper id="wrapper" overlayWidth={overlayWidth}>
 
         {/* {this.state.isLoading ? 'loading...' : 'Loaded!' } */}
 
@@ -206,6 +218,7 @@ class App extends React.Component {
           <meta name="description" content={GlobalConfig.siteDesc} />
           <meta name="author" content={GlobalConfig.siteAuthor} />
           <meta name="robots" content={GlobalConfig.seoRobots} />
+          <meta name="theme-color" content={cssVars.color.bg} />
 
           {/* Twitter Meta */}
           <meta name="twitter:site" content={GlobalConfig.twitterHandle} />
@@ -233,26 +246,16 @@ class App extends React.Component {
           <meta itemprop="sameAs" content={GlobalConfig.instagramUrl} />
         </Helmet>
 
-        {/* "Drawer" Menu: */}
-        <Menu
-          isOpen={this.state.isMenuOpen}
-          parentClassName="App"
-        />
-
         {/* Header & Nav */}
         <Header>
           <Nav
-            overlayWidth={this.overlayWidth()}
+            overlayWidth={overlayWidth}
             items={[
               {
                 label: 'Home',
                 url: '/',
                 exact: true,
               },
-              // {
-              //   label: 'Posts',
-              //   url: '/posts',
-              // },
               {
                 label: 'Stream',
                 url: '/stream',
@@ -273,53 +276,38 @@ class App extends React.Component {
             clickHandler={this.handleMenuToggle}
             isOpen={this.state.isMenuOpen}
           />
+          {/* "Drawer" Menu: */}
+          <Menu
+            isOpen={this.state.isMenuOpen}
+            parentClassName="App"
+          />
         </Header>
 
         {/* Page Content */}
         <Content className="content">
-          <Switch location={location}>
-              {/*<Redirect exact from="/" to="/help" />*/}
-              <Route exact path="/" component={It} />
-              <Route exact path="/posts" render={routeProps => (
-                <Posts {...routeProps} prismicCtx={prismicCtx} />
-              )} />
-              <Route exact path="/stream" render={routeProps => (
-                <Stream
-                  {...routeProps}
-                  prismicCtx={prismicCtx}
-                  stream={this.state.stream}
-                  overlayWidth={this.overlayWidth()}
-                />
-              )} />
-              <Route exact path="/posts/:uid" render={routeProps => (
-                <Post {...routeProps} prismicCtx={prismicCtx} />
-              )} />
-              <Route exact path='/about' render={(routeProps) => (
-                <It {...routeProps} title="About: This is a static test page passed from the router route prop" />
-              )} />
-              <Route exact path="/preview" render={routeProps => (
-                <Preview {...routeProps} />
-              )} />
-
-              <Route component={NotFound} />
-          </Switch>
+          <Router
+            location={location}
+            prismicCtx={prismicCtx}
+            stream={this.state.stream}
+            overlayWidth={overlayWidth}
+          />
         </Content>
 
         {/* Footer */}
-        <Footer />
-
-        {/* Testing */}
-        <div className="test" style={{width: 300, padding: 20, border: '1px solid #CCC', margin: '0 auto'}}>
-          <h4>State Counter</h4>
-          <button className="Button" onClick={(e) => this.handleCounter(e, 'increase')}>
-            +
-          </button>
-          &nbsp;
-          <button className="Button" onClick={(e) => this.handleCounter(e, 'decrease')}>
-            &ndash;
-          </button>
-          <pre>{this.state.counter}</pre>
-        </div>
+        <Footer>
+          {/* Testing */}
+          <div className="test" style={{width: 300, padding: 20, border: '1px solid #CCC', margin: '0 auto'}}>
+            <h4>State Counter</h4>
+            <button className="Button" onClick={(e) => this.handleCounter(e, 'increase')}>
+              +
+            </button>
+            &nbsp;
+            <button className="Button" onClick={(e) => this.handleCounter(e, 'decrease')}>
+              &ndash;
+            </button>
+            <pre>{this.state.counter}</pre>
+          </div>
+        </Footer>
 
       </Wrapper>
     )

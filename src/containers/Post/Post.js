@@ -1,117 +1,87 @@
-import React from 'react';
-import PrismicReact from 'prismic-reactjs'; // eslint-disable-line
-import { Link } from 'react-router-dom';
-import { Helmet } from "react-helmet";
+import React, { Component } from 'react';
+import Observer from '@researchgate/react-intersection-observer';
+import PropTypes from 'prop-types';
 
-import { fetchPrismicContext } from '../../libs/Prismic';
-import Loading from '../../components/Loading/Loading';
-import NotFound from '../../NotFound';
+import PostEl from '../../components/Post';
 
-// Declare your component
-export default class Post extends React.Component {
+const ANIM_THRESHOLD = 0.3;
+
+export default class Post extends Component {
 
   state = {
-    Post: null,
-    notFound: false,
+    isIntersecting: false,
+    isVisible: false,
+  };
+
+  constructor(props) {
+    super(props);
+
+    this.handleIntersection = this.handleIntersection.bind(this);
   }
 
-  // componentWillMount() {
-  componentDidMount() {
-    this.fetchPage(this.props);
-  }
+  /**
+   *
+   */
+  handleIntersection(event) {
+    const { isIntersecting, intersectionRatio } = event;
+    const { isLeaving } = this.state;
 
-  // componentWillReceiveProps(props) {
-  //   this.fetchPage(props);
-  // }
-
-  componentDidUpdate() {
-    // this.props.prismicCtx.toolbar();
-  }
-
-  async fetchPage(props) {
-    const prismicContext = await fetchPrismicContext()
-
-    if (prismicContext) {
-      // We are using the function to get a Postument by its uid
-      return prismicContext.api.getByUID('blog', props.match.params.uid, {}, (err, Post) => {
-        if (Post) {
-          // We put the retrieved content in the state as a Post variable
-          this.setState({ Post, prismicContext });
-          // console.log('prismic props:', props);
-        } else {
-          // We changed the state to display error not found if no matched Post
-          this.setState({ notFound: !Post });
-          // console.warn('prismic error:', err);
-        }
-      });
+    if (this.props.title === 'Huh?') {
+      console.log(`${this.props.title} intersecting?:`, event.isIntersecting, ', is visible:', isIntersecting && intersectionRatio >= ANIM_THRESHOLD, ', event:', event);
     }
-/*
-    if (props.prismicCtx) {
-      console.log('fetchPage prismicCtx', props.prismicCtx);
-      // We are using the function to get a Postument by its uid
-      return props.prismicCtx.api.getByUID('blog', props.match.params.uid, {}, (err, Post) => {
-        if (Post) {
-          // We put the retrieved content in the state as a Post variable
-          this.setState({ Post });
-          // console.log('prismic props:', props);
-        } else {
-          // We changed the state to display error not found if no matched Post
-          this.setState({ notFound: !Post });
-          // console.warn('prismic error:', err);
-        }
-      });
-    }
-*/
-
-    return null;
+    this.setState({
+      isIntersecting: isIntersecting,
+      // isVisible: isIntersecting && intersectionRatio >= 0.99,
+      isVisible: isIntersecting && intersectionRatio >= ANIM_THRESHOLD,
+    });
+    // if (isIntersecting) {
+    //   this.setState(
+    //     {
+    //       isVisible: true,
+    //       isLeaving: true,
+    //     }
+    //   );
+    // } else if (isLeaving) {
+    //   this.setState(
+    //     {
+    //       isLeaving: false,
+    //     }
+    //   );
+    // }
   }
 
   render() {
+    const { isLeaving, isVisible, isIntersecting } = this.state;
+// console.log('Post state:', this.state);
 
-    if (this.state.Post) {
-      // Meta
-      const title = PrismicReact.RichText.asText(this.state.Post.data.title);
-      const description = 'Description will eventually go here...';
-      const seoImage = this.state.Post.data.image.sm.url;
-
-      return (
-        <div data-wio-id={this.state.Post.id}>
-
-          <Helmet>
-            <title>{title}</title>
-            <meta name="description" content={`Post description will eventually go here...`} />
-            {/* Twitter */}
-            <meta name="twitter:title" content={title} />
-            <meta name="twitter:description" content={description} />
-            <meta name="twitter:url" content="https://fallwater.ca" />
-            <meta name="twitter:card" content="summary_large_image" />
-            <meta property="twitter:image" content={seoImage} />
-            {/* Open Graph: http://ogp.me/ - NOTE: relative and protocol-relative URLs NOT supported */}
-            <meta property="og:title" content={title} />
-            <meta property="og:url" content="https://fallwater.ca" />
-            <meta property="og:description" content={description} />
-            <meta property="og:image" content={seoImage} />
-            <meta property="og:locale" content="en" />
-          </Helmet>
-
-          <Link to="/posts">
-            &larr; Posts
-          </Link>
-
-          {/* This is how to get text into your template*/}
-          <h1>{title}</h1>
-
-          {/* This is how to get an image into your template */}
-          <img alt="cover" src={this.state.Post.data.image.lg.url} />
-
-          {/* This is how to get structured text into your template */}
-          {PrismicReact.RichText.render(this.state.Post.data.body, this.state.prismicContext.linkResolver)}
+    return (
+      <Observer
+        root={this.props.rootElement}
+        onChange={this.handleIntersection}
+        rootMargin="0% 0% 1000px"
+        onlyOnce={false}
+        threshold={[0, ANIM_THRESHOLD]}
+      >
+        <div className="post-observer">
+        {/* <React.Fragment> */}
+          <PostEl 
+            {...this.props} 
+            isVisible={isVisible} 
+            isIntersecting={isIntersecting}
+            isLeaving={isLeaving} 
+          />
+          {/* {React.createElement(
+            PostEl,
+            {
+              ...this.props,
+              isVisible,
+              isLeaving,
+            },
+            null
+          )} */}
+        {/* </React.Fragment> */}
         </div>
-      );
-    } else if (this.state.notFound) {
-      return <NotFound />;
-    } else {
-      return <Loading />;
-    }
+      </Observer>
+    );
   }
 }

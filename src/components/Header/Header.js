@@ -11,26 +11,28 @@ const PROP_TYPES = {};
 
 const DEFAULT_PROPS = {};
 
-const styleVars = {
+const theme = {
   ...cssVars,
 };
 
 /**
  * Styled-Components CSS
  */
-const HeaderEl = styled.header`
-  // background: rgba(255, 255, 100, 0.5);
-  position: fixed;
-  margin: ${styleVars.header.lg.padding};
+const StyledHeader = styled.header`
+  /* // @NOTE: headerDimensions passed from wrapper.js */
+  ${(props) => props.headerDimensions}
+
   z-index: 90;
-    top: ${addPx(styleVars.wrapper.sm.borderWidth, styleVars.wrapper.sm.space)};
-    left: ${addPx(styleVars.wrapper.sm.borderWidth, styleVars.wrapper.sm.space)};
-    right: ${addPx(styleVars.wrapper.sm.borderWidth, styleVars.wrapper.sm.space)};
+  /* margin: ${theme.header.lg.padding}; */
+  /* background: rgba(255, 255, 100, 0.5); */
+  /* top: ${addPx(theme.wrapper.sm.borderWidth, theme.wrapper.sm.space)};
+  left: ${addPx(theme.wrapper.sm.borderWidth, theme.wrapper.sm.space)};
+  right: ${addPx(theme.wrapper.sm.borderWidth, theme.wrapper.sm.space)}; */
 
   @media (min-width: ${cssVars.breakpoint.sm}) {
-    top: ${addPx(styleVars.wrapper.lg.borderWidth, styleVars.wrapper.lg.space)};
-    left: ${addPx(styleVars.wrapper.lg.borderWidth, styleVars.wrapper.lg.space)};
-    right: ${addPx(styleVars.wrapper.lg.borderWidth, styleVars.wrapper.lg.space)};
+    /* top: ${addPx(theme.wrapper.lg.borderWidth, theme.wrapper.lg.space)};
+    left: ${addPx(theme.wrapper.lg.borderWidth, theme.wrapper.lg.space)};
+    right: ${addPx(theme.wrapper.lg.borderWidth, theme.wrapper.lg.space)}; */
   }
 `;
 
@@ -39,14 +41,17 @@ const Header = (props) => {
   const baseClass = 'Header';
 
   return (
-    <HeaderEl className={baseClass}>
-      {React.Children.map(children, (child, i) =>
+    <StyledHeader
+      className={baseClass}
+      {...props}
+    >
+      {React.Children.map(children, (child) =>
         React.cloneElement(child, {
           ...child.props,
           parentClassName: baseClass,
         })
       )}
-    </HeaderEl>
+    </StyledHeader>
   )
 };
 

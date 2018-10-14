@@ -1,0 +1,5 @@
+{
+  "name": "postView",
+  "version": "1.0.0",
+  "main": "./Post.js"
+}

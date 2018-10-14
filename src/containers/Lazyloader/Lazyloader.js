@@ -40,7 +40,7 @@ const PROP_TYPES = {
 
 const DEFAULT_PROPS = {
   root: window,
-  rootMargin: '0% 0% 1000px',
+  rootMargin: '0% 0% 25%',
   threshold: 0,
   onlyOnce: false,
   applyRatio: true,
@@ -50,6 +50,13 @@ const DEFAULT_PROPS = {
 };
 
 class Lazyloader extends React.Component {
+
+  // Initial state here:
+  state = {
+    isLeaving: false,
+    isVisible: false,
+    isLoaded: false,
+  };
 
   constructor(props) {
     super(props);
@@ -64,12 +71,6 @@ class Lazyloader extends React.Component {
       }
       return;
     });
-
-    // Initial state here:
-    this.state = {
-      isLeaving: false,
-      isVisible: false,
-    };
 
     this.handleIntersection = this.handleIntersection.bind(this);
     this.renderChildren = this.renderChildren.bind(this);
@@ -103,24 +104,35 @@ class Lazyloader extends React.Component {
       width,
       applyRatio,
       visibleClassName,
-      loadingClassName
+      loadingClassName,
+      loadedClassName
     } = this.props;
-    const { isVisible } = this.state;
-    const lazyContainer = typeof container !== 'undefined' ? container : (<div className="lazy-container"></div>);
-    const placeholderStyles = !isVisible && applyRatio ? { paddingTop: this.getImageRatioPercentCssVal(), display: 'block' } : {};
-    const placeholderElement = (<span className="lazy-container__holder" style={placeholderStyles} />);
+    const { isVisible, isLoaded } = this.state;
+    const lazyContainer = typeof container !== 'undefined' ? container : (<div className="lazyContainer"></div>);
+    const placeholderStyles = !isVisible && applyRatio ? { paddingTop: this.getImageRatioPercentCssVal(), display: 'block' } : {}; // Apply "intrinsic placeholder"
+    const placeholderElement = (<span className="lazyContainer__spacer" style={placeholderStyles} />);
+    const imgElement = React.cloneElement(React.Children.only(children), {
+      onLoad: (it) => this.setState({ isLoaded: true }),
+    });
 
     return React.createElement(
+      // DOM element type
       lazyContainer.type,
+      // Props
       {
         ...lazyContainer.props,
         style: {
           ...lazyContainer.props.style,
           maxWidth: `${width}px`,
         },
-        className: `${lazyContainer.props.className} ${isVisible ? visibleClassName : loadingClassName}`,
+        className: [
+          lazyContainer.props.className,
+          isVisible ? visibleClassName : loadingClassName,
+          isLoaded ? loadedClassName : '',
+        ].join(' ').trim(),
       },
-      isVisible ? React.Children.only(children) : placeholderElement,
+      // Children
+      this.state.isVisible ? imgElement : placeholderElement,
     );
   }
 
@@ -156,7 +168,7 @@ class Lazyloader extends React.Component {
   }
 
   render() {
-    const { rootElement, rootMargin, onlyOnce } = this.props;
+    const { rootElement, rootMargin, onlyOnce, threshold } = this.props;
 
     return (
       <Observer
@@ -165,6 +177,7 @@ class Lazyloader extends React.Component {
         rootMargin={rootMargin}
         onlyOnce={onlyOnce}
         title={this.props.title}
+        threshold={threshold}
       >
         {this.renderChildren()}
       </Observer>

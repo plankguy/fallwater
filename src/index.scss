@@ -2,10 +2,16 @@
 @import 'styles/base';
 
 html {
-    font: $font--weight #{$font--size}/#{$font--lineHeight} $font--family;
-    background-color: $color--bg;
-    color: $color--text;
+  font: $font--weight #{$font--size}/#{$font--lineHeight} $font--family--sans;
+  background-color: $color--bg;
+  color: $color--text;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+// .u {
+//   border-bottom: 1px solid $color--text;
+// }
 
 .Header {
   /*
@@ -18,7 +24,7 @@ html {
   /*
     COLUMN
   */
-  flex: 0 1 100%;
+  // flex: 0 1 100%;
 }
 
 /*
@@ -81,7 +87,7 @@ html {
   /*
     COLUMN
   */
-  flex: 0 1 100%;
+  // flex: 0 1 100%;
 }
 
 /* Headings */
