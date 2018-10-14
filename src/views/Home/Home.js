@@ -233,7 +233,7 @@ export default class Home extends Component {
   }
 
   componentDidMount = () => {
-    console.log('componentDidMount() state:', this.state);
+    // console.log('componentDidMount() state:', this.state);
 
     this.setInitialSkillsState();
   }
