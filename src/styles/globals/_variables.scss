@@ -1,0 +1,94 @@
+@import 'styles/variables/sass.js';
+
+/**
+ * Flattens a map into a list
+ * @param {map\value}
+ * @return {list}
+ */
+// @function listMap($map, $prefix: '') {
+//   $delim: '--';
+//   $list: [];
+//
+//   @if (type-of($map) == map) {
+//     // First Level
+//     @each $key, $val in $map {
+//       @if (type-of($val) == map) {
+//         $prefix: #{$key}#{$delim};
+//
+//         // Second Level
+//         @each $keyIn, $valIn in $val {
+//           @if (type-of($valIn) == map) {
+//             $prefixIn: #{$prefix}#{$keyIn}#{$delim};
+//
+//             // Third Level
+//             @each $keyInIn, $valInIn in $valIn {
+//               $list: append($list, (#{$prefixIn}#{$keyInIn}: $valInIn));
+//             }
+//           } @else {
+//             $list: append($list, (#{$prefix}#{$keyIn}: $valIn));
+//           }
+//
+//         }
+//       } @else {
+//         $list: append($list, (#{$prefix}#{$key}: $val));
+//       }
+//     }
+//   }
+//
+//   @return $list;
+// }
+
+/**
+ * Prints list of variables from flattened map
+ * @param {map}
+ */
+// @mixin flatten-vars($defs) {
+//   @debug '=================================================';
+//   $varList: listMap($defs);
+//
+//   @each $map in $varList {
+//     @if (type-of($map) == map) {
+//       $prop: unquote('$#{map-keys($map)}');
+//       $val: #{map-values($map)};
+//       @debug '#{$prop}: #{$val};';
+//       #{$prop}: #{$val};
+//       // $#{map-keys($map)}: #{map-values($map)};
+//     }
+//   }
+// }
+//
+// @include flatten-vars($defs);
+
+// Colours
+$color-black:           #000 !default;
+$color-white:           #FFF !default;
+$color-text:            #FFF !default;
+$color-text--light:     #EEE !default;
+$color-text--invert:    #333 !default;
+$color-bg:              #222 !default;
+$color-bg--invert:      #EEE !default;
+$color-border:          #FFF !default;
+$color-link:            #F4F4F4 !default;
+$color-link--hover:     lighten($color-link, 15%) !default;
+$color-button:          $color-white !default;
+$color-button-bg:       $color-text !default;
+$color-button--alt:     $color-white !default;
+$color-button-bg--alt:  $color-link !default;
+
+// Fonts
+$font-family--base: Helvetica;
+
+// Dimensions
+$spacing--base: 20px !default;
+$spacing--x:    20px !default;
+$spacing--y:    20px !default;
+
+// Menu
+$menu-width: 500px !default;
+$menu-color: #FFF !default;
+$menu-bg:    #999 !default;
+
+// Animations
+$anim-speed--default: 300ms !default;
+$anim-speed--bounce: 500ms !default;
+$anim-easing--bounce: cubic-bezier(1.000, 0.000, 0.280, 1.245) !default;

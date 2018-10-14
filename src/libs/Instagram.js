@@ -8,9 +8,10 @@ import GlobalConfig from '../config/global';
  */
 export async function fetchInstagramPosts() {
   try {
-    const response = await fetch(`https://api.instagram.com/v1/users/self/media/recent/?access_token=${InstagramConfig.accessToken}&count=${GlobalConfig.maxPosts}`, {
+    const response = await fetch(`${InstagramConfig.postsApiEndpoint}?access_token=${InstagramConfig.accessToken}&count=${GlobalConfig.maxPosts}`, {
     	method: 'GET',
     });
+
     const postsJson = await response.json();
 
     // Handle API errors

@@ -1,48 +1,17 @@
-@import 'scss/globals/all';
-@import 'scss/base';
+@import 'styles/globals/all';
+@import 'styles/base';
 
 html {
-    font: 300 18px/1.5 'Poppins', sans-serif;
-    background: $color-bg;
-    color: $color-text;
+  font: $font--weight #{$font--size}/#{$font--lineHeight} $font--family--sans;
+  background-color: $color--bg;
+  color: $color--text;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.wrapper {
-    min-height: 100vh;
-    background-color: $color-white;
-    display: flex;
-    /*
-      ROW
-    */
-    /*flex-flow: row wrap;*/
-    /*align-items: center;*/
-    /*
-      COLUMN
-    */
-    flex-flow: column nowrap;
-    align-items: stretch;
-    justify-content: space-between;
-    align-content: space-between;
-
-    &__transition {
-      transition: transform $anim-speed--bounce $anim-easing--bounce;
-
-      &.is-menuopen {
-        &--enter {}
-
-        &--exit {
-          transform: translate3d(-$menu-width, 0, 0);
-        }
-
-        &--exit#{&}--exit-active {}
-
-        // Open
-        &--exit#{&}--enter-active {
-          transform: translate3d(0, 0, 0);
-        }
-      }
-    }
-}
+// .u {
+//   border-bottom: 1px solid $color--text;
+// }
 
 .Header {
   /*
@@ -55,24 +24,20 @@ html {
   /*
     COLUMN
   */
-  flex: 0 1 100%;
+  // flex: 0 1 100%;
 }
 
+/*
 .Content {
-  max-width: 800px;
   margin: 0 auto;
   padding: 40px 0;
   position: relative;
-  /*
-    ROW
-  */
-  /*align-self: stretch;
+  // ROW
+  align-self: stretch;
   flex-grow: 1;
   flex-shrink: 0;
-  flex-basis: 100%;*/
-  /*
-    COLUMN
-  */
+  flex-basis: 100%;
+  // COLUMN
   flex: 1 0 100%;
 
   &__transition {
@@ -109,6 +74,7 @@ html {
     }
   }
 }
+*/
 
 .Footer {
   /*
@@ -121,7 +87,7 @@ html {
   /*
     COLUMN
   */
-  flex: 0 1 100%;
+  // flex: 0 1 100%;
 }
 
 /* Headings */

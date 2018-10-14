@@ -1,16 +1,19 @@
 import React from 'react';
 import PrismicReact from 'prismic-reactjs';
+// import styled from 'styled-components';
 
 import { formatIsoDate } from '../../libs/UiHelpers';
+// import cssVars from '../../styles/variables/index.js';
 
+// import Lazyloader from '../Lazyloader/Lazyloader';
+import Post from '../../containers/Post';
+// import Post from '../../components/Post';
 import Loading from '../../components/Loading/Loading';
-import Post from '../../components/Post/Post';
-import NotFound from '../../NotFound';
-
-import './Stream.css';
+import Stream from '../../components/Stream/Stream';
+import NotFound from '../404';
 
 // Declare your component
-export default class Stream extends React.Component {
+export default class StreamLayout extends React.Component {
 
   state = {
     stream: {
@@ -60,7 +63,7 @@ export default class Stream extends React.Component {
   //   }
   // }
   //
-  // // componentDidMount() {}
+  // componentDidMount() {}
   //
   // componentWillReceiveProps(nextProps) {
   //   if (nextProps.prismicCtx !== null) {
@@ -73,21 +76,36 @@ export default class Stream extends React.Component {
   /**
    * Change post component based on type (Prismic blog, Instagram)
    */
-  switchPostMarkup(post) {
+  switchPostMarkup(post, key) {
     let componentMarkup;
 
     switch (post.medium) {
       case 'instagram':
+
         componentMarkup = (
-          <div>
-            <img src={post.images.standard_resolution.url} alt="" />
-            <h4>{post.caption.text}</h4>
-          </div>
+          <Post
+            title={post.caption.text}
+            image={{
+              url: post.images.standard_resolution.url,
+              dimensions: {
+                width: post.images.standard_resolution.width,
+                height: post.images.standard_resolution.height,
+              },
+              alt: `Photo of ${post.caption.text}`,
+            }}
+            date={formatIsoDate(post.created_date)}
+            dateTime={post.created_date}
+            type={`Photo`}
+            key={key}
+            iterator={key}
+          />
         );
         break;
 
       default:
+        // "prismic"
         const { title, teaser, image } = post.data;
+
         componentMarkup = (
           <Post
             title={PrismicReact.RichText.asText(title)}
@@ -95,7 +113,10 @@ export default class Stream extends React.Component {
             teaser={PrismicReact.RichText.asText(teaser)}
             date={formatIsoDate(post.created_date)}
             dateTime={post.created_date}
-            image={image.sm}
+            type={`Post`}
+            image={image.md}
+            key={key}
+            iterator={key}
           />
         );
     }
@@ -107,31 +128,23 @@ export default class Stream extends React.Component {
    *
    */
   render() {
-    // Check for stream
+    // Check for stream data
     if (this.props.stream) {
 
-      // const { posts } = this.state.stream;
       const { posts } = this.props.stream;
 
       return (
-        <ul className="Posts">
-
-          {posts.map((post, i) => {
-            return (
-              <li
-                key={i}
-                className="Posts__item"
-              >
-                {this.switchPostMarkup(post)}
-              </li>
-            )
-          })}
-
-        </ul>
+        <Stream {...this.props}>
+          {posts.map((post, i) => 
+            // <PostContainer key={i} root="#wrapper">
+              this.switchPostMarkup(post, i)
+            // </PostContainer>
+          )}
+        </Stream>
       );
 
-    // } else if (this.state.notFound) {
-    } else if (this.props.notFound) {
+    } else if (this.state.notFound) {
+    // } else if (this.props.notFound) {
       return <NotFound />;
     } else {
       return <Loading />;

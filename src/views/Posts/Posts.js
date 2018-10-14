@@ -8,7 +8,7 @@ import { fetchInstagramPosts } from '../../libs/Instagram';
 
 import Loading from '../../components/Loading/Loading';
 import Post from '../../components/Post/Post';
-import NotFound from '../../NotFound';
+import NotFound from '../404';
 
 import './Posts.css';
 
@@ -76,7 +76,7 @@ export default class Posts extends React.Component {
 
   render() {
     this.mounted = true;
-
+debugger; // isline-disable-line
     // Check for results
     if (this.state.posts.results) {
       const { results, results_size } = this.state.posts; // eslint-disable-line no-unused-vars

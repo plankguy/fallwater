@@ -18,7 +18,7 @@ class PrismicApp extends React.Component {
   // async componentDidMount() {
 
     try {
-console.log('fetch prismic context...', this.state); // eslint-disable-line no-console
+      // console.log('fetch prismic context...', this.state); // eslint-disable-line no-console
       const prismicCtx = await fetchPrismicContext();
       await this.setState({ prismicCtx });
     } catch(err) {

@@ -15,7 +15,7 @@ The folder structure follows the [Create React App](https://github.com/facebook/
   ├── /config
   ├── /containers
   ├── /libs
-  ├── /scss
+  ├── /styles
   ├── index.js
   ├── index.scss
 
@@ -42,6 +42,12 @@ index.js
           ├── Footer
 ```
 
+### Styles
+- The global styles are using [SCSS](https://sass-lang.com/)
+- React components use [Styled Components](https://www.styled-components.com)
+- Sass is compiled via [Node Sass Chokidar](https://www.npmjs.com/package/node-sass-chokidar) CLI
+- SCSS and Styled Components variables are shared via a json file (`/src/styles/variables.json`), using [Node Sass json importer](https://www.npmjs.com/package/node-sass-json-importer) (CLI option).
+
 ### Install dependencies
 ```
 > $ yarn install
@@ -52,11 +58,16 @@ Build and open your browser to http://localhost:3000.
 ```
 > $ yarn start
 ```
+Don't clear console buffer
+```
+> $ FORCE_COLOR=true yarn start | cat
+```
 
 ### Launches the test runner in the interactive watch mode
 ```
 > $ yarn test
 ```
+Uses [Jest](https://facebook.github.io/jest/)
 
 ### Builds the app for production to the build folder
 ```
@@ -65,8 +76,23 @@ Build and open your browser to http://localhost:3000.
 
 ### Dependencies
 
+#### Major
 - [`react`](https://github.com/facebook/react)
 - [`create-react-app`](https://github.com/facebookincubator/create-react-app)
 - [`prismic`](https://github.com/prismicio/javascript-kit)
 
+#### Minor
+- [styled-components](https://github.com/styled-components/styled-components)
+- [styled-transition-group](https://github.com/gabiseabra/styled-transition-group)
+- [node-sass-chokidar](https://github.com/michaelwayman/node-sass-chokidar)
+- [node-sass-json-importer](https://github.com/Updater/node-sass-json-importer)
+- [react-lazy-load](https://github.com/loktar00/react-lazy-load)
+- [react-helmet](https://github.com/nfl/react-helmet)
+
+### Ideas!
+- Animations technique:  [FLIPing](https://css-tricks.com/animating-layouts-with-the-flip-technique/)
+- More animation: [Pose](https://popmotion.io/pose/)
+- Lazyload [Lazysizes](https://www.npmjs.com/package/react-lazysizes)
+
+##### Prismic reactjs-starter Dependencies Status
 [![Prismic Dependency Status](https://david-dm.org/prismicio/reactjs-starter.svg)](https://david-dm.org/prismicio/reactjs-starter)

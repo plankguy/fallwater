@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled, { css } from 'styled-components';
 
 import './Button.css';
 
@@ -21,6 +22,44 @@ const DEFAULT_PROPS = {
     target: '_self'
   },
 };
+
+const buttonResetCss = css`
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  line-height: normal;
+  overflow: visible;
+  padding: 0;
+  cursor: pointer;
+  -webkit-appearance: button; /* for input */
+  -webkit-user-select: none; /* for button */
+  -moz-user-select: none;
+  -ms-user-select: none;
+
+  &::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+  }
+`;
+
+const buttonStyleCss = css`
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  background-color: rgba(255, 255, 255, 0.5);
+  font-size: 12px;
+  padding: 2px 8px;
+  /* border-radius: 2px; */
+  /* position: absolute; */
+  /* right: 15px; */
+  /* left: 100%; */
+  opacity: 0.3;
+  transition: opacity 300ms ease;
+
+  &:hover {
+    opacity: 1;
+  }
+`;
 
 const Button = ({ type, label, link, onClick }) => {
   let markup;
