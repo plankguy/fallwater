@@ -23,7 +23,6 @@ const PROP_TYPES = {
     PropTypes.object, // window
   ]),
   rootMargin: PropTypes.string, // Defines margin around your `root` element that extends or shrinks the “capturing frame”. default: 'top, right bottom, left'
-  onlyOnce: PropTypes.bool,
   threshold: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.array,
@@ -42,7 +41,6 @@ const DEFAULT_PROPS = {
   root: window,
   rootMargin: '0% 0% 25%',
   threshold: 0,
-  onlyOnce: false,
   applyRatio: true,
   visibleClassName: 'is-visible',
   loadingClassName: 'is-loading',
@@ -168,14 +166,17 @@ class Lazyloader extends React.Component {
   }
 
   render() {
-    const { rootElement, rootMargin, onlyOnce, threshold } = this.props;
+    const {
+      rootElement,
+      rootMargin,
+      threshold,
+    } = this.props;
 
     return (
       <Observer
         root={rootElement}
         onChange={this.handleIntersection}
         rootMargin={rootMargin}
-        onlyOnce={onlyOnce}
         title={this.props.title}
         threshold={threshold}
       >

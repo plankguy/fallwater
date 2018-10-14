@@ -59,16 +59,15 @@ export default class Post extends Component {
         root={this.props.rootElement}
         onChange={this.handleIntersection}
         rootMargin="0% 0% 1000px"
-        onlyOnce={false}
         threshold={[0, ANIM_THRESHOLD]}
       >
         <div className="post-observer">
         {/* <React.Fragment> */}
-          <PostEl 
-            {...this.props} 
-            isVisible={isVisible} 
+          <PostEl
+            {...this.props}
+            isVisible={isVisible}
             isIntersecting={isIntersecting}
-            isLeaving={isLeaving} 
+            isLeaving={isLeaving}
           />
           {/* {React.createElement(
             PostEl,

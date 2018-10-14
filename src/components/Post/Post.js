@@ -278,7 +278,6 @@ const Post = ({
           title={title}
           container={(() => (<Figure {...image} className="post__image" />))()}
           applyRatio={false}
-          onlyOnce={true}
           visibleClassName="is-visible"
           loadingClassName="is-loading"
           loadedClassName="is-loaded"
