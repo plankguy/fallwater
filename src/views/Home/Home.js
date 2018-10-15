@@ -24,7 +24,7 @@ const Heading = styled.div`
 const Name = styled.h1`
   font: 900 15vw/0.9 ${formatFontFamilyMap(theme.font.family.display)};
   text-indent: 0.1em;
-  left: -0.34em;
+  transform: translateX(-0.34em);
   text-align: center;
   position: relative;
   margin: 0;
