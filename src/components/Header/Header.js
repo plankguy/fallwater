@@ -2,6 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
+import Nav from '../../components/Nav';
+import Logo from '../../components/Logo/Logo';
+import Social from '../../components/Social';
 import { addPx } from '../../styles/utils.js';
 import cssVars from '../../styles/variables/index.js';
 
@@ -21,6 +24,9 @@ const theme = {
 const StyledHeader = styled.header`
   /* // @NOTE: headerDimensions passed from wrapper.js */
   ${(props) => props.headerDimensions}
+  padding: 20px;
+  display: flex;
+  align-items: center;
 
   z-index: 90;
   /* margin: ${theme.header.lg.padding}; */
@@ -36,21 +42,23 @@ const StyledHeader = styled.header`
   }
 `;
 
+const StyledLogo = styled(Logo)`
+`;
+
+const StyledNav = styled(Nav)`
+`;
+
+const StyledSocial = styled(Social)`
+  margin-left: auto;
+`;
+
 const Header = (props) => {
-  const { children } = props;
-  const baseClass = 'Header';
 
   return (
-    <StyledHeader
-      className={baseClass}
-      {...props}
-    >
-      {React.Children.map(children, (child) =>
-        React.cloneElement(child, {
-          ...child.props,
-          parentClassName: baseClass,
-        })
-      )}
+    <StyledHeader {...props}>
+      <StyledLogo />
+      <StyledNav items={[]} />
+      <StyledSocial />
     </StyledHeader>
   )
 };

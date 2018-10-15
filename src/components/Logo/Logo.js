@@ -1,24 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
-import { bemClasses } from '../../libs/UiHelpers'
+import GlobalConfig from '../../config/global';
 
-import './Logo.css';
+const PROP_TYPES = {};
 
-const PROP_TYPES = {
-  parentClassName: PropTypes.string,
-};
-
-const DEFAULT_PROPS = {
-  parentClassName: '',
-};
+const DEFAULT_PROPS = {};
 
 const Logo = (props) => {
-  const baseClass = 'Logo';
-
   return (
-    <div className={bemClasses(baseClass, props.parentClassName)}>
-      {props.children}
+    <div {...props}>
+      <Link to="/">
+        {GlobalConfig.siteName}
+      </Link>
     </div>
   );
 }

@@ -6,6 +6,7 @@ import GlobalConfig from '../config/global';
  *
  * @returns {object}
  */
+// @TODO: pass configuration as arguments
 export async function fetchInstagramPosts() {
   try {
     const response = await fetch(`${InstagramConfig.postsApiEndpoint}?access_token=${InstagramConfig.accessToken}&count=${GlobalConfig.maxPosts}`, {

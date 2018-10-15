@@ -1,10 +1,4 @@
-import styled, { css } from 'styled-components';
-
-import cssVars from '../../styles/variables/index.js';
-
-const styleVars = {
-  ...cssVars,
-};
+import styled from 'styled-components';
 
 /**
  * Styled-Components CSS

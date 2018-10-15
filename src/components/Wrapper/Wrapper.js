@@ -26,8 +26,6 @@ const headerHeight = addPx(
   unitOperation(theme.font.size, 1.0, '*')
 );
 const headerDimensions = css`
-  /* padding: ${theme.spacing.base} 0; */
-  padding: 0;
   height: ${headerHeight};
   grid-area: header;
   position: fixed;

@@ -3,22 +3,21 @@ import PropTypes from 'prop-types';
 import {
   Route,
   Switch,
-  withRouter,
 } from 'react-router-dom';
 
-import config from '../config/routes';
+// import config from '../config/routes';
 // Views
 import NotFound from '../views/404';
 import Home from '../views/Home';
-import Stream from '../views/Stream';
+// import Stream from '../views/Stream';
 // import PostView from '../views/Post';
 // // import Posts from '../views/Posts';
 // // import Preview from '../Preview';
-import Page from '../views/Page';
+// import Page from '../views/Page';
 
 const components = {
   Home,
-  Stream,
+  // Stream,
   NotFound,
 };
 
@@ -72,6 +71,7 @@ const Router = (props) => {
         */}
         <Route
           exact
+          overlayWidth={overlayWidth}
           path="/" render={routeProps => (
           <Home
             {...routeProps}
@@ -86,14 +86,17 @@ const Router = (props) => {
         )} />
         */}
 
-        <Route exact path="/stream" render={routeProps => (
-          <Stream
-            {...routeProps}
-            prismicCtx={prismicCtx}
-            stream={stream}
-            overlayWidth={overlayWidth}
-          />
-        )} />
+        {/* {
+          prismicCtx && stream &&
+          <Route exact path="/stream" render={routeProps => (
+            <Stream
+              {...routeProps}
+              prismicCtx={prismicCtx}
+              stream={stream}
+              overlayWidth={overlayWidth}
+            />
+          )} />
+        } */}
 
         {/*
         <Route exact path="/posts/:uid" render={routeProps => (
@@ -101,9 +104,9 @@ const Router = (props) => {
         )} />
         */}
 
-        <Route exact path='/about' render={(routeProps) => (
+        {/* <Route exact path='/about' render={(routeProps) => (
           <Page {...routeProps} title="About: This is a static test page passed from the router route prop" />
-        )} />
+        )} /> */}
 
         {/*
         <Route exact path="/preview" render={routeProps => (

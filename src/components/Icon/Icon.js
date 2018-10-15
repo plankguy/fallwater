@@ -1,14 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { randomString } from '../../libs/helpers';
+
 const PROP_TYPES = {
-  glyph: PropTypes.any.isRequired,
+  glyph: PropTypes.func.isRequired,
   fill: PropTypes.string,
   width: PropTypes.number,
   height: PropTypes.number,
   viewBox: PropTypes.string,
   preserveAspectRatio: PropTypes.string,
   className: PropTypes.string,
+  title: PropTypes.string,
 };
 
 const DEFAULT_PROPS = {
@@ -18,6 +21,7 @@ const DEFAULT_PROPS = {
   viewBox: '0 0 24 24',
   preserveAspectRatio: 'xMidYMid meet',
   className: 'icon',
+  title: null,
 };
 
 /**
@@ -38,18 +42,26 @@ const Icon = ({
   viewBox,
   preserveAspectRatio,
   className,
-}) => (
-  <svg
-    fill={fill}
-    width={width}
-    height={height}
-    viewBox={viewBox}
-    preserveAspectRatio={preserveAspectRatio}
-    className={className}
-  >
-    {glyph()}
-  </svg>
-);
+  title,
+}) => {
+  const id = title ? `${glyph.name.toLowerCase().trim().replace(' ', '')}-${randomString(5)}` : null;
+  return (
+    <svg
+      fill={fill}
+      width={width}
+      height={height}
+      viewBox={viewBox}
+      preserveAspectRatio={preserveAspectRatio}
+      className={className}
+      aria-labelledby={id}
+    >
+      {title &&
+        <title id={id}>{title}</title>
+      }
+      {glyph()}
+    </svg>
+  );
+};
 
 Icon.propTypes = PROP_TYPES;
 Icon.defaultProps = DEFAULT_PROPS;

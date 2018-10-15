@@ -10,13 +10,11 @@ import { bemClasses } from '../../libs/UiHelpers';
 // import './Nav.css';
 
 const PROP_TYPES = {
-  parentClassName: PropTypes.string,
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
   overlayWidth: PropTypes.number.isRequired,
 };
 
 const DEFAULT_PROPS = {
-  parentClassName: '',
   overlayWidth: 0.1,
 };
 
@@ -53,7 +51,7 @@ const NavEl = styled.nav`
     transform: translate(${props => props.overlayWidth}, -50%);
     width: 100px;
     left: calc(-${multiplyPx(theme.spacing.base, 2)} - 100px); */
-    padding: 0 ${theme.spacing.base};
+    padding: ${theme.header.lg.paddingY} ${theme.spacing.base};
     text-align: right;
   }
 `;
@@ -126,27 +124,29 @@ const NavAnchor = styled(NavLink).attrs({
 `;
 
 const Nav = (props) => {
-  const baseClass = 'Nav';
-  const { overlayWidth, children } = props;
+  const { children, items } = props;
 
   return (
-    <NavEl {...props} className={bemClasses(baseClass, props.parentClassName)}>
-      {children}
-      <NavList className={`${baseClass}__list`} {...props}>
-        {props.items.map((item, i) => (
-          <NavItem className={`${baseClass}__item`} key={i}>
-            <NavAnchor
-              to={item.url}
-              className={`${baseClass}__link`}
-              activeClassName="is-active"
-              exact={item.exact ? true : false}
-            >
-              {item.label}
-            </NavAnchor>
-          </NavItem>
-        ))}
-      </NavList>
-    </NavEl>
+    <>
+      {items.length > 0 &&
+        <NavEl {...props}>
+          {children}
+          <NavList {...props}>
+            {items.map((item, i) => (
+              <NavItem key={i}>
+                <NavAnchor
+                  to={item.url}
+                  activeClassName="is-active"
+                  exact={item.exact ? true : false}
+                >
+                  {item.label}
+                </NavAnchor>
+              </NavItem>
+            ))}
+          </NavList>
+        </NavEl>
+      }
+    </>
   );
 };
 
