@@ -226,6 +226,7 @@ class App extends React.Component {
           <meta name="author" content={GlobalConfig.siteAuthor} />
           <meta name="robots" content={GlobalConfig.seoRobots} />
           <meta name="theme-color" content={cssVars.color.bg} />
+          <link rel="manifest" href="/manifest.json" />
 
           {/* Twitter Meta */}
           <meta name="twitter:site" content={GlobalConfig.twitterHandle} />

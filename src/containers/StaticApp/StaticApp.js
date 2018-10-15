@@ -81,6 +81,7 @@ class StaticApp extends React.Component {
           <meta name="author" content={GlobalConfig.siteAuthor} />
           <meta name="robots" content={GlobalConfig.seoRobots} />
           <meta name="theme-color" content={cssVars.color.bg} />
+          <link rel="manifest" href="/manifest.json" />
 
           {/* Twitter Meta */}
           <meta name="twitter:site" content={GlobalConfig.twitterHandle} />
@@ -103,7 +104,7 @@ class StaticApp extends React.Component {
           <meta itemprop="description" content={GlobalConfig.siteDesc} />
           <meta itemprop="url" content={GlobalConfig.siteUrl} />
           <meta itemprop="author" content={GlobalConfig.siteAuthor} />
-            {/* <meta itemprop="logo" content="https://hootsuite.com/dist/images/logos/hootsuite/logo@2x.png"/> */}
+          {/* <meta itemprop="logo" content="https://hootsuite.com/dist/images/logos/hootsuite/logo@2x.png"/> */}
           <meta itemprop="sameAs" content={GlobalConfig.twitterUrl} />
           <meta itemprop="sameAs" content={GlobalConfig.instagramUrl} />
         </Helmet>
