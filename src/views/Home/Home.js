@@ -37,7 +37,7 @@ const Grid = styled.div`
 const Intro = styled.div`
   grid-area: intro;
   position: relative;
-  top: -1.5em;
+  margin-top: -1.5em;
   max-width: 100%;
   overflow: hidden;
 
