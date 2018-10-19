@@ -35,6 +35,7 @@ const DRAG_THRESHHOLD_DISTANCE = 50;
 
 const Skills = styled.div`
   font-size: 1.4em;
+  position: relative;
   /* font-weight: 300; */
 `;
 
@@ -98,10 +99,8 @@ const Skill = styled.li`
 `;
 
 const Controls = styled.div`
-  display: none;
 
   @media (min-width: ${val(theme.breakpoint.sm)}) {
-    display: block;
     position: absolute;
     right: 0;
     top: 50%;
@@ -131,29 +130,48 @@ const buttonResetCss = css`
 
 const buttonStyles = css`
   display: block;
-  background-color: rgba(255, 255, 255, 0.3);
   padding: 0.4em 0.6em;
   color: ${val(theme.color.text)};
   transition: background-color 400ms ease-in;
 
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.5);
-  }
   &:focus {
     outline: 0;
   }
-  &:active {
-    background-color: rgba(255, 255, 255, 0.7);
+
+  /* Larger screens */
+  @media (min-width: ${val(theme.breakpoint.sm)}) {
+    background-color: rgba(255, 255, 255, 0.3);
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.5);
+    }
+    &:active {
+      background-color: rgba(255, 255, 255, 0.7);
+    }
   }
 `;
 
 const UpButton = styled.button`
   ${buttonResetCss}
   ${buttonStyles}
+
+  @media (max-width: ${val(theme.breakpoint.sm)}) {
+    position: absolute;
+    bottom: 110%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 `;
 const DownButton = styled.button`
   ${buttonResetCss}
   ${buttonStyles}
+
+  @media (max-width: ${val(theme.breakpoint.sm)}) {
+    position: absolute;
+    top: 110%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 `;
 
 const arrowStyles = css`

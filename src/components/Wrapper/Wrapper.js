@@ -33,12 +33,13 @@ const headerDimensions = css`
 
 // Footer
 const footerDimensions = css`
-  padding: ${val(theme.spacing.base)} ${val(theme.wrapper.lg.padding)};
+  padding: ${val(theme.footer.sm.padding)};
   height: ${val(theme.footer.sm.height)};
   grid-area: footer;
 
   @media (min-width: ${val(theme.breakpoint.sm)}) {
     height: ${val(theme.footer.lg.height)};
+    padding: ${val(theme.footer.lg.padding)};
   }
 `;
 
@@ -66,8 +67,13 @@ const wrapperPseudo = css`
 
   &::before {
     // @TODO replace w/ proper image
-    background: transparent url('/images/topographic-bg.jpg') 50% 50% repeat;
+    background: transparent url('/images/topographic-pattern.jpg') 50% 50% repeat;
+    background-size: 80%;
     opacity: 0.3;
+
+    @media (min-width: ${val(theme.breakpoint.sm)}) {
+      background-size: 30%;
+    }
   }
 
   &::after {
@@ -85,13 +91,15 @@ const Main = styled.main`
 
 const Grid = styled.div`
   display: grid;
-  grid-template: ${val(theme.header.sm.height)} 1fr ${val(theme.footer.sm.height)} / 100%;
+  grid-template-rows: ${val(theme.header.sm.height)} 1fr ${val(theme.footer.sm.height)}
+  grid-template-columns: 100%;
   grid-template-areas: 'header' 'content' 'footer';
   grid-gap: ${val(theme.spacing.base)};
   min-height: 100%;
 
   @media (min-width: ${val(theme.breakpoint.sm)}) {
-    grid-template: ${val(theme.header.lg.height)} 1fr ${val(theme.footer.lg.height)} / 100%;
+    grid-template-rows: ${val(theme.header.lg.height)} 1fr ${val(theme.footer.lg.height)}
+    grid-template-columns: 100%;
   }
 `;
 
@@ -99,7 +107,7 @@ const Wrapper = (props) => {
   const { children } = props;
 
   return (
-    <Main {...props} className="wrapper">
+    <Main {...props} className="Wrapper">
       <Grid>
         {React.Children.map(children, (child) =>
           React.cloneElement(child, {
