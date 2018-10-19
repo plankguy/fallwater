@@ -7,8 +7,8 @@ button {
 }
 
 .Button {
-  background-color: $color-button-bg; // var(--button-bg);
-  color: $color-button;
+  background-color: $color--buttonBg; // var(--button-bg);
+  color: $color--button;
   padding: 10px 14px;
   font-size: 15px;
   font-weight: 600;
@@ -23,8 +23,8 @@ button {
   transition: background-color 0.3s ease-out, transform 0.1s ease-out;
 
   &:hover {
-    color: $color-button;
-    background-color: lighten($color-button-bg, 10%);
+    color: $color--button;
+    background-color: lighten($color--buttonBg, 10%);
   }
 
   &:active {
@@ -34,9 +34,5 @@ button {
   &:focus {
     outline: 0;
     box-shadow: 0 0 7px rgba(0, 0, 0, 0.4);
-  }
-
-  &--alt {
-    background-color: $color-button-bg--alt;
   }
 }

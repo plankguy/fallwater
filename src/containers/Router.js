@@ -15,12 +15,6 @@ import Home from '../views/Home';
 // // import Preview from '../Preview';
 // import Page from '../views/Page';
 
-const components = {
-  Home,
-  // Stream,
-  NotFound,
-};
-
 const PROP_TYPES = {
   location: PropTypes.shape({
     hash: PropTypes.string,
@@ -45,8 +39,8 @@ const Router = (props) => {
   const {
     location,
     overlayWidth,
-    prismicCtx,
-    stream,
+    // prismicCtx,
+    // stream,
   } = props;
 
 // class Router extends React.Component { // C

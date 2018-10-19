@@ -1,6 +1,5 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import { Helmet } from "react-helmet";
 
 // Config
@@ -14,7 +13,7 @@ import Content from '../../components/Content/Content';
 import Footer from '../../components/Footer/Footer';
 
 // CSS
-import cssVars from '../../styles/variables/index.js';
+import * as theme from '../../styles/variables/index.js';
 
 class StaticApp extends React.Component {
   constructor(props) {
@@ -80,7 +79,7 @@ class StaticApp extends React.Component {
           <meta name="description" content={GlobalConfig.siteDesc} />
           <meta name="author" content={GlobalConfig.siteAuthor} />
           <meta name="robots" content={GlobalConfig.seoRobots} />
-          <meta name="theme-color" content={cssVars.color.bg} />
+          <meta name="theme-color" content={theme.color.bg} />
           <link rel="manifest" href="/manifest.json" />
 
           {/* Twitter Meta */}
@@ -113,7 +112,7 @@ class StaticApp extends React.Component {
         <Header />
 
         {/* Page Content */}
-        <Content className="content">
+        <Content className="Content">
           <Router
             location={location}
             overlayWidth={overlayWidth}

@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
-import { multiplyPx, addPx, unitOperation } from '../../styles/utils.js';
-import cssVars from '../../styles/variables/index.js';
-import { bemClasses } from '../../libs/UiHelpers';
+import val, { add } from '../../styles/utils.js';
+import * as theme from '../../styles/variables/index.js';
 
 // import './Nav.css';
 
@@ -18,10 +17,6 @@ const DEFAULT_PROPS = {
   overlayWidth: 0.1,
 };
 
-const theme = {
-  ...cssVars,
-};
-
 /**
  * Styled-Components CSS
  */
@@ -29,29 +24,23 @@ const NavEl = styled.nav`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  height: ${theme.header.lg.height};
+  height: ${val(theme.header.lg.height)};
   /* position: absolute; */
   /* top: 50%; */
   /* transform: translate(0, -50%); */
 
-  @media (min-width: ${theme.breakpoint.sm}) {
-    /* transform: translateX(${(props) => props.overlayWidth * 100}vw); */
-    transform: translate(calc(${(props) =>
-      100 - props.overlayWidth * 100}vw - ${addPx(
-        theme.spacing.base,
-        theme.wrapper.lg.borderWidth,
-      )} - ${theme.header.lg.padding}), -50%);
-    /* padding-left: ${multiplyPx(theme.spacing.base, 2)}; */
-    transition: transform ${theme.animation.speed.default} ${theme.animation.easing.default};
+  @media (min-width: ${val(theme.breakpoint.sm)}) {
+    transform: translate(
+      calc(
+        ${(props) => 100 - props.overlayWidth * 100}vw
+        - ${add([theme.spacing.base, theme.wrapper.lg.borderWidth])}
+        - ${val(theme.header.lg.paddingX)}
+      ), -50%);
+    transition: transform ${val(theme.animation.speed.default)} ${val(theme.animation.easing.default)};
   }
 
   .Logo {
-    /* position: absolute;
-    top: 50%;
-    transform: translate(${props => props.overlayWidth}, -50%);
-    width: 100px;
-    left: calc(-${multiplyPx(theme.spacing.base, 2)} - 100px); */
-    padding: ${theme.header.lg.paddingY} ${theme.spacing.base};
+    padding: ${val(theme.header.lg.paddingY)} ${val(theme.spacing.base)};
     text-align: right;
   }
 `;
@@ -62,14 +51,14 @@ const NavList = styled.ul`
   flex-flow: row nowrap;
   list-style: none;
   margin: 0;
-  padding: 0 ${theme.spacing.base};
+  padding: 0 ${val(theme.spacing.base)};
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.2em;
   text-indent: 0.1em;
   font-size: 14px;
   font-weight: 400;
-  transition: flex-basis ${theme.animation.speed.default} ${theme.animation.easing.default};
+  transition: flex-basis ${val(theme.animation.speed.default)} ${val(theme.animation.easing.default)};
 `;
 
 const NavItem = styled.li`
@@ -78,7 +67,7 @@ const NavItem = styled.li`
   padding: 0;
 
   & + & {
-    margin-left: ${theme.spacing.base};
+    margin-left: ${val(theme.spacing.base)};
   }
 `;
 
@@ -90,7 +79,7 @@ const NavAnchor = styled(NavLink).attrs({
   color: inherit;
   text-decoration: none;
   display: inline-block;
-  padding: ${theme.header.lg.paddingY} 0;
+  padding: ${val(theme.header.lg.paddingY)} 0;
 
   margin: 0;
   position: relative;
@@ -117,7 +106,7 @@ const NavAnchor = styled(NavLink).attrs({
 
   &.${activeClassName} {
     &::after {
-      bottom: ${theme.header.lg.paddingY};
+      bottom: ${val(theme.header.lg.paddingY)};
       transform: scale(1, 1);
     }
   }

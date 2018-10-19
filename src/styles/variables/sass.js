@@ -1,9 +1,22 @@
-/**
- * @NOTE:
- * - This flattens js style variable object and exports for use in sass files
- */
+const theme = require('./index.js');
 
-const variables = require('./index.js');
+/**
+ * Compiles theme object values into unit values for sass
+ * @param {object}
+ * @return {object}
+ */
+const complileThemeValues = (obj) =>
+  Object.keys(obj).reduce((newObj, key) => {
+    if (obj[key] && typeof obj[key] === 'object') {
+      if (obj[key].hasOwnProperty('val') && obj[key].hasOwnProperty('unit')) {
+        return {...newObj, [`${key}`]: `${obj[key].val}${obj[key].unit || ''}`}; // return value compiled
+      } else {
+        return {...newObj, [`${key}`]: complileThemeValues(obj[key])};  // recurse
+      }
+    } else {
+      return {...newObj, [`${key}`]: obj[key]}; // just return value
+    }
+  }, {});
 
 /**
  * Flattens object to single depth object
@@ -25,4 +38,4 @@ const flatten = (object, prefix = '', delim = '--') => {
   }, {})
 };
 
-module.exports = flatten(variables);
+module.exports = flatten(complileThemeValues(theme));

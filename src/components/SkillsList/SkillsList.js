@@ -1,9 +1,18 @@
 import React, { Component } from 'react';
 import styled, { css } from 'styled-components';
+import PropTypes from 'prop-types';
 
 import Icon from '../../components/Icon';
 import { Chevron } from '../../components/Icon/glyphs';
-import theme from '../../styles/variables/index.js';
+import * as theme from '../../styles/variables/index.js';
+import val from '../../styles/utils.js';
+
+const PROP_TYPES = {
+  offset: PropTypes.number,
+};
+const DEFAULT_PROPS = {
+  offset: -5,
+};
 
 
 // @NOTE: these could be passed as props...
@@ -25,37 +34,40 @@ const DRAG_THRESHHOLD_TIME = 500;
 const DRAG_THRESHHOLD_DISTANCE = 50;
 
 const Skills = styled.div`
-  /* left: 0; */
-  /* display: flex; */
-  /* flex-wrap: nowrap;
-  align-items: center; */
-  font-size: 1.4em; /* 5vmin; */
+  font-size: 1.4em;
   font-weight: 300;
-  /* position: relative; */
-  /* margin-right: 150px; */
 `;
 
-const SkillDesc = styled.div`
-  margin-right: 0.3em;
-  text-align: right;
-`;
+// const SkillDesc = styled.div`
+//   margin-right: 0.3em;
+//   text-align: right;
+// `;
 
 // List of skills
 const SkillList = styled.ul`
   list-style: none;
   padding: 0;
   margin: 0 auto;
-  /* position: absolute;
-  top: -${SKILL_HEIGHT * SKILLS_VISIBLE / 2}${UNIT}; */
-  width: 200px;
   height: ${SKILL_HEIGHT * SKILLS_VISIBLE}${UNIT};
   touch-action: none;
+  text-align: center;
+
+  @media (min-width: ${val(theme.breakpoint.sm)}) {
+    width: 200px;
+    text-align: left;
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    padding-left: 8vw;
+  }
 `;
 
 const Skill = styled.li`
-  margin: 2.0em 0;
+  margin: 0; /* 2.0em */
   position: absolute;
   height: ${SKILL_HEIGHT}${UNIT};
+  line-height: 2.35em;
+  width: 100%;
   white-space: nowrap;
   transition: opacity 400ms ease-in, transform 300ms cubic-bezier(0.300, 0.845, 0.320, 1.275) 100ms;
   will-change: opacity;
@@ -70,17 +82,15 @@ const Skill = styled.li`
       left: 0;
       bottom: 0.1em;
       width: 100%;
-      border-bottom: 1px solid ${theme.color.text};
-      /* transform: translateX(50%); */
+      border-bottom: 1px solid ${val(theme.color.text)};
       opacity: 0;
-      transition: opacity 2000ms ease-in, transform 200ms ease-in;
+      transition: opacity 500ms ease-in;
     }
   }
 
   &.is-active {
     .u {
       &::after {
-        /* transform: translateX(0); */
         opacity: 1.0;
       }
     }
@@ -88,10 +98,15 @@ const Skill = styled.li`
 `;
 
 const Controls = styled.div`
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  display: none;
+
+  @media (min-width: ${val(theme.breakpoint.sm)}) {
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
 `;
 
 const buttonResetCss = css`
@@ -118,7 +133,7 @@ const buttonStyles = css`
   display: block;
   background-color: rgba(255, 255, 255, 0.3);
   padding: 0.4em 0.6em;
-  color: ${theme.color.text};
+  color: ${val(theme.color.text)};
   transition: background-color 400ms ease-in;
 
   &:hover {
@@ -157,7 +172,7 @@ const ArrowDown = styled(Icon)`
 `;
 
 
-export default class SkillsList extends Component {
+class SkillsList extends Component {
   state = {
     activeSkillKey: 1,
     skills: [],
@@ -214,8 +229,6 @@ export default class SkillsList extends Component {
    *
    */
   moveUp = () => {
-    let skillIdReset;
-
     this.setState(prevState => ({
       ...prevState,
       activeSkillKey: (() => {
@@ -234,8 +247,6 @@ export default class SkillsList extends Component {
    *
    */
   moveDown = () => {
-    let skillIdReset;
-
     this.setState(prevState => ({
       ...prevState,
       activeSkillKey: (() => {
@@ -257,7 +268,7 @@ export default class SkillsList extends Component {
     // calc reverse iterator (~ 7, 6, 5, 4, 3, 2, 1, 0)
     const reverseIterator = SKILLS_LIST.length - stateKey; // ~ 7, 6, 5, 4, 3, 2, 1, 0
     // Check if over max allowed visible
-    const overMax = stateKey > SKILLS_VISIBLE;
+    // const overMax = stateKey > SKILLS_VISIBLE;
     // Calc opacity multiplyer based on visible skills allowed divided by 2 (MIDPOINT)
     const opacityMultiplyer = (1 / MIDPOINT).toFixed(3); // ~ 0.333
     // Item opacity
@@ -274,15 +285,15 @@ export default class SkillsList extends Component {
     ) / 100;
     // calc y position based on skill base height, moving last item to top hidden
     const y = (stateKey === SKILLS_LIST.length - 1) ? -SKILL_HEIGHT : SKILL_HEIGHT * stateKey;
-    //
-    const x =
+    // calc x position based on being before or after the midpoint
+    const xOffset =
       Math.max(
         (stateKey < MIDPOINT) ?
         // before midpoint - start indenting
-        5 * (stateKey + 1)
+        stateKey + 1
         :
         // after midpoint - remove indents
-        5 * (reverseIterator - MIDPOINT)
+        reverseIterator - MIDPOINT
       , 0);
     // Flag as active
     const isActive = opacity === 1;
@@ -291,7 +302,7 @@ export default class SkillsList extends Component {
       stateKey,
       // i,
       y,
-      x,
+      xOffset,
       opacity,
       isActive,
       // desc: SKILLS_LIST[i].props.children[1],
@@ -336,10 +347,10 @@ export default class SkillsList extends Component {
         return;
       } else {
         if ((deltaY > DRAG_THRESHHOLD_DISTANCE) && (Math.abs(deltaX) < DRAG_THRESHHOLD_DISTANCE)) {
-          console.log('swipe down...');
+          // console.log('swipe down...');
           this.moveDown();
         } else if ((-deltaY > DRAG_THRESHHOLD_DISTANCE) && (Math.abs(deltaX) < DRAG_THRESHHOLD_DISTANCE)) {
-          console.log('swipe up...');
+          // console.log('swipe up...');
           this.moveUp();
         } // else if ((deltaX > DRAG_THRESHHOLD_DISTANCE) && (Math.abs(deltaY) < DRAG_THRESHHOLD_DISTANCE)) {
         // 	o.innerHTML = 'swipe right';
@@ -356,13 +367,19 @@ export default class SkillsList extends Component {
    */
   renderSkills() {
     return this.state.skills.map((skill, i) => {
-      const { opacity, x, y, isActive } = skill;
+      const {
+        opacity,
+        xOffset,
+        y,
+        isActive,
+      } = skill;
+
       return (
         <Skill
           key={i}
           style={{
             opacity: opacity,
-            transform: `translate(-${x}px, ${y}${UNIT})`,
+            transform: `translate(${xOffset * this.props.offset}px, ${y}${UNIT})`,
           }}
           className={isActive && 'is-active'}
           aria-current={isActive ? 'true' : 'false'}
@@ -397,7 +414,7 @@ export default class SkillsList extends Component {
             <ArrowUp
               glyph={Chevron}
               width={24}
-              width={20}
+              height={20}
               viewBox='0 0 20 24'
               title="Scroll up"
             />
@@ -406,7 +423,7 @@ export default class SkillsList extends Component {
             <ArrowDown
               glyph={Chevron}
               width={24}
-              width={20}
+              height={20}
               viewBox='0 0 20 24'
               title="Scroll down"
             />
@@ -416,3 +433,8 @@ export default class SkillsList extends Component {
     )
   }
 }
+
+SkillsList.propTypes = PROP_TYPES;
+SkillsList.defaultProps = DEFAULT_PROPS;
+
+export default SkillsList;

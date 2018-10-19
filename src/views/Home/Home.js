@@ -1,92 +1,141 @@
 import React, { Component } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 import SkillsList from '../../components/SkillsList';
-// import Icon from '../../components/Icon';
-// import { Chevron } from '../../components/Icon/glyphs';
 import { formatFontFamilyMap } from '../../styles/utils.js';
-import theme from '../../styles/variables/index.js';
+import * as theme from '../../styles/variables/index.js';
+import val from '../../styles/utils.js';
 
 /**
  * Styled components
  */
-const Container = styled.div`
+const introHeightSm = `${theme.header.sm.height.val + (theme.wrapper.sm.borderWidth.val * 2) + (theme.wrapper.sm.space.val * 2) + theme.spacing.base.val + theme.footer.sm.height.val}px`;
+const skillsHeightSm = `${theme.header.sm.height.val + (theme.wrapper.sm.borderWidth.val * 2) + (theme.wrapper.sm.space.val * 2) + theme.spacing.base.val + theme.footer.sm.height.val}px`;
+const Grid = styled.div`
+  max-width: 100%;
   display: grid;
-  grid-template: auto / ${(props) => (1 - props.overlayWidth) * 100}% ${(props) => props.overlayWidth * 100}%;
   align-items: center;
-  height: 100%;
+
+  /* Small screens */
+  @media (max-width: ${val(theme.breakpoint.sm)}) {
+    grid-template: calc(100vh - ${introHeightSm}) calc(100vh - ${skillsHeightSm}) / auto;
+    grid-template-areas:
+      'intro'
+      'skills';
+  }
+
+  /* Large screens */
+  @media (min-width: ${val(theme.breakpoint.sm)}) {
+    height: 100%;
+    grid-template: auto / ${(props) => (1 - props.overlayWidth) * 100}% ${(props) => props.overlayWidth * 100}%;
+    grid-template-areas: 'intro skills';
+  }
 `;
 
-const Heading = styled.div`
+const Intro = styled.div`
+  grid-area: intro;
   position: relative;
+  max-width: 100%;
+  overflow: hidden;
+
+  @media (min-width: ${val(theme.breakpoint.sm)}) {
+    min-height: auto;
+    overflow: visible;
+  }
 `;
 
 const Name = styled.h1`
-  font: 900 15vw/0.9 ${formatFontFamilyMap(theme.font.family.display)};
-  text-indent: 0.1em;
-  transform: translateX(-0.34em);
+  font: 900 24vw/0.88 ${formatFontFamilyMap(theme.font.family.display)};
   text-align: center;
-  position: relative;
   margin: 0;
-  -webkit-text-stroke: 3px rgba(255, 255, 255, 1);
+  height: 100%;
+  text-indent: 0.1em; /* indent to make "J" Align with "a" */
+  transform: translateX(-0.25em);
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 1);
   -webkit-font-smoothing: subpixel-antialiased;
   -webkit-text-fill-color: transparent;
+
+  @media (min-width: ${val(theme.breakpoint.sm)}) {
+    font-size: 15vw;
+    text-indent: 0.2em; /* indent to make "J" Align with "a" */
+    -webkit-text-stroke: 3px rgba(255, 255, 255, 1);
+    transform: translateX(-0.34em);
+  }
 `;
 
 const Established = styled.p`
-  position: absolute;
-  top: 10%;/* 0.7em; */
-  right: 10%;/* 1.8em; */
-  padding: 1.5vw 0 1.0vw 3.2vw;
-  line-height: 1.2;
+  letter-spacing: 0.2em;
   text-align: center;
 
-  &::before {
-    content: '';
-    display: block;
+  @media (min-width: ${val(theme.breakpoint.sm)}) {
+    text-align: left;
+  }
+
+  @media (min-width: ${val(theme.breakpoint.sm)}) {
     position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    border-left: 2px solid ${theme.color.text};
+    top: 10%;/* 0.7em; */
+    right: 1.8em;/* 10%; */
+    padding: 1.5vw 0 1.0vw 3.2vw;
+    line-height: 1.2;
+    text-align: center;
+
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      border-left: 2px solid ${val(theme.color.text)};
+    }
   }
 
   .label {
-    display: block;
-    font-size: 0.78vw;/* 0.5em; */
     text-transform: uppercase;
-    letter-spacing: 0.2em;
-    font-weight: 600;
+
+    @media (min-width: ${val(theme.breakpoint.sm)}) {
+      font-weight: 600;
+      display: block;
+      font-size: 0.78vw;/* 0.5em; */
+    }
   }
   .year {
-    display: block;
-    font-size: 3.35vw;/* 2.05em; */
+    @media (min-width: ${val(theme.breakpoint.sm)}) {
+      display: block;
+      font-size: 3.35vw;/* 2.05em; */
+    }
   }
+`;
+
+const SkillsContainer = styled.div`
+  grid-area: skills;
 `;
 
 export default class Home extends Component {
 
-  /**
-   *
-   */
   render() {
     return (
-      <Container
+      <Grid
         overlayWidth={this.props.overlayWidth}
+        className="Grid"
       >
-        <Heading>
+        <Intro className="Intro">
           <Name>
             Jeff<br /> Waterfall
           </Name>
           <Established>
-            <span className="label">Established </span>
+            <span className="label">Established{' '}</span>
             <span className="year">1978</span>
           </Established>
-        </Heading>
+        </Intro>
 
-        <SkillsList />
+        <SkillsContainer>
+          <SkillsList
+            offset={0}
+          />
+        </SkillsContainer>
 
-      </Container>
+      </Grid>
     );
   }
 }
