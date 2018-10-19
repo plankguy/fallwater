@@ -65,7 +65,6 @@ const wrapperPseudo = css`
     transition: transform ${val(theme.animation.speed.default)} ${val(theme.animation.easing.default)};
     overflow: auto;
 
-
     @media (min-width: ${val(theme.breakpoint.sm)}) {
       top: ${add([theme.wrapper.lg.space, theme.wrapper.lg.borderWidth])};
       right: ${add([theme.wrapper.lg.space, theme.wrapper.lg.borderWidth])};
@@ -91,6 +90,7 @@ const wrapperPseudo = css`
 const Main = styled.main`
   position: fixed;
   overflow: auto;
+  -webkit-overflow-scrolling: touch;
   border: ${val(theme.wrapper.sm.borderWidth)} solid ${val(theme.wrapper.borderColor)};
   top: ${val(theme.wrapper.sm.space)};
   right: ${val(theme.wrapper.sm.space)};
