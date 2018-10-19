@@ -10,7 +10,7 @@
  */
 const theme = () => {
 
-  const g = (key) => key;
+  const g = (key) => typeof key === 'object' ? `${key.val}${key.unit}` : key;
 
   const v = (key) => typeof key === 'object' ? key.val : key;
 

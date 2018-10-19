@@ -9,7 +9,7 @@ import val from '../../styles/utils.js';
 /**
  * Styled components
  */
-const introHeightSm = `${theme.header.sm.height.val + (theme.wrapper.sm.borderWidth.val * 2) + (theme.wrapper.sm.space.val * 2) + theme.spacing.base.val + theme.footer.sm.height.val}px`;
+const introHeightSm = `${theme.header.sm.height.val + (theme.wrapper.sm.borderWidth.val * 2) + (theme.wrapper.sm.space.val * 2) + theme.spacing.base.val}px`;
 const skillsHeightSm = `${theme.header.sm.height.val + (theme.wrapper.sm.borderWidth.val * 2) + (theme.wrapper.sm.space.val * 2) + theme.spacing.base.val + theme.footer.sm.height.val}px`;
 const Grid = styled.div`
   max-width: 100%;
@@ -18,7 +18,8 @@ const Grid = styled.div`
 
   /* Small screens */
   @media (max-width: ${val(theme.breakpoint.sm)}) {
-    grid-template: calc(100vh - ${introHeightSm}) calc(100vh - ${skillsHeightSm}) / auto;
+    grid-template-rows: calc(100vh - ${introHeightSm}) calc(100vh - ${skillsHeightSm});
+    grid-template-columns: auto;
     grid-template-areas:
       'intro'
       'skills';
@@ -27,7 +28,8 @@ const Grid = styled.div`
   /* Large screens */
   @media (min-width: ${val(theme.breakpoint.sm)}) {
     height: 100%;
-    grid-template: auto / ${(props) => (1 - props.overlayWidth) * 100}% ${(props) => props.overlayWidth * 100}%;
+    grid-template-rows: auto;
+    grid-template-columns: ${(props) => (1 - props.overlayWidth) * 100}% ${(props) => props.overlayWidth * 100}%;
     grid-template-areas: 'intro skills';
   }
 `;
@@ -35,12 +37,15 @@ const Grid = styled.div`
 const Intro = styled.div`
   grid-area: intro;
   position: relative;
+  top: -1.5em;
   max-width: 100%;
   overflow: hidden;
 
+  /* Large screens */
   @media (min-width: ${val(theme.breakpoint.sm)}) {
     min-height: auto;
     overflow: visible;
+    top: auto;
   }
 `;
 
