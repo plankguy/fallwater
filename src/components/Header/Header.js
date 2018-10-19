@@ -1,56 +1,47 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import { addPx } from '../../styles/utils.js';
-import cssVars from '../../styles/variables/index.js';
-
-// import './Header.css';
+import Nav from '../../components/Nav';
+import Logo from '../../components/Logo/Logo';
+import Social from '../../components/Social';
+import val from '../../styles/utils.js';
+import * as theme from '../../styles/variables/index.js';
 
 const PROP_TYPES = {};
-
 const DEFAULT_PROPS = {};
-
-const theme = {
-  ...cssVars,
-};
 
 /**
  * Styled-Components CSS
  */
 const StyledHeader = styled.header`
-  /* // @NOTE: headerDimensions passed from wrapper.js */
+  /* // @NOTE: headerDimensions css passed from wrapper.js */
   ${(props) => props.headerDimensions}
-
+  padding: 20px;
+  display: flex;
+  align-items: center;
   z-index: 90;
-  /* margin: ${theme.header.lg.padding}; */
-  /* background: rgba(255, 255, 100, 0.5); */
-  /* top: ${addPx(theme.wrapper.sm.borderWidth, theme.wrapper.sm.space)};
-  left: ${addPx(theme.wrapper.sm.borderWidth, theme.wrapper.sm.space)};
-  right: ${addPx(theme.wrapper.sm.borderWidth, theme.wrapper.sm.space)}; */
 
-  @media (min-width: ${cssVars.breakpoint.sm}) {
-    /* top: ${addPx(theme.wrapper.lg.borderWidth, theme.wrapper.lg.space)};
-    left: ${addPx(theme.wrapper.lg.borderWidth, theme.wrapper.lg.space)};
-    right: ${addPx(theme.wrapper.lg.borderWidth, theme.wrapper.lg.space)}; */
-  }
+  @media (min-width: ${val(theme.breakpoint.sm)}) {}
+`;
+
+const StyledLogo = styled(Logo)`
+`;
+
+const StyledNav = styled(Nav)`
+`;
+
+const StyledSocial = styled(Social)`
+  margin-left: auto;
 `;
 
 const Header = (props) => {
-  const { children } = props;
-  const baseClass = 'Header';
 
   return (
-    <StyledHeader
-      className={baseClass}
-      {...props}
-    >
-      {React.Children.map(children, (child) =>
-        React.cloneElement(child, {
-          ...child.props,
-          parentClassName: baseClass,
-        })
-      )}
+    <StyledHeader {...props} className="Header">
+      <StyledLogo />
+      <StyledNav items={[]} />
+      <StyledSocial />
     </StyledHeader>
   )
 };

@@ -1,25 +1,36 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
-import { bemClasses } from '../../libs/UiHelpers'
+import GlobalConfig from '../../config/global';
+import * as theme from '../../styles/variables/index.js';
+import { formatFontFamilyMap } from '../../styles/utils.js';
+import val from '../../styles/utils.js';
 
-import './Logo.css';
+const PROP_TYPES = {};
 
-const PROP_TYPES = {
-  parentClassName: PropTypes.string,
-};
+const DEFAULT_PROPS = {};
 
-const DEFAULT_PROPS = {
-  parentClassName: '',
-};
+const StyledLogo = styled.div`
+  font: oblique 600 16px/0 ${formatFontFamilyMap(theme.font.family.display)};
+
+  /* a {
+    color: ${theme.color};
+    transition: color ${val(theme.animation.speed.default)} ${val(theme.animation.easing.default)};
+
+    &:hover {
+      color: ${val(theme.color.linkHover)};
+    }
+  } */
+`;
 
 const Logo = (props) => {
-  const baseClass = 'Logo';
-
   return (
-    <div className={bemClasses(baseClass, props.parentClassName)}>
-      {props.children}
-    </div>
+    <StyledLogo {...props}>
+      <Link to="/">
+        {GlobalConfig.siteName}
+      </Link>
+    </StyledLogo>
   );
 }
 

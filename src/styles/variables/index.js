@@ -1,12 +1,18 @@
 /**
  * @NOTE:
  * - Exports directly for use in js files for styled-components
- * - Exports to ./sass.js for transformation to flat sass variables
+ * - Exports to ./sass.js for transformation to flat sass theme
  */
 
-const variables = () => {
+/**
+ * Returns theme configuration object
+ * @return {object}
+ */
+const theme = () => {
 
-  this.color = {
+  const g = (key) => typeof key === 'object' ? key.val : key;
+
+  const color = {
     black:      "#000",
     white:      "#FFF",
     text:       "#FFF",
@@ -15,98 +21,179 @@ const variables = () => {
     bg:         "#222",
     bgInvert:   "#EEE",
     border:     "#FFF",
-    link:       "#F4F4F4",
+    link:       "#EEE",
     linkHover:  "#FFF",
     button:     "#333",
     buttonBg:   "#FFF",
   };
 
-  this.spacing = {
-    base: "20px",
-    x:    "20px",
-    y:    "20px",
+  const spacing = {
+    base: {
+      val: 20,
+      unit: `px`,
+    },
+    x: {
+      val: 20,
+      unit: `px`,
+    },
+    y: {
+      val: 20,
+      unit: `px`,
+    },
   };
 
-  this.font = {
+  const font = {
     family: {
       sans: "('Poppins', 'Helvetica Neue', Helvetica, Arial, sans-serif)",
       serif: "(serif)",
       display: "('Playfair Display', serif)",
     },
-    size: "18px",
-    lineHeight: "1.5",
+    size: {
+      val: 18,
+      unit: `px`
+    },
+    lineHeight: {
+      val: 1.5,
+      unit: null,
+    },
     weight: "400",
     h1: {
       size: {
-        lg: '2.0em',
-        sm: '1.5em',
+        lg: {
+          val: 2.0,
+          unit: `em`,
+        },
+        sm: {
+          val: 1.5,
+          unit: `em`,
+        },
       },
       weight: '300',
-      lineHeight: '1.3',
-      marginY: '4.0em',
-      marginX: '0',
+      lineHeight: {
+        val: 1.3,
+        unit: null,
+      },
+      marginY: {
+        val: 4.0,
+        unit: `em`,
+      },
+      marginX: {
+        val: 0,
+        unit: null,
+      },
     },
   };
 
-  this.breakpoint = {
-    xs: '480px',
-    sm: '767px',
-    md: '980px',
-  };
-
-  this.wrapper = {
-    borderColor: this.color.border,
-    lg: {
-      borderWidth: '10px',
-      padding: this.spacing.base,
-      inset: '30px',
-      space: this.spacing.base,
+  const breakpoint = {
+    xs: {
+      val: 480,
+      unit: 'px',
     },
     sm: {
-      borderWidth: '4px',
-      padding: this.spacing.base,
-      inset: '15px',
-      space: '5px',
+      val: 767,
+      unit: 'px',
+    },
+    md: {
+      val: 980,
+      unit: 'px',
+    },
+  };
+
+  const wrapper = {
+    borderColor: g(color.border),
+    lg: {
+      borderWidth: {
+        val: 10,
+        unit: 'px',
+      },
+      padding: spacing.base,
+      inset: {
+        val: 30,
+        unit: 'px',
+      },
+      space: spacing.base,
+    },
+    sm: {
+      borderWidth: {
+        val: 4,
+        unit: 'px',
+      },
+      padding: spacing.base,
+      inset: {
+        val: 15,
+        unit: 'px',
+      },
+      space: {
+        val: 5,
+        unit: 'px',
+      },
     }
   };
 
-  this.header = {
-    lineheight: '1.0',
+  const header = {
+    lineheight: {
+      val: 1.0,
+      unit: null,
+    },
     lg: {
-      fontSize: this.font.size,
-      paddingY: this.spacing.base,
-      paddingX: this.wrapper.lg.padding,
-      height: `${(this.spacing.base * 2) + this.font.size * 1.0}`,
+      fontSize: g(font.size),
+      paddingY: g(spacing.base),
+      paddingX: g(wrapper.lg.padding),
+      height: {
+        val: (g(spacing.base) * 2) + g(font.size) * 1.0,
+        unit: 'px',
+      },
     },
     sm: {
-      fontSize: this.font.size,
-      paddingY: this.spacing.base,
-      paddingX: this.wrapper.sm.padding,
-      height: `${(this.spacing.base * 2) + this.font.size * 1.0}`,
+      fontSize: g(font.size),
+      paddingY: g(spacing.base),
+      paddingX: g(wrapper.sm.padding),
+      height: {
+        val: (g(spacing.base) * 2) + g(font.size) * 1.0,
+        unit: 'px',
+      },
     }
   };
 
-  this.footer = {
-    lineheight: '1.0',
+  const footer = {
+    lineheight: {
+      val: 1.0,
+      unit: null,
+    },
     lg: {
-      fontSize: '14px',
-      padding: `${this.spacing.base} ${this.wrapper.lg.padding}`,
-      height: `${(this.spacing.base * 2) + 14 * 1.0}`,
+      fontSize: {
+        val: 14,
+        unit: 'px',
+      },
+      padding: `${g(spacing.base)} ${g(wrapper.lg.padding)}`,
+      height: {
+        val: (g(spacing.base) * 2) + 14 * 1.0,
+        unit: 'px',
+      },
     },
     sm: {
-      fontSize: '14px',
-      padding: `${this.spacing.base} ${this.wrapper.sm.padding}`,
-      height: `${(this.spacing.base * 2) + 14 * 1.0}`,
+      fontSize: {
+        val: 14,
+        unit: 'px',
+      },
+      padding: `${g(spacing.base)} ${g(wrapper.sm.padding)}`,
+      height: {
+        val: (g(spacing.base) * 2) + 14 * 1.0,
+        unit: 'px',
+      },
     }
   };
 
-  this.menu = {
-    width: "500px",
+  const menu = {
+    width: {
+      val: 500,
+      unit: 'px',
+    },
     color: "#FFF",
     bg:    "#999",
   };
 
-  this.animation = {
+  const animation = {
     speed: {
       default: "300ms",
       bounce: "500ms",
@@ -115,9 +202,21 @@ const variables = () => {
       default: "ease",
       bounce: "cubic-bezier(1.000, 0.000, 0.280, 1.245)",
     }
-  }
+  };
 
-  return this;
+  let vars = {
+    color,
+    spacing,
+    font,
+    breakpoint,
+    wrapper,
+    header,
+    footer,
+    menu,
+    animation,
+  };
+
+  return vars;
 };
 
-module.exports = variables();
+module.exports = theme();

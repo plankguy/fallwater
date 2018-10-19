@@ -9,7 +9,7 @@
     list-style: none;
     margin: 0;
     padding: 0;
-    border-bottom: $border-size solid $color-border;
+    border-bottom: $border-size solid $color--border;
     font-weight: 400;
     text-transform: uppercase;
     letter-spacing: 0.2em;
@@ -50,15 +50,15 @@
 
     &:hover {
       &::after {
-        border-bottom-color: $color-link--hover;
+        border-bottom-color: $color--linkHover;
       }
     }
 
     &.is-active {
-      color: $color-text;
-      
+      color: $color--text;
+
       &::after {
-        border-bottom-color: $color-text;
+        border-bottom-color: $color--text;
         // height: 3px;
       }
     }

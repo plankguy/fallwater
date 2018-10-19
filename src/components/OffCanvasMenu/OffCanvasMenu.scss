@@ -6,15 +6,15 @@
   position: fixed;
   padding: 20px;
   top: 0;
-  right: -$menu-width;
+  right: -$menu--width;
   bottom: 0;
-  width: $menu-width;
+  width: $menu--width;
   max-width: 100%;
-  background-color: $menu-bg;
-  color: $menu-color;
+  background-color: $menu--bg;
+  color: $menu--color;
   z-index: 1;
   transform: translate3d(0, 0, 0);
-  transition: transform $anim-speed--bounce $anim-easing--bounce;
+  transition: transform $animation--speed--bounce $animation--easing--bounce;
 
   // Hack to for `bounce` animation overflow
   &::after {
@@ -24,7 +24,7 @@
     bottom: 0;
     right: -50px;
     width: 50px;
-    background-color: $menu-bg;
+    background-color: $menu--bg;
   }
 
   // States

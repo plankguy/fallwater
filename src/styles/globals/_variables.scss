@@ -60,35 +60,35 @@
 // @include flatten-vars($defs);
 
 // Colours
-$color-black:           #000 !default;
-$color-white:           #FFF !default;
-$color-text:            #FFF !default;
-$color-text--light:     #EEE !default;
-$color-text--invert:    #333 !default;
-$color-bg:              #222 !default;
-$color-bg--invert:      #EEE !default;
-$color-border:          #FFF !default;
-$color-link:            #F4F4F4 !default;
-$color-link--hover:     lighten($color-link, 15%) !default;
-$color-button:          $color-white !default;
-$color-button-bg:       $color-text !default;
-$color-button--alt:     $color-white !default;
-$color-button-bg--alt:  $color-link !default;
+// $color-black:           #000 !default;
+// $color-white:           #FFF !default;
+// $color-text:            #FFF !default;
+// $color-text--light:     #EEE !default;
+// $color-text--invert:    #333 !default;
+// $color-bg:              #222 !default;
+// $color-bg--invert:      #EEE !default;
+// $color-border:          #FFF !default;
+// $color-link:            #F4F4F4 !default;
+// $color-link--hover:     lighten($color-link, 15%) !default;
+// $color-button:          $color-white !default;
+// $color-button-bg:       $color-text !default;
+// $color-button--alt:     $color-white !default;
+// $color-button-bg--alt:  $color-link !default;
 
-// Fonts
-$font-family--base: Helvetica;
+// // Fonts
+// $font-family--base: Helvetica;
 
-// Dimensions
-$spacing--base: 20px !default;
-$spacing--x:    20px !default;
-$spacing--y:    20px !default;
+// // Dimensions
+// $spacing--base: 20px !default;
+// $spacing--x:    20px !default;
+// $spacing--y:    20px !default;
 
-// Menu
-$menu-width: 500px !default;
-$menu-color: #FFF !default;
-$menu-bg:    #999 !default;
+// // Menu
+// $menu-width: 500px !default;
+// $menu-color: #FFF !default;
+// $menu-bg:    #999 !default;
 
-// Animations
-$anim-speed--default: 300ms !default;
-$anim-speed--bounce: 500ms !default;
-$anim-easing--bounce: cubic-bezier(1.000, 0.000, 0.280, 1.245) !default;
+// // Animations
+// $anim-speed--default: 300ms !default;
+// $anim-speed--bounce: 500ms !default;
+// $anim-easing--bounce: cubic-bezier(1.000, 0.000, 0.280, 1.245) !default;

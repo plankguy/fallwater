@@ -42,7 +42,7 @@ $hamburger-speed:   200ms !default;
         left: $hamburger-space;
         right: $hamburger-space;
         height: $hamburger-size;
-        background-color: $color-text;
+        background-color: $color--text;
         opacity: 1.0;
         transition: transform $hamburger-speed ease-out, opacity $hamburger-speed ease-out, top $hamburger-speed ease-out, bottom $hamburger-speed ease-out, left $hamburger-speed ease-out, right $hamburger-speed ease-out;
       }
