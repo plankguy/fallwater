@@ -9,6 +9,52 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
+body {
+  margin: $wrapper--sm--space + $wrapper--sm--borderWidth;
+  -webkit-overflow-scrolling: touch;
+
+  @media (min-width: $breakpoint--sm) {
+    margin: $wrapper--lg--space + $wrapper--lg--borderWidth;
+  }
+
+  &::before,
+  &::after {
+    content: '';
+    position: fixed;
+  }
+
+  &::before {
+    top: $wrapper--sm--space;
+    right: $wrapper--sm--space;
+    bottom: $wrapper--sm--space;
+    left: $wrapper--sm--space;
+    border: $wrapper--sm--borderWidth solid $wrapper--borderColor;
+    box-shadow: 0 3px 20px rgba(0, 0, 0, 0.6) inset;
+
+    @media (min-width: $breakpoint--sm) {
+      top: $wrapper--lg--space;
+      right: $wrapper--lg--space;
+      bottom: $wrapper--lg--space;
+      left: $wrapper--lg--space;
+      border-width: $wrapper--lg--borderWidth;
+    }
+  }
+
+  &::after {
+    border: $wrapper--sm--space solid $color--bg;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 9999999;
+    pointer-events: none;
+
+    @media (min-width: $breakpoint--sm) {
+      border-width: $wrapper--lg--space;
+    }
+  }
+}
+
 /* Headings */
 h1,
 h2,

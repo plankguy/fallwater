@@ -35,7 +35,7 @@ const DRAG_THRESHHOLD_DISTANCE = 50;
 
 const Skills = styled.div`
   font-size: 1.4em;
-  font-weight: 300;
+  /* font-weight: 300; */
 `;
 
 // const SkillDesc = styled.div`
