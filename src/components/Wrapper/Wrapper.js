@@ -17,10 +17,6 @@ const DEFAULT_PROPS = {
  */
 
 // Header
-// const headerHeight = addPx(
-//   unitOperation(theme.spacing.base, 2, '*'),
-//   unitOperation(theme.font.size, 1.0, '*')
-// );
 const headerDimensions = css`
   grid-area: header;
   position: fixed;
@@ -36,10 +32,6 @@ const headerDimensions = css`
 `;
 
 // Footer
-// const footerheight = addPx(
-//   unitOperation(theme.spacing.base, 2, '*'),
-//   unitOperation(theme.footer.lg.fontSize, 1.0, '*')
-// );
 const footerDimensions = css`
   padding: ${val(theme.spacing.base)} ${val(theme.wrapper.lg.padding)};
   height: ${val(theme.footer.sm.height)};
@@ -52,7 +44,6 @@ const footerDimensions = css`
 
 // Wrapper border & inset
 const wrapperPseudo = css`
-  /* Border & Background image */
   &::before,
   &::after {
     content: '';
@@ -88,24 +79,7 @@ const wrapperPseudo = css`
 
 // Wrapper
 const Main = styled.main`
-  position: fixed;
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
-  border: ${val(theme.wrapper.sm.borderWidth)} solid ${val(theme.wrapper.borderColor)};
-  top: ${val(theme.wrapper.sm.space)};
-  right: ${val(theme.wrapper.sm.space)};
-  bottom: ${val(theme.wrapper.sm.space)};
-  left: ${val(theme.wrapper.sm.space)};
-  box-shadow: 0 3px 20px rgba(0, 0, 0, 0.6) inset;
-
-  @media (min-width: ${val(theme.breakpoint.sm)}) {
-    border-width: ${val(theme.wrapper.lg.borderWidth)};
-    top: ${val(theme.wrapper.lg.space)};
-    right: ${val(theme.wrapper.lg.space)};
-    bottom: ${val(theme.wrapper.lg.space)};
-    left: ${val(theme.wrapper.lg.space)};
-  }
-
+  height: calc(100vh - ${add([theme.wrapper.lg.inset, theme.wrapper.lg.inset])});
   ${wrapperPseudo}
 `;
 

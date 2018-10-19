@@ -10,7 +10,11 @@
  */
 const theme = () => {
 
-  const g = (key) => typeof key === 'object' ? key.val : key;
+  const g = (key) => key;
+
+  const v = (key) => typeof key === 'object' ? key.val : key;
+
+  const u = (key) => typeof key === 'object' ? key.unit : key;
 
   const color = {
     black:      "#000",
@@ -106,25 +110,25 @@ const theme = () => {
         val: 10,
         unit: 'px',
       },
-      padding: spacing.base,
+      padding: g(spacing.base),
+      space: g(spacing.base),
       inset: {
         val: 30,
         unit: 'px',
       },
-      space: spacing.base,
     },
     sm: {
       borderWidth: {
         val: 4,
         unit: 'px',
       },
-      padding: spacing.base,
-      inset: {
-        val: 15,
-        unit: 'px',
-      },
+      padding: g(spacing.base),
       space: {
         val: 5,
+        unit: 'px',
+      },
+      inset: {
+        val: 9,
         unit: 'px',
       },
     }
@@ -140,7 +144,7 @@ const theme = () => {
       paddingY: g(spacing.base),
       paddingX: g(wrapper.lg.padding),
       height: {
-        val: (g(spacing.base) * 2) + g(font.size) * 1.0,
+        val: (v(spacing.base) * 2) + v(font.size) * 1.0,
         unit: 'px',
       },
     },
@@ -149,7 +153,7 @@ const theme = () => {
       paddingY: g(spacing.base),
       paddingX: g(wrapper.sm.padding),
       height: {
-        val: (g(spacing.base) * 2) + g(font.size) * 1.0,
+        val: (v(spacing.base) * 2) + v(font.size) * 1.0,
         unit: 'px',
       },
     }
@@ -167,7 +171,7 @@ const theme = () => {
       },
       padding: `${g(spacing.base)} ${g(wrapper.lg.padding)}`,
       height: {
-        val: (g(spacing.base) * 2) + 14 * 1.0,
+        val: (v(spacing.base) * 2) + 14 * 1.0,
         unit: 'px',
       },
     },
@@ -178,7 +182,7 @@ const theme = () => {
       },
       padding: `${g(spacing.base)} ${g(wrapper.sm.padding)}`,
       height: {
-        val: (g(spacing.base) * 2) + 14 * 1.0,
+        val: (v(spacing.base) * 2) + 14 * 1.0,
         unit: 'px',
       },
     }
