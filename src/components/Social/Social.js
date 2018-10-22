@@ -2,15 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Icon from '../../components/Icon';
-import { Github, Twitter, LinkedIn } from '../../components/Icon/glyphs';
+import { Github, Twitter, LinkedIn, CodePen } from '../../components/Icon/glyphs';
 // import { ReactComponent as Github } from '../../images/icons/github.svg';
-// import { ReactComponent as Twitter } from '../../images/icons/twitter.svg';
-// import { ReactComponent as LinkedIn } from '../../images/icons/linkedin.svg';
 
 const SocialNav = styled.nav``;
 
 const SocialLink = styled.a`
   line-height: 0;
+  position: relative;
 
   & + & {
     margin-left: 0.8em;
@@ -41,6 +40,17 @@ const Social = (props) => {
         style={{top: '-0.1em'}}
       >
         <Icon glyph={LinkedIn} title="Find me on LinkedIn" />
+      </SocialLink>
+      <SocialLink
+        href="https://codepen.io/plankguy/"
+        target="_blank"
+        rel="noopener"
+      >
+        <Icon
+          glyph={CodePen}
+          title="Find me on CodePen"
+          viewBox="0 0 50 50"
+        />
       </SocialLink>
     </SocialNav>
   );
