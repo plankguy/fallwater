@@ -79,8 +79,6 @@ class StaticApp extends React.Component {
           <meta name="description" content={GlobalConfig.siteDesc} />
           <meta name="author" content={GlobalConfig.siteAuthor} />
           <meta name="robots" content={GlobalConfig.seoRobots} />
-          <meta name="theme-color" content={theme.color.bg} />
-          <link rel="manifest" href="/manifest.json" />
 
           {/* Twitter Meta */}
           <meta name="twitter:site" content={GlobalConfig.twitterHandle} />
@@ -106,6 +104,29 @@ class StaticApp extends React.Component {
           {/* <meta itemprop="logo" content="https://hootsuite.com/dist/images/logos/hootsuite/logo@2x.png"/> */}
           <meta itemprop="sameAs" content={GlobalConfig.twitterUrl} />
           <meta itemprop="sameAs" content={GlobalConfig.instagramUrl} />
+
+          {/* PWA */}
+          <link rel="manifest" href="/manifest.json" />
+          {/* <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+          <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+          <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" /> */}
+          <link rel="mask-icon" href="/safari-pinned-tab.svg" color={theme.color.bg} />
+          <meta name="msapplication-TileColor" content="#00aba9" />
+          <meta name="theme-color" content={theme.color.bg} />
+
+          {process.env.REACT_APP_ENV === 'production' &&
+            <script async src="https://www.googletagmanager.com/gtag/js?id=UA-12445446-5"></script>
+          }
+          {process.env.REACT_APP_ENV === 'production' &&
+            <script>
+              {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'UA-12445446-5');
+              `}
+            </script>
+          }
         </Helmet>
 
         {/* Header & Nav */}
