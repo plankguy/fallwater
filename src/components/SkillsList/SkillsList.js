@@ -175,7 +175,7 @@ const DownButton = styled.button`
 `;
 
 const arrowStyles = css`
-  fill: {theme.color.text};
+  fill: ${theme.color.text};
   width: 24px;
   height: 16px;
   margin: 0;

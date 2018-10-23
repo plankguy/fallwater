@@ -12,11 +12,33 @@
  */
 const theme = () => {
 
+  /**
+   * Returns value object
+   * @param {object} key
+   * @return {object}
+   */
+  const o = (key) => key;
+
+  /**
+   * Returns string unit value
+   * @param {object} key
+   * @return {string}
+   */
   const g = (key) => typeof key === 'object' ? `${key.val}${key.unit}` : key;
 
+  /**
+   * Returns number value property
+   * @param {object} key
+   * @return {int}
+   */
   const v = (key) => typeof key === 'object' ? key.val : key;
 
-  const u = (key) => typeof key === 'object' ? key.unit : key;
+  /**
+   * Returns unit property
+   * @param {object} key
+   * @return {string}
+   */
+  const u = (key) => typeof key === 'object' ? key.unit : key; // eslint-disable-line no-unused-vars
 
   const color = {
     black:      "#000",
@@ -113,7 +135,7 @@ const theme = () => {
         unit: 'px',
       },
       padding: g(spacing.base),
-      space: g(spacing.base),
+      space: o(spacing.base),
       inset: {
         val: 30,
         unit: 'px',

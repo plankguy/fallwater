@@ -91,7 +91,7 @@ const Main = styled.main`
 
 const Grid = styled.div`
   display: grid;
-  grid-template-rows: ${val(theme.header.sm.height)} 1fr ${val(theme.footer.sm.height)}
+  grid-template-rows: ${val(theme.header.sm.height)} 1fr ${val(theme.footer.sm.height)};
   grid-template-columns: 100%;
   grid-template-areas: 'header' 'content' 'footer';
   grid-gap: ${val(theme.spacing.base)};
