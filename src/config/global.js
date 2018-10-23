@@ -1,6 +1,6 @@
 export default {
   maxPosts: 36,
-  siteName: 'Fallwater.ca',
+  siteName: 'fallwater.ca',
   siteAuthor: 'Jeff Waterfall',
   siteTitle: 'Jeff Waterfall @ fallwater. Oh hi.',
   siteUrl: 'https://fallwater.ca',

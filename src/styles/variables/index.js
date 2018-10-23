@@ -4,6 +4,8 @@
  * - Exports to ./sass.js for transformation to flat sass theme
  */
 
+// ! require("@babel/register");
+
 /**
  * Returns theme configuration object
  * @return {object}
