@@ -1,0 +1,14 @@
+# tells Google not to include these URLs in the index even if they have already been crawled
+User-Agent: Googlebot
+# Disallow: /api
+
+# tells all engines not to crawl these URLs
+User-Agent: *
+# Disallow: /api
+
+# Don't allow web crawlers to index Craft CMS
+User-agent: *
+Noindex: /*.pdf$
+Disallow: /*.pdf$
+
+Sitemap: https://fallwater.ca/sitemap.xml
